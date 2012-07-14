@@ -4,9 +4,11 @@
 
 class cIdTable {
 private:
-	typedef hash_map<uint32_t, string> table_t;
+	typedef hash_map<string, uint32_t>		table_t;
+	typedef map<uint32_t, const string*>	names_t;
 	
-	table_t m_table;
+	table_t	m_table;
+	names_t	m_names;
 
 public:
 	const uint32_t get_id( const string& name );
@@ -36,14 +38,28 @@ const uint32_t cIdTable::get_id( const string& name ){
 		return 0;
 	};
 
-	const uint32_t crc = calc_crc32( name.c_str() );
-	m_table[ crc ] = name;
-	return crc;
+	uint32_t& res = m_table[ name ];
+	if( !res ){
+		res = calc_crc32( name.c_str() );
+		table_t::iterator fd = m_table.find( name );
+		m_names[ res ] = &fd->first;
+	};
+
+	return res;
 };
 
 const string& cIdTable::get_name( const uint32_t id ){
 	static const string empty = "";
-	return ( id )? m_table[ id ] : empty;
+	if( !id ){
+		return empty;
+	};
+
+	names_t::iterator fd = m_names.find( id );
+	if( m_names.end() != fd ){
+		return *fd->second;
+	};
+
+	return empty;
 };
 
 static const uint32_t crc32_table[256] = {

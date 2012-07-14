@@ -17,6 +17,8 @@ public:
 	cFileName( const string& name );
 	cFileName( const string& name, const string& separator );
 
+	cFileName relative_path( const cFileName& base_path ) const;
+
 	const string& full_name() const	{ return m_full_name; };
 	const string& extension() const	{ return m_ext; };
 	const string& path() const		{ return m_path; };
