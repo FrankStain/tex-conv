@@ -47,6 +47,9 @@
     <ClCompile Include="source\object_id.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\core.h">
@@ -86,6 +89,9 @@
       <Filter>Header Files\plugins-common</Filter>
     </ClInclude>
     <ClInclude Include="include\object_id.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cImage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
