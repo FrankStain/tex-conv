@@ -87,6 +87,7 @@
     <ClCompile Include="source\cImage.cpp" />
     <ClCompile Include="source\core.cpp" />
     <ClCompile Include="source\cPluginManager.cpp" />
+    <ClCompile Include="source\cWorkspace.cpp" />
     <ClCompile Include="source\environment_free.cpp" />
     <ClCompile Include="source\environment_init.cpp" />
     <ClCompile Include="source\object_id.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="include\cImage.h" />
     <ClInclude Include="include\core.h" />
     <ClInclude Include="include\cPluginManager.h" />
+    <ClInclude Include="include\cWorkspace.h" />
     <ClInclude Include="include\object_id.h" />
   </ItemGroup>
   <ItemGroup>
