@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\api">
+      <UniqueIdentifier>{9dc476a6-6a11-40a7-845c-89e08e6e3229}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\plugins-api">
+      <UniqueIdentifier>{45ff5dd9-2f61-4753-93f3-9c5984b495cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\plugins-common">
+      <UniqueIdentifier>{057ae852-330f-48a2-b7c4-4052d8617211}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\plugins-common">
+      <UniqueIdentifier>{03a46e2c-6a8e-4e14-bcf0-afa592d6f080}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cPluginManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\environment_init.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="source\environment_free.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="source\workspace.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\plugin_common\source\cFileMapping.cpp">
+      <Filter>Source Files\plugins-common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\plugin_common\source\cFileName.cpp">
+      <Filter>Source Files\plugins-common</Filter>
+    </ClCompile>
+    <ClCompile Include="source\object_id.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\api.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cPluginManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\cImageDesc.h">
+      <Filter>Header Files\plugins-api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\cPluginDesc.h">
+      <Filter>Header Files\plugins-api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\cPluginLogger.h">
+      <Filter>Header Files\plugins-api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\cPluginOperator.h">
+      <Filter>Header Files\plugins-api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_api.h">
+      <Filter>Header Files\plugins-api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_common\include\cFileMapping.h">
+      <Filter>Header Files\plugins-common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_common\include\cFileName.h">
+      <Filter>Header Files\plugins-common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_common\include\common_defs.h">
+      <Filter>Header Files\plugins-common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_common\include\plugin_common.h">
+      <Filter>Header Files\plugins-common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\object_id.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tex-conv-core.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

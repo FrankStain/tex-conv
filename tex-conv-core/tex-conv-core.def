@@ -1,0 +1,11 @@
+LIBRARY tex-conv-core
+
+EXPORTS
+	environment_init	@1 PRIVATE
+	environment_free	@2 PRIVATE
+	workspace_is_loaded	@3 PRIVATE
+	workspace_clear		@4 PRIVATE
+	workspace_load		@5 PRIVATE
+
+SECTIONS
+   .data	READ WRITE
