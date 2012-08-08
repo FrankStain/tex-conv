@@ -132,8 +132,9 @@
 			// listConvertersToolStripMenuItem
 			// 
 			this.listConvertersToolStripMenuItem.Name = "listConvertersToolStripMenuItem";
-			this.listConvertersToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.listConvertersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.listConvertersToolStripMenuItem.Text = "List converters";
+			this.listConvertersToolStripMenuItem.Click += new System.EventHandler(this.listConvertersToolStripMenuItem_Click);
 			// 
 			// toolStrip1
 			// 

@@ -33,5 +33,6 @@ namespace tex_conv_core {
 		static System::String^ root_path();
 
 		static const int enum_files( System::Collections::Generic::IList<cWSFileDesc^>^ files );
+		static void enum_formats( System::Collections::Generic::IList<System::String^>^ formats );
 	};
 }; 

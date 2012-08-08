@@ -46,8 +46,7 @@ public:
 	const bool remove_file( const string& name );
 	const bool change_file( const int index, const string& new_name );
 
-	const int writers_count() const;
-	const string& writer_name( const int index ) const;
+	const cPluginManager::exports_list_t& writers() const { return m_exporters; };
 	const bool add_writer( const string& name );
 	const bool remove_writer( const string& name );
 

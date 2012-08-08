@@ -41,15 +41,6 @@ const bool cWorkspace::change_file( const int index, const string& new_name ){
 	return false;
 };
 
-const int cWorkspace::writers_count() const {
-	return 0;
-};
-
-const string& cWorkspace::writer_name( const int index ) const {
-	static string str = "";
-	return str;
-};
-
 const bool cWorkspace::add_writer( const string& name ){
 	return false;
 };

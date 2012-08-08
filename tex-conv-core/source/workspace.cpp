@@ -39,3 +39,11 @@ const int tex_conv_core::workspace::enum_files( System::Collections::Generic::IL
 
 	return files->Count;
 };
+
+void tex_conv_core::workspace::enum_formats( System::Collections::Generic::IList<System::String^>^ formats ){
+	formats->Clear();
+	const cPluginManager::exports_list_t& fmt_list = dll::g_workspace.writers();
+	for( cPluginManager::exports_list_t::const_iterator fd = fmt_list.begin(); fmt_list.end() != fd; fd++ ){
+		formats->Add( msclr::interop::marshal_as<System::String^>( fd->first.name() ) );
+	};
+};

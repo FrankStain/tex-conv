@@ -68,5 +68,13 @@ namespace tex_conv_gui
 			lv_files.Items.Clear();
 
 		}
+
+		private void listConvertersToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ExportersList el = new ExportersList();
+			tex_conv_core.environment.enum_formats( el.m_all_items );
+			tex_conv_core.workspace.enum_formats( el.m_selected_items );
+			el.ShowDialog( this );
+		}
 	}
 }
