@@ -20,8 +20,11 @@ typedef list<sFileDesc> files_list_t;
 
 class cWorkspace {
 private:
-	bool m_ready;
-	files_list_t m_files;
+	bool			m_ready;
+	bool			m_new;
+	bool			m_saved;
+	string			m_root;
+	files_list_t	m_files;
 	cPluginManager::exports_list_t m_exporters;
 
 public:
@@ -29,14 +32,16 @@ public:
 	~cWorkspace();
 
 	inline const bool is_ready() const { return m_ready; };
+	inline const bool is_new() const { return m_new; };
+	inline const bool is_saved() const { return m_saved; };
+
 	const bool load( const string& file_name );
 	const bool save( const string& file_name );
 	void clear();
 
 	const string& base_dir();
 
-	const int files_count() const;
-	const string& file_name( const int index ) const;
+	const files_list_t& files() const { return m_files; };
 	const bool add_file( const string& name );
 	const bool remove_file( const string& name );
 	const bool change_file( const int index, const string& new_name );

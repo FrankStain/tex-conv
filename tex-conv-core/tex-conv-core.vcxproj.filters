@@ -29,12 +29,6 @@
     <ClCompile Include="source\cPluginManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\environment_init.cpp">
-      <Filter>Source Files\api</Filter>
-    </ClCompile>
-    <ClCompile Include="source\environment_free.cpp">
-      <Filter>Source Files\api</Filter>
-    </ClCompile>
     <ClCompile Include="source\workspace.cpp">
       <Filter>Source Files\api</Filter>
     </ClCompile>
@@ -52,6 +46,9 @@
     </ClCompile>
     <ClCompile Include="source\cWorkspace.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\environment.cpp">
+      <Filter>Source Files\api</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

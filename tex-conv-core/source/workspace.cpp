@@ -1,37 +1,41 @@
+#include <cliext\adapter>
+#include <cliext\algorithm>
+#include <cliext\vector>
+#include <msclr\marshal_cppstd.h>
+#include "api.h"
+
 #include "core.h"
 
-BOOL WINAPI workspace_is_loaded()
-{
+void tex_conv_core::workspace::clear(){
+	dll::g_workspace.clear();
+};
+
+const bool tex_conv_core::workspace::load( System::String^ path ){
+	return dll::g_workspace.load( msclr::interop::marshal_as<string>( path ) );
+};
+
+const bool tex_conv_core::workspace::save( System::String^ path ){
+	return dll::g_workspace.save( msclr::interop::marshal_as<string>( path ) );
+};
+
+const bool tex_conv_core::workspace::is_new(){
+	return dll::g_workspace.is_new();
+};
+
+const bool tex_conv_core::workspace::is_loaded(){
 	return dll::g_workspace.is_ready();
 };
 
-BOOL WINAPI workspace_clear()
-{
-	dll::g_workspace.clear();
-	return true;
+const bool tex_conv_core::workspace::is_saved(){
+	return dll::g_workspace.is_saved();
 };
 
-BOOL WINAPI workspace_load( const char* file_name )
-{
-	return dll::g_workspace.load( file_name );
+System::String^ tex_conv_core::workspace::root_path(){
+	return msclr::interop::marshal_as<System::String^>( dll::g_workspace.base_dir() );
 };
 
-int WINAPI workspace_get_files_count(){
-	return dll::g_workspace.files_count();
-};
+const int tex_conv_core::workspace::enum_files( System::Collections::Generic::IList<cWSFileDesc^>^ files ){
+	files->Clear();
 
-const char* WINAPI workspace_get_file_name( const int index ){
-	return dll::g_workspace.file_name( index ).c_str();
-};
-
-BOOL WINAPI workspace_add_file( const char* file_name ){
-	return dll::g_workspace.add_file( file_name );
-};
-
-BOOL WINAPI workspace_del_file( const char* file_name ){
-	return dll::g_workspace.remove_file( file_name );
-};
-
-BOOL WINAPI workspace_change_file( const int index, const char* file_name ){
-	return dll::g_workspace.change_file( index, file_name );
+	return files->Count;
 };

@@ -13,15 +13,22 @@ namespace tex_conv_gui
 {
 	public partial class MainForm : Form
 	{
+		private System.Collections.Generic.List<System.String> m_formats;
+		
 		public MainForm()
 		{
+			m_formats = new System.Collections.Generic.List<System.String>();
+
 			InitializeComponent();
-			environment_init( Path.GetDirectoryName( Application.ExecutablePath ) );
+			tex_conv_core.environment.init( Path.GetDirectoryName( Application.ExecutablePath ) );
+			tex_conv_core.workspace.clear();
+			l_ws_root.Text = tex_conv_core.workspace.root_path();
+			tex_conv_core.environment.enum_formats( m_formats );
 		}
 
 		~MainForm()
 		{
-			environment_free();
+			
 		}
 
 		private void lv_drag_enter(object sender, DragEventArgs e)
@@ -45,15 +52,21 @@ namespace tex_conv_gui
 			};
 		}
 
-		[DllImport("tex-conv-core.dll")]
-		static extern bool environment_init( [MarshalAs(UnmanagedType.LPStr)] string path );
-
-		[DllImport("tex-conv-core.dll")]
-		static extern bool environment_free();
-
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Application.Exit();
+		}
+
+		private void form_close_req(object sender, FormClosingEventArgs e)
+		{
+			tex_conv_core.environment.free();
+			m_formats = null;
+		}
+
+		public void refresh_workspace_files()
+		{
+			lv_files.Items.Clear();
+
 		}
 	}
 }

@@ -37,12 +37,12 @@
 			this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.convertersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.listConvertersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.l_ws_root = new System.Windows.Forms.ToolStripLabel();
 			this.lv_files = new System.Windows.Forms.ListView();
 			this.lvh_source = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.convertersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.listConvertersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -121,6 +121,20 @@
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
+			// convertersToolStripMenuItem
+			// 
+			this.convertersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.listConvertersToolStripMenuItem});
+			this.convertersToolStripMenuItem.Name = "convertersToolStripMenuItem";
+			this.convertersToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
+			this.convertersToolStripMenuItem.Text = "Converters";
+			// 
+			// listConvertersToolStripMenuItem
+			// 
+			this.listConvertersToolStripMenuItem.Name = "listConvertersToolStripMenuItem";
+			this.listConvertersToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.listConvertersToolStripMenuItem.Text = "List converters";
+			// 
 			// toolStrip1
 			// 
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -164,20 +178,6 @@
 			this.lvh_source.Text = "source";
 			this.lvh_source.Width = 200;
 			// 
-			// convertersToolStripMenuItem
-			// 
-			this.convertersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.listConvertersToolStripMenuItem});
-			this.convertersToolStripMenuItem.Name = "convertersToolStripMenuItem";
-			this.convertersToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
-			this.convertersToolStripMenuItem.Text = "Converters";
-			// 
-			// listConvertersToolStripMenuItem
-			// 
-			this.listConvertersToolStripMenuItem.Name = "listConvertersToolStripMenuItem";
-			this.listConvertersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.listConvertersToolStripMenuItem.Text = "List converters";
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -192,6 +192,7 @@
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Texture Converter";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.form_close_req);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.toolStrip1.ResumeLayout(false);

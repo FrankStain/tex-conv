@@ -3,6 +3,7 @@
 HINSTANCE	dll::g_instance		= NULL;
 string		dll::g_base_dir		= "";
 
+/*
 BOOL WINAPI DllMain( HINSTANCE inst, ULONG reason, LPVOID reserved )
 {
 	switch( reason )
@@ -28,4 +29,5 @@ BOOL WINAPI DllMain( HINSTANCE inst, ULONG reason, LPVOID reserved )
 		
 	return TRUE;
 };
+//*/
 

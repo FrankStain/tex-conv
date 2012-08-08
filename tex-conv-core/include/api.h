@@ -1,15 +1,37 @@
 #pragma once
 
-#include <windows.h>
+using namespace System;
 
-BOOL		WINAPI	environment_init( const char* );
-BOOL		WINAPI	environment_free();
+namespace tex_conv_core {
+	
+	public ref class environment {
+	public:
+		static const bool init( System::String^ path );
+		static const bool free();
 
-BOOL		WINAPI	workspace_is_loaded();
-BOOL		WINAPI	workspace_clear();
-BOOL		WINAPI	workspace_load( const char* );
-int			WINAPI	workspace_get_files_count();
-const char*	WINAPI	workspace_get_file_name( const int );
-BOOL		WINAPI	workspace_add_file( const char* );
-BOOL		WINAPI	workspace_del_file( const char* );
-BOOL		WINAPI	workspace_change_file( const int, const char* );
+		static void enum_formats( System::Collections::Generic::IList<System::String^>^ formats );
+	};
+
+	public ref class cWSFileDesc {
+	protected:
+		System::String^ m_name;
+		System::String^ m_path;
+	public:
+		
+	};
+
+	public ref class workspace {
+	public:
+		static void clear();
+		static const bool load( System::String^ path );
+		static const bool save( System::String^ path );
+
+		static const bool is_new();
+		static const bool is_loaded();
+		static const bool is_saved();
+
+		static System::String^ root_path();
+
+		static const int enum_files( System::Collections::Generic::IList<cWSFileDesc^>^ files );
+	};
+}; 

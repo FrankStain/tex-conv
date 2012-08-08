@@ -1,6 +1,6 @@
 #pragma once
 
-#include "api.h"
+#pragma unmanaged
 #include "plugin_common.h"
 #include "cPluginManager.h"
 #include "cWorkspace.h"
@@ -12,3 +12,4 @@ namespace dll
 	extern string		g_ws_file;
 	extern cWorkspace	g_workspace;
 };
+#pragma managed

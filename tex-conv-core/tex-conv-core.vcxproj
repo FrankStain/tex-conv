@@ -20,6 +20,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>true</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -55,7 +56,8 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;TEXCONVCORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)include;$(SolutionDir)plugin_api;$(SolutionDir)plugin_common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -88,8 +90,7 @@
     <ClCompile Include="source\core.cpp" />
     <ClCompile Include="source\cPluginManager.cpp" />
     <ClCompile Include="source\cWorkspace.cpp" />
-    <ClCompile Include="source\environment_free.cpp" />
-    <ClCompile Include="source\environment_init.cpp" />
+    <ClCompile Include="source\environment.cpp" />
     <ClCompile Include="source\object_id.cpp" />
     <ClCompile Include="source\workspace.cpp" />
   </ItemGroup>
@@ -112,6 +113,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tex-conv-core.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
