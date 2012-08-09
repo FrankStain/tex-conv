@@ -24,6 +24,9 @@ namespace tex_conv_core {
 
 		System::String^ name();
 		System::String^ formated_name( System::String^ format );
+
+		System::String^ file_name();
+		System::String^ formated_file_name( System::String^ format );
 		
 		const bool enabled( System::String^ format );
 		void set_enabled( System::String^ format, const bool flag );

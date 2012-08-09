@@ -24,6 +24,16 @@ System::String^ tex_conv_core::cWSFileDesc::formated_name( System::String^ forma
 	return ( m_file_desc->m_writers.end() == fd )? "[ERROR]" : msclr::interop::marshal_as<System::String^>( fd->second.m_file.file_name() );
 };
 
+System::String^ tex_conv_core::cWSFileDesc::file_name(){
+	return msclr::interop::marshal_as<System::String^>( m_file_desc->m_file.full_name() );
+};
+
+System::String^ tex_conv_core::cWSFileDesc::formated_file_name( System::String^ format ){
+	string fmt = msclr::interop::marshal_as<string>( format );
+	writers_t::iterator fd = m_file_desc->m_writers.find( fmt );
+	return ( m_file_desc->m_writers.end() == fd )? "[ERROR]" : msclr::interop::marshal_as<System::String^>( fd->second.m_file.full_name() );
+};
+
 const bool tex_conv_core::cWSFileDesc::enabled( System::String^ format ){
 	string fmt = msclr::interop::marshal_as<string>( format );
 	writers_t::iterator fd = m_file_desc->m_writers.find( fmt );

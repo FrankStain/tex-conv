@@ -132,7 +132,7 @@
 			// listConvertersToolStripMenuItem
 			// 
 			this.listConvertersToolStripMenuItem.Name = "listConvertersToolStripMenuItem";
-			this.listConvertersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.listConvertersToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
 			this.listConvertersToolStripMenuItem.Text = "List converters";
 			this.listConvertersToolStripMenuItem.Click += new System.EventHandler(this.listConvertersToolStripMenuItem_Click);
 			// 
@@ -167,6 +167,7 @@
 			this.lv_files.HideSelection = false;
 			this.lv_files.Location = new System.Drawing.Point(0, 49);
 			this.lv_files.Name = "lv_files";
+			this.lv_files.ShowItemToolTips = true;
 			this.lv_files.Size = new System.Drawing.Size(632, 379);
 			this.lv_files.TabIndex = 3;
 			this.lv_files.UseCompatibleStateImageBehavior = false;

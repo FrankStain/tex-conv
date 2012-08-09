@@ -85,7 +85,7 @@ const bool cWorkspace::add_format( const string& name ){
 	m_exporters[name] = format;
 	for( files_list_t::iterator file = m_files.begin(); m_files.end() != file; file++ ){
 		file->m_writers[name].m_enabled = false;
-		file->m_writers[name].m_file = file->m_file.name() + "." + name;
+		file->m_writers[name].m_file = file->m_file.path() + cFileName::PATH_SEPARATOR + file->m_file.name() + "." + name;
 	};
 	
 	return true;
@@ -93,7 +93,7 @@ const bool cWorkspace::add_format( const string& name ){
 
 const bool cWorkspace::remove_format( const string& name ){
 	cPluginManager::exports_list_t::iterator fd = m_exporters.find( name );
-	if( !( ( cPluginManager::get_exporter( name ) ) && ( m_exporters.end() == fd ) ) ){
+	if( !( ( cPluginManager::get_exporter( name ) ) && ( m_exporters.end() != fd ) ) ){
 		return false;
 	};
 

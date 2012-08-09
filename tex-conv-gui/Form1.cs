@@ -66,12 +66,18 @@ namespace tex_conv_gui
 		public void refresh_workspace_files()
 		{
 			List<tex_conv_core.cWSFileDesc> files = new List<tex_conv_core.cWSFileDesc>();
-			
+			List<System.String> formats = new List<System.String>();
+			tex_conv_core.workspace.enum_formats( formats );
+						
 			lv_files.Items.Clear();
 			tex_conv_core.workspace.enum_files( files );
 			foreach( tex_conv_core.cWSFileDesc file in files ){
 				ListViewItem li = lv_files.Items.Add( file.name() );
-				li.Text = file.name();
+				li.Tag = file;
+				li.ToolTipText = file.file_name();
+				foreach( String format in formats ){
+					li.SubItems.Add( file.formated_name( format ) );
+				};
 			};
 		}
 
@@ -95,6 +101,8 @@ namespace tex_conv_gui
 					};
 				break;
 			};
+
+			refresh_workspace_files();
 		}
 	}
 }
