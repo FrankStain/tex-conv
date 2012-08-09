@@ -11,15 +11,15 @@ namespace tex_conv_gui
 {
 	public partial class ExportersList : Form
 	{
-		public System.Collections.Generic.List<System.String> m_all_items;
-		public System.Collections.Generic.List<System.String> m_selected_items;
+		public List<System.String> m_all_items;
+		public List<System.String> m_selected_items;
 		
 		public ExportersList()
 		{
 			InitializeComponent();
 
-			m_all_items			= new System.Collections.Generic.List<System.String>();
-			m_selected_items	= new System.Collections.Generic.List<System.String>();
+			m_all_items			= new List<System.String>();
+			m_selected_items	= new List<System.String>();
 		}
 
 		~ExportersList()

@@ -14,6 +14,8 @@ private:
 public:
 	static const string PATH_SEPARATOR;
 	
+	cFileName();
+	cFileName( const cFileName& );
 	cFileName( const string& name );
 	cFileName( const string& name, const string& separator );
 

@@ -76,8 +76,16 @@ namespace tex_conv_gui
 			tex_conv_core.workspace.enum_formats( el.m_selected_items );
 			switch( el.ShowDialog( this ) ){
 				case DialogResult.OK:
-					foreach( String writer in el.m_selected_items ){
-						//tex_conv_core.workspace.add_writer( writer );
+					List<String> cur_formats = new List<String>();
+					tex_conv_core.workspace.enum_formats( cur_formats );
+					foreach( String format in cur_formats ){
+						if( 0 > el.m_selected_items.IndexOf( format ) ){
+							tex_conv_core.workspace.remove_format( format );
+						};
+					};
+
+					foreach( String format in el.m_selected_items ){
+						tex_conv_core.workspace.add_format( format );
 					};
 				break;
 			};

@@ -6,6 +6,17 @@
 
 const string cFileName::PATH_SEPARATOR = "\\";
 
+cFileName::cFileName(){
+
+};
+
+cFileName::cFileName( const cFileName& op ){
+	m_full_name	= op.m_full_name;
+	m_path		= op.m_path;
+	m_name		= op.m_name;
+	m_ext		= op.m_ext;
+};
+
 cFileName::cFileName( const string& name ){
 	explode_path( name );
 };
