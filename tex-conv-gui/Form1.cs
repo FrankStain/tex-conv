@@ -69,6 +69,13 @@ namespace tex_conv_gui
 			List<System.String> formats = new List<System.String>();
 			tex_conv_core.workspace.enum_formats( formats );
 						
+			lv_files.BeginUpdate();
+			for( int ci = 1; lv_files.Columns.Count > ci; ci++ ){
+				if( 0 > formats.IndexOf( lv_files.Columns[ci].Text ) ){
+					lv_files.Columns.Remove( lv_files.Columns[ci] );
+				};
+			};
+						
 			lv_files.Items.Clear();
 			tex_conv_core.workspace.enum_files( files );
 			foreach( tex_conv_core.cWSFileDesc file in files ){
@@ -79,6 +86,14 @@ namespace tex_conv_gui
 					li.SubItems.Add( file.formated_name( format ) );
 				};
 			};
+
+			foreach( String format in formats ){
+				if( 0 > lv_files.Columns.IndexOfKey( format ) ){
+					lv_files.Columns.Add( format, format, 130 ).AutoResize( ColumnHeaderAutoResizeStyle.ColumnContent );
+				};
+			};
+
+			lv_files.EndUpdate();
 		}
 
 		private void listConvertersToolStripMenuItem_Click(object sender, EventArgs e)
