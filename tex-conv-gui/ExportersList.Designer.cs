@@ -44,6 +44,7 @@
 			// 
 			// b_cancel
 			// 
+			this.b_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.b_cancel.Location = new System.Drawing.Point(5, 222);
 			this.b_cancel.Name = "b_cancel";
 			this.b_cancel.Size = new System.Drawing.Size(170, 23);
@@ -53,12 +54,14 @@
 			// 
 			// b_apply
 			// 
+			this.b_apply.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.b_apply.Location = new System.Drawing.Point(222, 222);
 			this.b_apply.Name = "b_apply";
 			this.b_apply.Size = new System.Drawing.Size(170, 23);
 			this.b_apply.TabIndex = 3;
 			this.b_apply.Text = "Apply";
 			this.b_apply.UseVisualStyleBackColor = true;
+			this.b_apply.Click += new System.EventHandler(this.b_apply_Click);
 			// 
 			// b_add_all
 			// 
@@ -112,13 +115,17 @@
 			// 
 			// lb_selected_writers
 			// 
+			this.lb_selected_writers.AllowDrop = true;
 			this.lb_selected_writers.FormattingEnabled = true;
 			this.lb_selected_writers.Location = new System.Drawing.Point(10, 15);
 			this.lb_selected_writers.Name = "lb_selected_writers";
-			this.lb_selected_writers.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+			this.lb_selected_writers.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
 			this.lb_selected_writers.Size = new System.Drawing.Size(150, 186);
 			this.lb_selected_writers.Sorted = true;
 			this.lb_selected_writers.TabIndex = 2;
+			this.lb_selected_writers.DragDrop += new System.Windows.Forms.DragEventHandler(this.lb_selected_writers_DragDrop);
+			this.lb_selected_writers.DragEnter += new System.Windows.Forms.DragEventHandler(this.lb_selected_writers_DragEnter);
+			this.lb_selected_writers.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lb_selected_writers_MouseDown);
 			// 
 			// groupBox2
 			// 
@@ -132,13 +139,17 @@
 			// 
 			// lb_all_writers
 			// 
+			this.lb_all_writers.AllowDrop = true;
 			this.lb_all_writers.FormattingEnabled = true;
 			this.lb_all_writers.Location = new System.Drawing.Point(10, 15);
 			this.lb_all_writers.Name = "lb_all_writers";
-			this.lb_all_writers.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+			this.lb_all_writers.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
 			this.lb_all_writers.Size = new System.Drawing.Size(150, 186);
 			this.lb_all_writers.Sorted = true;
 			this.lb_all_writers.TabIndex = 1;
+			this.lb_all_writers.DragDrop += new System.Windows.Forms.DragEventHandler(this.lb_all_writers_DragDrop);
+			this.lb_all_writers.DragEnter += new System.Windows.Forms.DragEventHandler(this.lb_all_writers_DragEnter);
+			this.lb_all_writers.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lb_all_writers_MouseDown);
 			// 
 			// ExportersList
 			// 

@@ -74,7 +74,13 @@ namespace tex_conv_gui
 			ExportersList el = new ExportersList();
 			tex_conv_core.environment.enum_formats( el.m_all_items );
 			tex_conv_core.workspace.enum_formats( el.m_selected_items );
-			el.ShowDialog( this );
+			switch( el.ShowDialog( this ) ){
+				case DialogResult.OK:
+					foreach( String writer in el.m_selected_items ){
+						//tex_conv_core.workspace.add_writer( writer );
+					};
+				break;
+			};
 		}
 	}
 }
