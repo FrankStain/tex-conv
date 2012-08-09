@@ -26,4 +26,9 @@ public:
 	const string& path() const		{ return m_path; };
 	const string& name() const		{ return m_name; };
 	string file_name() const	{ return ( m_ext.size() )? m_name + '.' + m_ext : m_name; };
+
+	inline const bool operator == ( const string& op ) const { return op == m_full_name; };
+	inline const bool operator == ( const cFileName& op ) const { return op.m_full_name == m_full_name; };
+	inline const bool operator != ( const string& op ) const { return op != m_full_name; };
+	inline const bool operator != ( const cFileName& op ) const { return op.m_full_name != m_full_name; };
 };

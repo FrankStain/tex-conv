@@ -2,6 +2,8 @@
 
 using namespace System;
 
+struct sFileDesc;
+
 namespace tex_conv_core {
 	
 	public ref class environment {
@@ -14,10 +16,17 @@ namespace tex_conv_core {
 
 	public ref class cWSFileDesc {
 	protected:
-		System::String^ m_name;
-		System::String^ m_path;
+		sFileDesc* m_file_desc;
+
 	public:
+		cWSFileDesc( sFileDesc* );
+		~cWSFileDesc();
+
+		System::String^ name();
+		System::String^ formated_name( System::String^ format );
 		
+		const bool enabled( System::String^ format );
+		void set_enabled( System::String^ format, const bool flag );
 	};
 
 	public ref class workspace {
@@ -33,6 +42,8 @@ namespace tex_conv_core {
 		static System::String^ root_path();
 
 		static const int enum_files( System::Collections::Generic::IList<cWSFileDesc^>^ files );
+		static const bool add_file( System::String^ file_path );
+		static const bool remove_file( System::String^ file_path );
 		
 		static void enum_formats( System::Collections::Generic::IList<System::String^>^ formats );
 		static const bool add_format( System::String^ format );

@@ -30,11 +30,41 @@ const string& cWorkspace::base_dir(){
 };
 
 const bool cWorkspace::add_file( const string& name ){
-	return false;
+	cFileName fn = name;
+	for( files_list_t::iterator fd = m_files.begin(); m_files.end() != fd; fd++ ){
+		if( fn == fd->m_file ){
+			return false;
+		};
+	};
+
+	m_files.push_back( sFileDesc() );
+	sFileDesc& file = m_files.back();
+	file.m_file = fn;
+	for( cPluginManager::exports_list_t::iterator fd = m_exporters.begin(); m_exporters.end() != fd; fd++ ){
+		sWriterDesc& wp = file.m_writers[ fd->first ];
+		wp.m_enabled = false;
+		wp.m_file = fn.path() + cFileName::PATH_SEPARATOR + fn.name() + "." + fd->first.name();
+	};
+
+	return true;
 };
 
 const bool cWorkspace::remove_file( const string& name ){
-	return false;
+	cFileName fn = name;
+	files_list_t::iterator fd;
+	for( fd = m_files.begin(); m_files.end() != fd; fd++ ){
+		if( fn == fd->m_file ){
+			break;
+		};
+	};
+
+	if( m_files.end() == fd ){
+		return true;
+	};
+
+	m_files.erase( fd );
+
+	return true;
 };
 
 const bool cWorkspace::change_file( const int index, const string& new_name ){

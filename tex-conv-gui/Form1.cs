@@ -13,11 +13,11 @@ namespace tex_conv_gui
 {
 	public partial class MainForm : Form
 	{
-		private System.Collections.Generic.List<System.String> m_formats;
+		private List<System.String> m_formats;
 		
 		public MainForm()
 		{
-			m_formats = new System.Collections.Generic.List<System.String>();
+			m_formats = new List<System.String>();
 
 			InitializeComponent();
 			tex_conv_core.environment.init( Path.GetDirectoryName( Application.ExecutablePath ) );
@@ -45,11 +45,11 @@ namespace tex_conv_gui
 
 				foreach( string file_name in files_list )
 				{
-					ListViewItem li = new ListViewItem();
-					lv.Items.Add( li );
-					li.Text = file_name;
+					tex_conv_core.workspace.add_file( file_name );
 				};
 			};
+
+			refresh_workspace_files();
 		}
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -65,8 +65,14 @@ namespace tex_conv_gui
 
 		public void refresh_workspace_files()
 		{
+			List<tex_conv_core.cWSFileDesc> files = new List<tex_conv_core.cWSFileDesc>();
+			
 			lv_files.Items.Clear();
-
+			tex_conv_core.workspace.enum_files( files );
+			foreach( tex_conv_core.cWSFileDesc file in files ){
+				ListViewItem li = lv_files.Items.Add( file.name() );
+				li.Text = file.name();
+			};
 		}
 
 		private void listConvertersToolStripMenuItem_Click(object sender, EventArgs e)
