@@ -14,6 +14,11 @@ namespace tex_conv_gui
 	public partial class MainForm : Form
 	{
 		private List<System.String> m_formats;
+
+		void on_workspace_update(){
+			l_ws_root.Text			= tex_conv_core.workspace.root_path();
+			sbl_mod_flag.Enabled	= !tex_conv_core.workspace.is_saved();
+		}
 		
 		public MainForm()
 		{
@@ -22,6 +27,7 @@ namespace tex_conv_gui
 			InitializeComponent();
 			tex_conv_core.environment.init( Path.GetDirectoryName( Application.ExecutablePath ) );
 			tex_conv_core.workspace.clear();
+			tex_conv_core.workspace.set_on_update_event( new tex_conv_core.ModificationEvent( on_workspace_update ) );
 			l_ws_root.Text = tex_conv_core.workspace.root_path();
 			tex_conv_core.environment.enum_formats( m_formats );
 		}
@@ -70,9 +76,12 @@ namespace tex_conv_gui
 			tex_conv_core.workspace.enum_formats( formats );
 						
 			lv_files.BeginUpdate();
-			for( int ci = 1; lv_files.Columns.Count > ci; ci++ ){
+			int ci = 1;
+			while( lv_files.Columns.Count > ci ){
 				if( 0 > formats.IndexOf( lv_files.Columns[ci].Text ) ){
 					lv_files.Columns.Remove( lv_files.Columns[ci] );
+				}else{
+					ci++;
 				};
 			};
 						

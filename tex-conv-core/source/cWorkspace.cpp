@@ -4,6 +4,8 @@
 string		dll::g_ws_file	= "";
 cWorkspace	dll::g_workspace;
 
+extern void workspace_modified();
+
 cWorkspace::cWorkspace() : m_ready(false), m_new(true), m_saved(true) {
 	m_root = dll::g_base_dir;
 };
@@ -46,6 +48,8 @@ const bool cWorkspace::add_file( const string& name ){
 		wp.m_file = fn.path() + cFileName::PATH_SEPARATOR + fn.name() + "." + fd->first.name();
 	};
 
+	m_saved = m_new;
+	workspace_modified();
 	return true;
 };
 
@@ -64,6 +68,8 @@ const bool cWorkspace::remove_file( const string& name ){
 
 	m_files.erase( fd );
 
+	m_saved = m_new;
+	workspace_modified();
 	return true;
 };
 
@@ -88,6 +94,8 @@ const bool cWorkspace::add_format( const string& name ){
 		file->m_writers[name].m_file = file->m_file.path() + cFileName::PATH_SEPARATOR + file->m_file.name() + "." + name;
 	};
 	
+	m_saved = m_new;
+	workspace_modified();
 	return true;
 };
 
@@ -102,5 +110,7 @@ const bool cWorkspace::remove_format( const string& name ){
 		file->m_writers.erase( file->m_writers.find( name ) );
 	};
 
+	m_saved = m_new;
+	workspace_modified();
 	return true;
 };

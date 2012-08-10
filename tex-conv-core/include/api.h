@@ -5,6 +5,9 @@ using namespace System;
 struct sFileDesc;
 
 namespace tex_conv_core {
+
+	public delegate void ProgressEvent( const int current, const int total );
+	public delegate void ModificationEvent();
 	
 	public ref class environment {
 	public:
@@ -33,7 +36,15 @@ namespace tex_conv_core {
 	};
 
 	public ref class workspace {
+	protected:
+		static tex_conv_core::ModificationEvent^	m_on_change;
+		static tex_conv_core::ProgressEvent^		m_on_total_progress;
+		static tex_conv_core::ProgressEvent^		m_on_file_progress;
+
 	public:
+		static void set_on_update_event( tex_conv_core::ModificationEvent^ ev );
+		static void call_update_event();
+		
 		static void clear();
 		static const bool load( System::String^ path );
 		static const bool save( System::String^ path );

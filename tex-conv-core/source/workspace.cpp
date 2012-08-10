@@ -6,6 +6,10 @@
 
 #include "core.h"
 
+void workspace_modified(){
+	tex_conv_core::workspace::call_update_event();
+};
+
 tex_conv_core::cWSFileDesc::cWSFileDesc( sFileDesc* data ) : m_file_desc( data ){
 
 };
@@ -106,4 +110,14 @@ const bool tex_conv_core::workspace::add_format( System::String^ format ){
 
 const bool tex_conv_core::workspace::remove_format( System::String^ format ){
 	return dll::g_workspace.remove_format( msclr::interop::marshal_as<string>( format ) );
+};
+
+void tex_conv_core::workspace::set_on_update_event( ModificationEvent^ ev ){
+	m_on_change = ev;
+};
+
+void tex_conv_core::workspace::call_update_event(){
+	if( m_on_change ){
+		m_on_change();
+	};
 };
