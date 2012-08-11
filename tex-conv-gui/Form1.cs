@@ -18,6 +18,17 @@ namespace tex_conv_gui
 		void on_workspace_update(){
 			l_ws_root.Text			= tex_conv_core.workspace.root_path();
 			sbl_mod_flag.Enabled	= !tex_conv_core.workspace.is_saved();
+			foreach( ColumnHeader hdr in lv_files.Columns ){
+				hdr.AutoResize( ColumnHeaderAutoResizeStyle.ColumnContent );
+				if( 50 > hdr.Width ){
+					hdr.Width = 65;
+				};
+			};
+		}
+
+		void on_add_file( int index, String name )
+		{
+			
 		}
 		
 		public MainForm()
@@ -127,6 +138,11 @@ namespace tex_conv_gui
 			};
 
 			refresh_workspace_files();
+		}
+
+		private void MainForm_Resize(object sender, EventArgs e)
+		{
+			sbl_status.Width = statusStrip1.ClientSize.Width - sbl_mod_flag.Width - 15;
 		}
 	}
 }

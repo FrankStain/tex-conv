@@ -4,8 +4,6 @@
 string		dll::g_ws_file	= "";
 cWorkspace	dll::g_workspace;
 
-extern void workspace_modified();
-
 cWorkspace::cWorkspace() : m_ready(false), m_new(true), m_saved(true) {
 	m_root = dll::g_base_dir;
 };
@@ -49,14 +47,15 @@ const bool cWorkspace::add_file( const string& name ){
 	};
 
 	m_saved = m_new;
-	workspace_modified();
+	ws_events::add_file( m_files.size(), file.m_file.file_name() );
 	return true;
 };
 
 const bool cWorkspace::remove_file( const string& name ){
 	cFileName fn = name;
 	files_list_t::iterator fd;
-	for( fd = m_files.begin(); m_files.end() != fd; fd++ ){
+	int fd_pos = 0;
+	for( fd = m_files.begin(); m_files.end() != fd; fd++, fd_pos++ ){
 		if( fn == fd->m_file ){
 			break;
 		};
@@ -69,7 +68,7 @@ const bool cWorkspace::remove_file( const string& name ){
 	m_files.erase( fd );
 
 	m_saved = m_new;
-	workspace_modified();
+	ws_events::delete_file( fd_pos, fn.file_name() );
 	return true;
 };
 
@@ -95,7 +94,7 @@ const bool cWorkspace::add_format( const string& name ){
 	};
 	
 	m_saved = m_new;
-	workspace_modified();
+	ws_events::add_format( m_exporters.size(), name );
 	return true;
 };
 
@@ -111,6 +110,6 @@ const bool cWorkspace::remove_format( const string& name ){
 	};
 
 	m_saved = m_new;
-	workspace_modified();
+	ws_events::delete_format( m_exporters.size(), name );
 	return true;
 };

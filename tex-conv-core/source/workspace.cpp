@@ -6,8 +6,26 @@
 
 #include "core.h"
 
-void workspace_modified(){
-	tex_conv_core::workspace::call_update_event();
+namespace ws_events {
+	void add_file( const int index, const string& file ){
+		tex_conv_core::workspace::event_add_file( index, msclr::interop::marshal_as<System::String^>( file ) );
+	};
+
+	void delete_file( const int index, const string& file ){
+		tex_conv_core::workspace::event_remove_file( index, msclr::interop::marshal_as<System::String^>( file ) );
+	};
+
+	void change_file( const int index, const string& file ){
+		tex_conv_core::workspace::event_change_file( index, msclr::interop::marshal_as<System::String^>( file ) );
+	};
+
+	void add_format( const int index, const string& format ){
+		tex_conv_core::workspace::event_add_format( index, msclr::interop::marshal_as<System::String^>( format ) );
+	};
+
+	void delete_format( const int index, const string& format ){
+		tex_conv_core::workspace::event_remove_format( index, msclr::interop::marshal_as<System::String^>( format ) );
+	};
 };
 
 tex_conv_core::cWSFileDesc::cWSFileDesc( sFileDesc* data ) : m_file_desc( data ){
@@ -88,6 +106,28 @@ const int tex_conv_core::workspace::enum_files( System::Collections::Generic::IL
 	return files->Count;
 };
 
+tex_conv_core::cWSFileDesc^ tex_conv_core::workspace::get_file( const int index ){
+	int fd_id = 0;
+	for( files_list_t::const_iterator fd = dll::g_workspace.files().begin(); dll::g_workspace.files().end() != fd; fd++, fd_id++ ){
+		if( index <= fd_id ){
+			return gcnew cWSFileDesc( (sFileDesc*)&(*fd) );
+		};
+	};
+
+	return NULL;
+};
+
+tex_conv_core::cWSFileDesc^ tex_conv_core::workspace::get_file( System::String^ name ){
+	const string file_name = msclr::interop::marshal_as<string>( name );
+	for( files_list_t::const_iterator fd = dll::g_workspace.files().begin(); dll::g_workspace.files().end() != fd; fd++ ){
+		if( file_name == fd->m_name.file_name() ){
+			return gcnew cWSFileDesc( (sFileDesc*)&(*fd) );
+		};
+	};
+
+	return NULL;
+};
+
 const bool tex_conv_core::workspace::add_file( System::String^ file_path ){
 	return dll::g_workspace.add_file( msclr::interop::marshal_as<string>( file_path ) );
 };
@@ -110,14 +150,4 @@ const bool tex_conv_core::workspace::add_format( System::String^ format ){
 
 const bool tex_conv_core::workspace::remove_format( System::String^ format ){
 	return dll::g_workspace.remove_format( msclr::interop::marshal_as<string>( format ) );
-};
-
-void tex_conv_core::workspace::set_on_update_event( ModificationEvent^ ev ){
-	m_on_change = ev;
-};
-
-void tex_conv_core::workspace::call_update_event(){
-	if( m_on_change ){
-		m_on_change();
-	};
 };

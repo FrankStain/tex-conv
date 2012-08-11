@@ -13,3 +13,11 @@ namespace dll
 	extern cWorkspace	g_workspace;
 };
 #pragma managed
+
+namespace ws_events {
+	extern void add_file( const int index, const string& file );
+	extern void delete_file( const int index, const string& file );
+	extern void change_file( const int index, const string& file );
+	extern void add_format( const int index, const string& format );
+	extern void delete_format( const int index, const string& file );
+};

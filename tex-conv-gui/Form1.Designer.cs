@@ -44,8 +44,6 @@
 			this.lv_files = new System.Windows.Forms.ListView();
 			this.lvh_source = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.sbl_status = new System.Windows.Forms.ToolStripStatusLabel();
-			this.sbp_total_progress = new System.Windows.Forms.ToolStripProgressBar();
-			this.spb_file_progress = new System.Windows.Forms.ToolStripProgressBar();
 			this.sbl_mod_flag = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -56,8 +54,6 @@
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sbl_status,
-            this.sbp_total_progress,
-            this.spb_file_progress,
             this.sbl_mod_flag});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 428);
 			this.statusStrip1.Name = "statusStrip1";
@@ -196,18 +192,6 @@
 			this.sbl_status.Name = "sbl_status";
 			this.sbl_status.Size = new System.Drawing.Size(350, 17);
 			// 
-			// sbp_total_progress
-			// 
-			this.sbp_total_progress.Enabled = false;
-			this.sbp_total_progress.Name = "sbp_total_progress";
-			this.sbp_total_progress.Size = new System.Drawing.Size(80, 16);
-			// 
-			// spb_file_progress
-			// 
-			this.spb_file_progress.Enabled = false;
-			this.spb_file_progress.Name = "spb_file_progress";
-			this.spb_file_progress.Size = new System.Drawing.Size(80, 16);
-			// 
 			// sbl_mod_flag
 			// 
 			this.sbl_mod_flag.AutoSize = false;
@@ -231,6 +215,7 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Texture Converter";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.form_close_req);
+			this.Resize += new System.EventHandler(this.MainForm_Resize);
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.menuStrip1.ResumeLayout(false);
@@ -260,8 +245,6 @@
 		private System.Windows.Forms.ToolStripMenuItem convertersToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem listConvertersToolStripMenuItem;
 		private System.Windows.Forms.ToolStripStatusLabel sbl_status;
-		private System.Windows.Forms.ToolStripProgressBar sbp_total_progress;
-		private System.Windows.Forms.ToolStripProgressBar spb_file_progress;
 		private System.Windows.Forms.ToolStripStatusLabel sbl_mod_flag;
 	}
 }
