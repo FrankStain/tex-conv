@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.workspaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,9 +46,25 @@
 			this.lvh_source = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.sbl_status = new System.Windows.Forms.ToolStripStatusLabel();
 			this.sbl_mod_flag = new System.Windows.Forms.ToolStripStatusLabel();
+			this.cm_source_edit = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.cm_format_edit = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.addFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+			this.cmb_change_source = new System.Windows.Forms.ToolStripMenuItem();
+			this.cmb_delete_source = new System.Windows.Forms.ToolStripMenuItem();
+			this.cmb_source_options = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+			this.cmb_source_folder = new System.Windows.Forms.ToolStripMenuItem();
+			this.changeFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.formatOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.cmb_format_enabled = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+			this.dw_open_file = new System.Windows.Forms.OpenFileDialog();
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
+			this.cm_source_edit.SuspendLayout();
+			this.cm_format_edit.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -138,7 +155,7 @@
 			// listConvertersToolStripMenuItem
 			// 
 			this.listConvertersToolStripMenuItem.Name = "listConvertersToolStripMenuItem";
-			this.listConvertersToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.listConvertersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.listConvertersToolStripMenuItem.Text = "List converters";
 			this.listConvertersToolStripMenuItem.Click += new System.EventHandler(this.listConvertersToolStripMenuItem_Click);
 			// 
@@ -180,6 +197,7 @@
 			this.lv_files.View = System.Windows.Forms.View.Details;
 			this.lv_files.DragDrop += new System.Windows.Forms.DragEventHandler(this.lv_drag_drop);
 			this.lv_files.DragEnter += new System.Windows.Forms.DragEventHandler(this.lv_drag_enter);
+			this.lv_files.MouseUp += new System.Windows.Forms.MouseEventHandler(this.on_mouse_up);
 			// 
 			// lvh_source
 			// 
@@ -199,6 +217,102 @@
 			this.sbl_mod_flag.Name = "sbl_mod_flag";
 			this.sbl_mod_flag.Size = new System.Drawing.Size(60, 17);
 			this.sbl_mod_flag.Text = "MOD";
+			// 
+			// cm_source_edit
+			// 
+			this.cm_source_edit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addFilesToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.cmb_change_source,
+            this.cmb_delete_source,
+            this.cmb_source_options,
+            this.toolStripMenuItem3,
+            this.cmb_source_folder});
+			this.cm_source_edit.Name = "cm_source_edit";
+			this.cm_source_edit.Size = new System.Drawing.Size(176, 148);
+			// 
+			// cm_format_edit
+			// 
+			this.cm_format_edit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmb_format_enabled,
+            this.toolStripMenuItem4,
+            this.changeFileToolStripMenuItem,
+            this.formatOptionsToolStripMenuItem});
+			this.cm_format_edit.Name = "cm_format_edit";
+			this.cm_format_edit.Size = new System.Drawing.Size(156, 76);
+			// 
+			// addFilesToolStripMenuItem
+			// 
+			this.addFilesToolStripMenuItem.Name = "addFilesToolStripMenuItem";
+			this.addFilesToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+			this.addFilesToolStripMenuItem.Text = "Add files";
+			this.addFilesToolStripMenuItem.Click += new System.EventHandler(this.addFilesToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem2
+			// 
+			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(172, 6);
+			// 
+			// cmb_change_source
+			// 
+			this.cmb_change_source.Name = "cmb_change_source";
+			this.cmb_change_source.Size = new System.Drawing.Size(175, 22);
+			this.cmb_change_source.Text = "Change";
+			// 
+			// cmb_delete_source
+			// 
+			this.cmb_delete_source.Name = "cmb_delete_source";
+			this.cmb_delete_source.Size = new System.Drawing.Size(175, 22);
+			this.cmb_delete_source.Text = "Remove";
+			// 
+			// cmb_source_options
+			// 
+			this.cmb_source_options.Name = "cmb_source_options";
+			this.cmb_source_options.Size = new System.Drawing.Size(175, 22);
+			this.cmb_source_options.Text = "Source options";
+			// 
+			// toolStripMenuItem3
+			// 
+			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(172, 6);
+			// 
+			// cmb_source_folder
+			// 
+			this.cmb_source_folder.Name = "cmb_source_folder";
+			this.cmb_source_folder.Size = new System.Drawing.Size(175, 22);
+			this.cmb_source_folder.Text = "Open source folder";
+			// 
+			// changeFileToolStripMenuItem
+			// 
+			this.changeFileToolStripMenuItem.Name = "changeFileToolStripMenuItem";
+			this.changeFileToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+			this.changeFileToolStripMenuItem.Text = "Change";
+			// 
+			// formatOptionsToolStripMenuItem
+			// 
+			this.formatOptionsToolStripMenuItem.Name = "formatOptionsToolStripMenuItem";
+			this.formatOptionsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+			this.formatOptionsToolStripMenuItem.Text = "Format options";
+			// 
+			// cmb_format_enabled
+			// 
+			this.cmb_format_enabled.CheckOnClick = true;
+			this.cmb_format_enabled.Name = "cmb_format_enabled";
+			this.cmb_format_enabled.Size = new System.Drawing.Size(155, 22);
+			this.cmb_format_enabled.Text = "Enabled";
+			// 
+			// toolStripMenuItem4
+			// 
+			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+			this.toolStripMenuItem4.Size = new System.Drawing.Size(152, 6);
+			// 
+			// dw_open_file
+			// 
+			this.dw_open_file.CheckFileExists = false;
+			this.dw_open_file.CheckPathExists = false;
+			this.dw_open_file.ShowReadOnly = true;
+			this.dw_open_file.SupportMultiDottedExtensions = true;
+			this.dw_open_file.Title = "Open";
 			// 
 			// MainForm
 			// 
@@ -222,6 +336,8 @@
 			this.menuStrip1.PerformLayout();
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
+			this.cm_source_edit.ResumeLayout(false);
+			this.cm_format_edit.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -246,6 +362,20 @@
 		private System.Windows.Forms.ToolStripMenuItem listConvertersToolStripMenuItem;
 		private System.Windows.Forms.ToolStripStatusLabel sbl_status;
 		private System.Windows.Forms.ToolStripStatusLabel sbl_mod_flag;
+		private System.Windows.Forms.ContextMenuStrip cm_source_edit;
+		private System.Windows.Forms.ToolStripMenuItem addFilesToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+		private System.Windows.Forms.ToolStripMenuItem cmb_change_source;
+		private System.Windows.Forms.ToolStripMenuItem cmb_delete_source;
+		private System.Windows.Forms.ToolStripMenuItem cmb_source_options;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+		private System.Windows.Forms.ToolStripMenuItem cmb_source_folder;
+		private System.Windows.Forms.ContextMenuStrip cm_format_edit;
+		private System.Windows.Forms.ToolStripMenuItem cmb_format_enabled;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+		private System.Windows.Forms.ToolStripMenuItem changeFileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem formatOptionsToolStripMenuItem;
+		private System.Windows.Forms.OpenFileDialog dw_open_file;
 	}
 }
 

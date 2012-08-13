@@ -20,10 +20,10 @@ class cPluginManager : public cPluginLogger {
 public:
 	typedef map<objid_t, cPluginImporter*>	imports_list_t;
 	typedef map<objid_t, cPluginExporter*>	exports_list_t;
-
-protected:
+	
+protected:		
 	typedef map<objid_t, sPluginRec>		plugins_list_t;
-		
+
 	string			m_directory;
 	plugins_list_t	m_plugins;
 	imports_list_t	m_importers;

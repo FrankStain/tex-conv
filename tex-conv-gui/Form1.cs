@@ -26,9 +26,47 @@ namespace tex_conv_gui
 			};
 		}
 
-		void on_add_file( int index, String name )
+		void on_add_file( tex_conv_core.cWSFileDesc file )
 		{
-			
+			ListViewItem li = lv_files.Items.Add( file.name(), file.name() );
+			li.Tag = file;
+			li.ToolTipText = file.file_name();
+
+			for( int ci = 1; lv_files.Columns.Count > ci; ci++ ){
+				ListViewItem.ListViewSubItem fli = li.SubItems.Add( file.formated_name( lv_files.Columns[ci].Text ) );
+				lv_files.Columns[ci].AutoResize( ColumnHeaderAutoResizeStyle.ColumnContent );
+			};
+		}
+
+		void on_delete_file( tex_conv_core.cWSFileDesc file )
+		{
+			ListViewItem li = lv_files.Items.Find( file.name(), false ).First();
+			if( null != li ){
+				lv_files.Items.Remove( li );
+			};
+		}
+
+		void on_add_format( int index, String format )
+		{
+			if( 0 < lv_files.Columns.IndexOfKey( format ) ){
+				lv_files.Columns.RemoveByKey( format );
+				foreach( ListViewItem li in lv_files.Items ){
+					li.SubItems.Add( ((tex_conv_core.cWSFileDesc)li.Tag).formated_name( format ) );
+				};
+			};
+
+			lv_files.Columns.Add( format, format ).AutoResize( ( 0 < lv_files.Items.Count )? ColumnHeaderAutoResizeStyle.ColumnContent : ColumnHeaderAutoResizeStyle.HeaderSize );
+		}
+
+		void on_delete_format( int index, String format )
+		{
+			int hdr_index = lv_files.Columns.IndexOfKey( format );
+			if( 0 < hdr_index ){
+				foreach( ListViewItem li in lv_files.Items ){
+					li.SubItems.RemoveAt( hdr_index );
+				};
+				lv_files.Columns.RemoveByKey( format );
+			};
 		}
 		
 		public MainForm()
@@ -38,9 +76,16 @@ namespace tex_conv_gui
 			InitializeComponent();
 			tex_conv_core.environment.init( Path.GetDirectoryName( Application.ExecutablePath ) );
 			tex_conv_core.workspace.clear();
-			tex_conv_core.workspace.set_on_update_event( new tex_conv_core.ModificationEvent( on_workspace_update ) );
+			
+			tex_conv_core.workspace.set_file_add_event( new tex_conv_core.FileChangingEvent( on_add_file ) );
+			tex_conv_core.workspace.set_file_delete_event( new tex_conv_core.FileChangingEvent( on_delete_file ) );
+			tex_conv_core.workspace.set_format_add_event( new tex_conv_core.ModificationEvent( on_add_format ) );
+			tex_conv_core.workspace.set_format_delete_event( new tex_conv_core.ModificationEvent( on_delete_format ) );
+
 			l_ws_root.Text = tex_conv_core.workspace.root_path();
 			tex_conv_core.environment.enum_formats( m_formats );
+
+			sbl_status.Width = statusStrip1.ClientSize.Width - sbl_mod_flag.Width - 15;
 		}
 
 		~MainForm()
@@ -60,13 +105,13 @@ namespace tex_conv_gui
 				ListView lv = (ListView)sender;
 				string[] files_list = (string[])e.Data.GetData( DataFormats.FileDrop, false );
 
+				lv_files.BeginUpdate();				
 				foreach( string file_name in files_list )
 				{
 					tex_conv_core.workspace.add_file( file_name );
 				};
+				lv_files.EndUpdate();
 			};
-
-			refresh_workspace_files();
 		}
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -83,7 +128,7 @@ namespace tex_conv_gui
 		public void refresh_workspace_files()
 		{
 			List<tex_conv_core.cWSFileDesc> files = new List<tex_conv_core.cWSFileDesc>();
-			List<System.String> formats = new List<System.String>();
+			List<String> formats = new List<System.String>();
 			tex_conv_core.workspace.enum_formats( formats );
 						
 			lv_files.BeginUpdate();
@@ -136,13 +181,85 @@ namespace tex_conv_gui
 					};
 				break;
 			};
-
-			refresh_workspace_files();
 		}
 
 		private void MainForm_Resize(object sender, EventArgs e)
 		{
 			sbl_status.Width = statusStrip1.ClientSize.Width - sbl_mod_flag.Width - 15;
+		}
+
+		private void on_mouse_up(object sender, MouseEventArgs e)
+		{
+			if( MouseButtons.Right == e.Button ){
+				ColumnHeader click_header = null;
+				ListViewItem li = lv_files.GetItemAt( e.X, e.Y );
+				Point click_point = e.Location; //lv_files.PointToClient( e.Location );
+				click_point.X += GetScrollPos( lv_files.Handle, SB_HORZ );
+				foreach( ColumnHeader hdr in lv_files.Columns ){
+					if( hdr.Width > click_point.X ){
+						click_header = hdr;
+						break;
+					};
+
+					click_point.X -= hdr.Width;
+				};
+
+				if( null != click_header ){
+					if( 1 > click_header.Index ){
+						cmb_change_source.Enabled =
+						cmb_delete_source.Enabled =
+						cmb_source_options.Enabled =
+						cmb_source_folder.Enabled = null != li;
+						cm_source_edit.Show( lv_files, e.Location );
+					} else if( null != li ) {
+						cmb_format_enabled.Checked = ((tex_conv_core.cWSFileDesc)li.Tag).enabled( click_header.Text );
+						cm_format_edit.Show( lv_files, e.Location );
+					};
+				};
+			};
+		}
+
+		[DllImport( "user32.dll" )]
+		public static extern int GetScrollPos(IntPtr hWnd, int nBar);
+		public const int SB_HORZ = 0;
+
+		private void addFilesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			dw_open_file.InitialDirectory	= tex_conv_core.workspace.root_path();
+			dw_open_file.FileName			= "";
+			dw_open_file.Title				= "Add new files";
+			dw_open_file.Multiselect		= true;
+			dw_open_file.ShowReadOnly		= true;
+
+			String fmt_filter = "";
+			String fmt_all = "";
+			List<tex_conv_core.cFormatDescriptor> fmt_list = new List<tex_conv_core.cFormatDescriptor>();
+			tex_conv_core.environment.enum_formats( fmt_list );
+			foreach( tex_conv_core.cFormatDescriptor desc in fmt_list ){
+				if( desc.has_importer() ){
+					fmt_all += "*." + desc.file_ext() + ";";
+					fmt_filter += "|" + desc.file_desc() + " (*." + desc.file_ext() + ")|*." + desc.file_ext();
+				};
+			};
+
+			if( 0 < fmt_all.Length ){
+				fmt_all = fmt_all.Remove( fmt_all.Length - 1 );
+			};
+
+			dw_open_file.Filter = "All formats|" + fmt_all + fmt_filter + "|All files|*.*";
+			dw_open_file.FilterIndex = 0;
+
+			switch( dw_open_file.ShowDialog( this ) ){
+				case DialogResult.OK:
+					lv_files.BeginUpdate();
+					foreach( String file_name in dw_open_file.FileNames ){
+						tex_conv_core.workspace.add_file( file_name );
+					};
+					lv_files.EndUpdate();
+				break;
+			};
+			
+			//tex_conv_core.environment.
 		}
 	}
 }

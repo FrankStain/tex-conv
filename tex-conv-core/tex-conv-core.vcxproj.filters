@@ -50,6 +50,12 @@
     <ClCompile Include="source\environment.cpp">
       <Filter>Source Files\api</Filter>
     </ClCompile>
+    <ClCompile Include="cWSFileDesc.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="cFormatDescriptor.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\core.h">

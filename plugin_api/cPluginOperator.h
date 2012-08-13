@@ -30,9 +30,13 @@ struct cOperatorProperties
 	size_t	m_size;
 };
 
+class cPluginOperator;
+
 class cPluginImporter
 {
 public:
+	virtual cPluginOperator* get_operator() = 0;
+
 	virtual const bool is_file_valid( const char* file_name ) = 0;
 	virtual const bool load( cImageDesc* desc, const cOperatorProperties* props, const char* file_name ) = 0;
 
@@ -43,6 +47,8 @@ public:
 class cPluginExporter
 {
 public:
+	virtual cPluginOperator* get_operator() = 0;
+
 	virtual const bool save( cImageDesc* desc, const cOperatorProperties* props, const char* file_name ) = 0;
 
 	virtual cOperatorProperties* create_exporter_properties() = 0;

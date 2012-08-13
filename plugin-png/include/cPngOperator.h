@@ -7,6 +7,8 @@ class cPngOperator : public cPluginOperator, public cPluginImporter, public cPlu
 public:
 	cPngOperator();
 	virtual ~cPngOperator();
+
+	virtual cPluginOperator* get_operator() { return this; };
 	
 	virtual const char* get_name();
 	virtual const char* get_file_ext();

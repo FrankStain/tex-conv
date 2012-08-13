@@ -47,7 +47,7 @@ const bool cWorkspace::add_file( const string& name ){
 	};
 
 	m_saved = m_new;
-	ws_events::add_file( m_files.size(), file.m_file.file_name() );
+	ws_events::add_file( &file );
 	return true;
 };
 
@@ -65,10 +65,10 @@ const bool cWorkspace::remove_file( const string& name ){
 		return true;
 	};
 
+	m_saved = m_new;
+	ws_events::delete_file( &(*fd) );
 	m_files.erase( fd );
 
-	m_saved = m_new;
-	ws_events::delete_file( fd_pos, fn.file_name() );
 	return true;
 };
 

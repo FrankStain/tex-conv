@@ -3,11 +3,25 @@
 using namespace System;
 
 struct sFileDesc;
+class cPluginOperator;
 
 namespace tex_conv_core {
-	
-	public delegate void ProgressEvent( const int current, const int total );
-	public delegate void ModificationEvent( int index, System::String^ param );
+		
+	public ref class cFormatDescriptor {
+	protected:
+		cPluginOperator* m_desc;
+
+	public:
+		cFormatDescriptor( cPluginOperator* );
+		~cFormatDescriptor();
+
+		System::String^ name();
+		System::String^ file_ext();
+		System::String^ file_desc();
+
+		bool has_importer();
+		bool has_exporter();
+	};
 	
 	public ref class environment {
 	public:
@@ -15,6 +29,8 @@ namespace tex_conv_core {
 		static const bool free();
 
 		static void enum_formats( System::Collections::Generic::IList<System::String^>^ formats );
+		static void enum_formats( System::Collections::Generic::IList<cFormatDescriptor^>^ formats );
+		static cFormatDescriptor^ get_format( System::String^ format );
 	};
 
 	public ref class cWSFileDesc {
@@ -35,29 +51,33 @@ namespace tex_conv_core {
 		void set_enabled( System::String^ format, const bool flag );
 	};
 
+	public delegate void ProgressEvent( const int current, const int total );
+	public delegate void ModificationEvent( int index, System::String^ param );
+	public delegate void FileChangingEvent( cWSFileDesc^ file );
+
 	public ref class workspace {
 	protected:
-		static tex_conv_core::ModificationEvent^	m_on_add_file;
-		static tex_conv_core::ModificationEvent^	m_on_del_file;
-		static tex_conv_core::ModificationEvent^	m_on_chg_file;
+		static FileChangingEvent^	m_on_add_file;
+		static FileChangingEvent^	m_on_del_file;
+		static FileChangingEvent^	m_on_chg_file;
 
-		static tex_conv_core::ModificationEvent^	m_on_add_format;
-		static tex_conv_core::ModificationEvent^	m_on_del_format;
+		static ModificationEvent^	m_on_add_format;
+		static ModificationEvent^	m_on_del_format;
 
-		static tex_conv_core::ProgressEvent^		m_on_total_progress;
-		static tex_conv_core::ProgressEvent^		m_on_file_progress;
+		static ProgressEvent^		m_on_total_progress;
+		static ProgressEvent^		m_on_file_progress;
 
 	public:
-		static void set_file_add_event( ModificationEvent^ ev ) { m_on_add_file = ev; };
-		static void set_file_delete_event( ModificationEvent^ ev ) { m_on_del_file = ev; };
-		static void set_file_change_event( ModificationEvent^ ev ) { m_on_chg_file = ev; };
+		static void set_file_add_event( FileChangingEvent^ ev ) { m_on_add_file = ev; };
+		static void set_file_delete_event( FileChangingEvent^ ev ) { m_on_del_file = ev; };
+		static void set_file_change_event( FileChangingEvent^ ev ) { m_on_chg_file = ev; };
 		
 		static void set_format_add_event( ModificationEvent^ ev ) { m_on_add_format = ev; };
 		static void set_format_delete_event( ModificationEvent^ ev ) { m_on_del_format = ev; };
 
-		static void event_add_file( int index, System::String^ param ) { if( m_on_add_file ){ m_on_add_file( index, param ); }; };
-		static void event_remove_file( int index, System::String^ param ) { if( m_on_del_file ){ m_on_del_file( index, param ); }; };
-		static void event_change_file( int index, System::String^ param ) { if( m_on_chg_file ){ m_on_chg_file( index, param ); }; };
+		static void event_add_file( cWSFileDesc^ file ) { if( m_on_add_file ){ m_on_add_file( file ); }; };
+		static void event_remove_file( cWSFileDesc^ file ) { if( m_on_del_file ){ m_on_del_file( file ); }; };
+		static void event_change_file( cWSFileDesc^ file ) { if( m_on_chg_file ){ m_on_chg_file( file ); }; };
 		
 		static void event_add_format( int index, System::String^ param ) { if( m_on_add_format ){ m_on_add_format( index, param ); }; };
 		static void event_remove_format( int index, System::String^ param ) { if( m_on_del_format ){ m_on_del_format( index, param ); }; };

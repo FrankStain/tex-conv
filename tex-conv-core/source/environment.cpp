@@ -35,3 +35,17 @@ void tex_conv_core::environment::enum_formats( System::Collections::Generic::ILi
 		formats->Add( msclr::interop::marshal_as<System::String^>( fd->first.name() ) );
 	};
 };
+
+void tex_conv_core::environment::enum_formats( System::Collections::Generic::IList<cFormatDescriptor^>^ formats ){
+	formats->Clear();
+	const cPluginManager::imports_list_t& fmt_list = cPluginManager::importers();
+	for( cPluginManager::imports_list_t::const_iterator fd = fmt_list.begin(); fmt_list.end() != fd; fd++ ){
+		formats->Add( gcnew cFormatDescriptor( fd->second->get_operator() ) );
+	};
+};
+
+tex_conv_core::cFormatDescriptor^ tex_conv_core::environment::get_format( System::String^ format ){
+	const string fmt = msclr::interop::marshal_as<string>( format );
+	cPluginManager::exports_list_t::const_iterator fd = cPluginManager::exporters().find( fmt );
+	return ( cPluginManager::exporters().end() != fd )? gcnew cFormatDescriptor( fd->second->get_operator() ) : nullptr;
+};

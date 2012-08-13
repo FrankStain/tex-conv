@@ -7,16 +7,16 @@
 #include "core.h"
 
 namespace ws_events {
-	void add_file( const int index, const string& file ){
-		tex_conv_core::workspace::event_add_file( index, msclr::interop::marshal_as<System::String^>( file ) );
+	void add_file( sFileDesc* file ){
+		tex_conv_core::workspace::event_add_file( gcnew tex_conv_core::cWSFileDesc( file ) );
 	};
 
-	void delete_file( const int index, const string& file ){
-		tex_conv_core::workspace::event_remove_file( index, msclr::interop::marshal_as<System::String^>( file ) );
+	void delete_file( sFileDesc* file ){
+		tex_conv_core::workspace::event_remove_file( gcnew tex_conv_core::cWSFileDesc( file ) );
 	};
 
-	void change_file( const int index, const string& file ){
-		tex_conv_core::workspace::event_change_file( index, msclr::interop::marshal_as<System::String^>( file ) );
+	void change_file( sFileDesc* file ){
+		tex_conv_core::workspace::event_change_file( gcnew tex_conv_core::cWSFileDesc( file ) );
 	};
 
 	void add_format( const int index, const string& format ){
@@ -25,48 +25,6 @@ namespace ws_events {
 
 	void delete_format( const int index, const string& format ){
 		tex_conv_core::workspace::event_remove_format( index, msclr::interop::marshal_as<System::String^>( format ) );
-	};
-};
-
-tex_conv_core::cWSFileDesc::cWSFileDesc( sFileDesc* data ) : m_file_desc( data ){
-
-};
-
-tex_conv_core::cWSFileDesc::~cWSFileDesc(){
-	m_file_desc = NULL;
-};
-
-System::String^ tex_conv_core::cWSFileDesc::name(){
-	return msclr::interop::marshal_as<System::String^>( m_file_desc->m_file.file_name() );
-};
-
-System::String^ tex_conv_core::cWSFileDesc::formated_name( System::String^ format ){
-	string fmt = msclr::interop::marshal_as<string>( format );
-	writers_t::iterator fd = m_file_desc->m_writers.find( fmt );
-	return ( m_file_desc->m_writers.end() == fd )? "[ERROR]" : msclr::interop::marshal_as<System::String^>( fd->second.m_file.file_name() );
-};
-
-System::String^ tex_conv_core::cWSFileDesc::file_name(){
-	return msclr::interop::marshal_as<System::String^>( m_file_desc->m_file.full_name() );
-};
-
-System::String^ tex_conv_core::cWSFileDesc::formated_file_name( System::String^ format ){
-	string fmt = msclr::interop::marshal_as<string>( format );
-	writers_t::iterator fd = m_file_desc->m_writers.find( fmt );
-	return ( m_file_desc->m_writers.end() == fd )? "[ERROR]" : msclr::interop::marshal_as<System::String^>( fd->second.m_file.full_name() );
-};
-
-const bool tex_conv_core::cWSFileDesc::enabled( System::String^ format ){
-	string fmt = msclr::interop::marshal_as<string>( format );
-	writers_t::iterator fd = m_file_desc->m_writers.find( fmt );
-	return ( m_file_desc->m_writers.end() == fd )? false : fd->second.m_enabled;
-};
-
-void tex_conv_core::cWSFileDesc::set_enabled( System::String^ format, const bool flag ){
-	string fmt = msclr::interop::marshal_as<string>( format );
-	writers_t::iterator fd = m_file_desc->m_writers.find( fmt );
-	if( m_file_desc->m_writers.end() != fd ){
-		fd->second.m_enabled = flag;
 	};
 };
 
@@ -114,18 +72,18 @@ tex_conv_core::cWSFileDesc^ tex_conv_core::workspace::get_file( const int index 
 		};
 	};
 
-	return NULL;
+	return nullptr;
 };
 
 tex_conv_core::cWSFileDesc^ tex_conv_core::workspace::get_file( System::String^ name ){
 	const string file_name = msclr::interop::marshal_as<string>( name );
 	for( files_list_t::const_iterator fd = dll::g_workspace.files().begin(); dll::g_workspace.files().end() != fd; fd++ ){
-		if( file_name == fd->m_name.file_name() ){
+		if( file_name == fd->m_file.file_name() ){
 			return gcnew cWSFileDesc( (sFileDesc*)&(*fd) );
 		};
 	};
 
-	return NULL;
+	return nullptr;
 };
 
 const bool tex_conv_core::workspace::add_file( System::String^ file_path ){

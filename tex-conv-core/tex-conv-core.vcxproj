@@ -86,6 +86,8 @@
   <ItemGroup>
     <ClCompile Include="..\plugin_common\source\cFileMapping.cpp" />
     <ClCompile Include="..\plugin_common\source\cFileName.cpp" />
+    <ClCompile Include="cFormatDescriptor.cpp" />
+    <ClCompile Include="cWSFileDesc.cpp" />
     <ClCompile Include="source\cImage.cpp" />
     <ClCompile Include="source\core.cpp" />
     <ClCompile Include="source\cPluginManager.cpp" />
