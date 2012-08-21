@@ -17,7 +17,7 @@ namespace dll
 namespace ws_events {
 	extern void add_file( sFileDesc* file );
 	extern void delete_file( sFileDesc* file );
-	extern void change_file( sFileDesc* file );
+	extern void change_file( sFileDesc* file, const string& old_name );
 	extern void add_format( const int index, const string& format );
 	extern void delete_format( const int index, const string& file );
 };

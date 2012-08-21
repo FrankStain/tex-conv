@@ -15,8 +15,8 @@ namespace ws_events {
 		tex_conv_core::workspace::event_remove_file( gcnew tex_conv_core::cWSFileDesc( file ) );
 	};
 
-	void change_file( sFileDesc* file ){
-		tex_conv_core::workspace::event_change_file( gcnew tex_conv_core::cWSFileDesc( file ) );
+	void change_file( sFileDesc* file, const string& old_name ){
+		tex_conv_core::workspace::event_change_file( gcnew tex_conv_core::cWSFileDesc( file ), msclr::interop::marshal_as<System::String^>( old_name ) );
 	};
 
 	void add_format( const int index, const string& format ){

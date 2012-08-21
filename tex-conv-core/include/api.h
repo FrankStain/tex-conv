@@ -54,12 +54,13 @@ namespace tex_conv_core {
 	public delegate void ProgressEvent( const int current, const int total );
 	public delegate void ModificationEvent( int index, System::String^ param );
 	public delegate void FileChangingEvent( cWSFileDesc^ file );
+	public delegate void FileModifiedEvent( cWSFileDesc^ file, System::String^ old_name );
 
 	public ref class workspace {
 	protected:
 		static FileChangingEvent^	m_on_add_file;
 		static FileChangingEvent^	m_on_del_file;
-		static FileChangingEvent^	m_on_chg_file;
+		static FileModifiedEvent^	m_on_chg_file;
 
 		static ModificationEvent^	m_on_add_format;
 		static ModificationEvent^	m_on_del_format;
@@ -70,14 +71,14 @@ namespace tex_conv_core {
 	public:
 		static void set_file_add_event( FileChangingEvent^ ev ) { m_on_add_file = ev; };
 		static void set_file_delete_event( FileChangingEvent^ ev ) { m_on_del_file = ev; };
-		static void set_file_change_event( FileChangingEvent^ ev ) { m_on_chg_file = ev; };
+		static void set_file_change_event( FileModifiedEvent^ ev ) { m_on_chg_file = ev; };
 		
 		static void set_format_add_event( ModificationEvent^ ev ) { m_on_add_format = ev; };
 		static void set_format_delete_event( ModificationEvent^ ev ) { m_on_del_format = ev; };
 
 		static void event_add_file( cWSFileDesc^ file ) { if( m_on_add_file ){ m_on_add_file( file ); }; };
 		static void event_remove_file( cWSFileDesc^ file ) { if( m_on_del_file ){ m_on_del_file( file ); }; };
-		static void event_change_file( cWSFileDesc^ file ) { if( m_on_chg_file ){ m_on_chg_file( file ); }; };
+		static void event_change_file( cWSFileDesc^ file, System::String^ old_name ) { if( m_on_chg_file ){ m_on_chg_file( file, old_name ); }; };
 		
 		static void event_add_format( int index, System::String^ param ) { if( m_on_add_format ){ m_on_add_format( index, param ); }; };
 		static void event_remove_format( int index, System::String^ param ) { if( m_on_del_format ){ m_on_del_format( index, param ); }; };

@@ -10,9 +10,12 @@ using System.Runtime.InteropServices;
 using System.IO;
 
 namespace tex_conv_gui
-{
+{	
 	public partial class MainForm : Form
 	{
+		private static const Color g_enabled_color = Color.Black;
+		private static const Color g_disabled_color = Color.Gray;
+		
 		private List<System.String> m_formats;
 
 		void on_workspace_update(){
@@ -46,13 +49,32 @@ namespace tex_conv_gui
 			};
 		}
 
+		void on_update_file( tex_conv_core.cWSFileDesc file, String old_name )
+		{
+			ListViewItem li = lv_files.Items.Find( old_name, false ).First();
+			if( null != li ){
+				int cn = 1;
+				foreach( ListViewItem.ListViewSubItem lsi in li.SubItems ){
+					String format = lv_files.Columns[ cn++ ].Text;
+					lsi.Text = file.formated_name( format );
+					lsi.ForeColor = ( file.enabled( format ) )? g_enabled_color : g_disabled_color;
+				};
+			};
+		}
+
 		void on_add_format( int index, String format )
 		{
-			if( 0 < lv_files.Columns.IndexOfKey( format ) ){
-				lv_files.Columns.RemoveByKey( format );
+			int hdr_index = lv_files.Columns.IndexOfKey( format );
+			if( 0 < hdr_index ){
 				foreach( ListViewItem li in lv_files.Items ){
-					li.SubItems.Add( ((tex_conv_core.cWSFileDesc)li.Tag).formated_name( format ) );
+					li.SubItems.RemoveAt( hdr_index );
 				};
+
+				lv_files.Columns.RemoveByKey( format );
+			};
+
+			foreach( ListViewItem li in lv_files.Items ){
+				li.SubItems.Add( ((tex_conv_core.cWSFileDesc)li.Tag).formated_name( format ) );
 			};
 
 			lv_files.Columns.Add( format, format ).AutoResize( ( 0 < lv_files.Items.Count )? ColumnHeaderAutoResizeStyle.ColumnContent : ColumnHeaderAutoResizeStyle.HeaderSize );
@@ -65,6 +87,7 @@ namespace tex_conv_gui
 				foreach( ListViewItem li in lv_files.Items ){
 					li.SubItems.RemoveAt( hdr_index );
 				};
+
 				lv_files.Columns.RemoveByKey( format );
 			};
 		}
@@ -79,6 +102,7 @@ namespace tex_conv_gui
 			
 			tex_conv_core.workspace.set_file_add_event( new tex_conv_core.FileChangingEvent( on_add_file ) );
 			tex_conv_core.workspace.set_file_delete_event( new tex_conv_core.FileChangingEvent( on_delete_file ) );
+			tex_conv_core.workspace.set_file_change_event( new tex_conv_core.FileModifiedEvent( on_update_file ) );
 			tex_conv_core.workspace.set_format_add_event( new tex_conv_core.ModificationEvent( on_add_format ) );
 			tex_conv_core.workspace.set_format_delete_event( new tex_conv_core.ModificationEvent( on_delete_format ) );
 
