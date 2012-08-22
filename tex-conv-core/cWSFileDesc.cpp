@@ -45,5 +45,6 @@ void tex_conv_core::cWSFileDesc::set_enabled( System::String^ format, const bool
 	writers_t::iterator fd = m_file_desc->m_writers.find( fmt );
 	if( m_file_desc->m_writers.end() != fd ){
 		fd->second.m_enabled = flag;
+		ws_events::change_file( m_file_desc, m_file_desc->m_file.file_name() );
 	};
 };

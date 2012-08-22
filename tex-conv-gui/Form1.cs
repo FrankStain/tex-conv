@@ -8,15 +8,19 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Diagnostics;
 
 namespace tex_conv_gui
 {	
 	public partial class MainForm : Form
 	{
-		private static const Color g_enabled_color = Color.Black;
-		private static const Color g_disabled_color = Color.Gray;
+		private static Color g_enabled_color = Color.Black;
+		private static Color g_disabled_color = Color.Gray;
 		
-		private List<System.String> m_formats;
+		private List<System.String>				m_formats;
+		private ListViewItem.ListViewSubItem	m_sel_subitem;
+		private ListViewItem					m_sel_item;
+		private ColumnHeader					m_sel_header;
 
 		void on_workspace_update(){
 			l_ws_root.Text			= tex_conv_core.workspace.root_path();
@@ -31,12 +35,17 @@ namespace tex_conv_gui
 
 		void on_add_file( tex_conv_core.cWSFileDesc file )
 		{
-			ListViewItem li = lv_files.Items.Add( file.name(), file.name() );
+			ListViewItem li = lv_files.Items.Add( file.name(), file.name(), 0 );
+			li.UseItemStyleForSubItems = false;
 			li.Tag = file;
 			li.ToolTipText = file.file_name();
 
 			for( int ci = 1; lv_files.Columns.Count > ci; ci++ ){
-				ListViewItem.ListViewSubItem fli = li.SubItems.Add( file.formated_name( lv_files.Columns[ci].Text ) );
+				String format						= lv_files.Columns[ ci ].Text;
+				ListViewItem.ListViewSubItem fli	= li.SubItems.Add( file.formated_name( format ) );
+				
+				fli.ForeColor	= ( file.enabled( format ) )? g_enabled_color : g_disabled_color;
+				
 				lv_files.Columns[ci].AutoResize( ColumnHeaderAutoResizeStyle.ColumnContent );
 			};
 		}
@@ -53,11 +62,16 @@ namespace tex_conv_gui
 		{
 			ListViewItem li = lv_files.Items.Find( old_name, false ).First();
 			if( null != li ){
-				int cn = 1;
-				foreach( ListViewItem.ListViewSubItem lsi in li.SubItems ){
-					String format = lv_files.Columns[ cn++ ].Text;
-					lsi.Text = file.formated_name( format );
-					lsi.ForeColor = ( file.enabled( format ) )? g_enabled_color : g_disabled_color;
+				li.Tag			= file;
+				li.Text			= file.name();
+				li.ToolTipText	= file.file_name();
+
+				for( int cn = 1; li.SubItems.Count > cn; cn++ ){
+					String format						= lv_files.Columns[ cn ].Text;
+					ListViewItem.ListViewSubItem fli	= li.SubItems[ cn ];
+
+					fli.Text		= file.formated_name( format );
+					fli.ForeColor	= ( file.enabled( format ) )? g_enabled_color : g_disabled_color;
 				};
 			};
 		}
@@ -74,7 +88,10 @@ namespace tex_conv_gui
 			};
 
 			foreach( ListViewItem li in lv_files.Items ){
-				li.SubItems.Add( ((tex_conv_core.cWSFileDesc)li.Tag).formated_name( format ) );
+				tex_conv_core.cWSFileDesc file		= ((tex_conv_core.cWSFileDesc)li.Tag);
+				ListViewItem.ListViewSubItem fli	= li.SubItems.Add( file.formated_name( format ) );
+				
+				fli.ForeColor	= ( file.enabled( format ) )? g_enabled_color : g_disabled_color;
 			};
 
 			lv_files.Columns.Add( format, format ).AutoResize( ( 0 < lv_files.Items.Count )? ColumnHeaderAutoResizeStyle.ColumnContent : ColumnHeaderAutoResizeStyle.HeaderSize );
@@ -229,6 +246,10 @@ namespace tex_conv_gui
 				};
 
 				if( null != click_header ){
+					m_sel_item		= li;
+					m_sel_subitem	= ( null != li )? li.SubItems[ click_header.Index ] : null;
+					m_sel_header	= click_header;
+					
 					if( 1 > click_header.Index ){
 						cmb_change_source.Enabled =
 						cmb_delete_source.Enabled =
@@ -244,7 +265,7 @@ namespace tex_conv_gui
 		}
 
 		[DllImport( "user32.dll" )]
-		public static extern int GetScrollPos(IntPtr hWnd, int nBar);
+		public static extern int GetScrollPos( IntPtr hWnd, int nBar );
 		public const int SB_HORZ = 0;
 
 		private void addFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -284,6 +305,24 @@ namespace tex_conv_gui
 			};
 			
 			//tex_conv_core.environment.
+		}
+
+		private void cmb_format_enabled_Click(object sender, EventArgs e)
+		{
+			foreach( ListViewItem li in lv_files.SelectedItems ){
+				tex_conv_core.cWSFileDesc file = (tex_conv_core.cWSFileDesc)li.Tag;
+				file.set_enabled( m_sel_header.Text, !file.enabled( m_sel_header.Text ) );
+			};
+		}
+
+		private void openDestinationFolderToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start( Path.GetDirectoryName( ((tex_conv_core.cWSFileDesc)m_sel_item.Tag).formated_file_name( m_sel_header.Text ) ) );
+		}
+
+		private void cmb_source_folder_Click(object sender, EventArgs e)
+		{
+			Process.Start( Path.GetDirectoryName( ((tex_conv_core.cWSFileDesc)m_sel_item.Tag).file_name() ) );
 		}
 	}
 }
