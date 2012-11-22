@@ -2,7 +2,7 @@
 
 namespace dll {
 	HINSTANCE		g_instance		= NULL;
-	png_desc_t		g_descriptor;
+	atc_desc_t		g_descriptor;
 };
 
 BOOL WINAPI DllMain( HINSTANCE inst, ULONG reason, LPVOID reserved )

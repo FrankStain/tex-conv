@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\worbench">
+      <UniqueIdentifier>{af31c4c1-bd89-49a9-b50c-0f4a0b360bd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{7e501bde-380c-46af-a70a-f3b2e6b969a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{e741a55c-f526-4da7-bee6-5a2384efe5cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\include">
+      <UniqueIdentifier>{c503cbf0-ed63-4516-ba80-e8a58bdc9cba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\sources">
+      <UniqueIdentifier>{1bc52ded-b6d0-478b-8ff1-9f6987aaa82a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="plugin_api">
+      <UniqueIdentifier>{37cb5bd6-e62e-41ac-91fb-e7a5b891b13e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\conv-core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\native-core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\common_defs.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\file_system.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\cFile.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\cFileMapping.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\cFileSystemPath.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_client_api.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_desc.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_operator.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_logger.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_image.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cDllWorkspace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\object_id.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cDllImageFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_option.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sources\workbench.cpp">
+      <Filter>Source Files\worbench</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\cFormatCollection.cpp">
+      <Filter>Source Files\worbench</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\AssemblyInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\conv-core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\cFormat.cpp">
+      <Filter>Source Files\worbench</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\core\native-core.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\core\cDllWorkspace.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\core\object_id.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\source\file_system.cpp">
+      <Filter>common\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\source\cFile.cpp">
+      <Filter>common\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\source\cFileMapping.cpp">
+      <Filter>common\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\source\cFileSystemPath.cpp">
+      <Filter>common\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\cImageFile.cpp">
+      <Filter>Source Files\worbench</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\core\cDllImageFile.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\cOptionsDescCollection.cpp">
+      <Filter>Source Files\worbench</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\cOptionDesc.cpp">
+      <Filter>Source Files\worbench</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\cOptionsCollection.cpp">
+      <Filter>Source Files\worbench</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\cOption.cpp">
+      <Filter>Source Files\worbench</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\app.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\app.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

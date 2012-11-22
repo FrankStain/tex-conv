@@ -1,0 +1,7 @@
+LIBRARY plugin-atc.dll
+
+EXPORTS
+	get_desc = plugin_get_desc	@1 PRIVATE
+
+SECTIONS
+   .data	READ WRITE

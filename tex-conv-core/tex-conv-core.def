@@ -1,4 +1,0 @@
-LIBRARY tex-conv-core
-
-SECTIONS
-   .data	READ WRITE

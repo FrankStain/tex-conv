@@ -8,5 +8,5 @@ plugin::desc_t* WINAPI plugin_get_desc();
 
 namespace dll {
 	extern HINSTANCE		g_instance;
-	extern png_desc_t		g_descriptor;
+	extern tga_desc_t		g_descriptor;
 };
