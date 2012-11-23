@@ -16,10 +16,29 @@ namespace dll {
 		0
 	};
 
-	ATI_TC_FORMAT				op_formats[]		= {
-		ATI_TC_FORMAT_DXT5,			ATI_TC_FORMAT_DXT3,			ATI_TC_FORMAT_DXT1,
-		ATI_TC_FORMAT_ARGB_8888,	ATI_TC_FORMAT_ARGB_8888,	ATI_TC_FORMAT_RGB_888,
-		ATI_TC_FORMAT_RGB_888
+	struct exp_format_t {
+		uint32_t			m_fourcc;
+		ATI_TC_FORMAT		m_target;
+		bool				m_compressed;
+		bool				m_invert;
+		bool				m_use_alpha;
+		uint32_t			m_bit_depth;
+		uint32_t			m_red_mask;
+		uint32_t			m_grn_mask;
+		uint32_t			m_blu_mask;
+		uint32_t			m_alp_mask;
+	};
+
+	exp_format_t				op_formats[]		= {
+		{ dds::s3c_dxt5,	ATI_TC_FORMAT_DXT5,			true,	false,	true,	32,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
+		{ dds::s3c_dxt3,	ATI_TC_FORMAT_DXT3,			true,	false,	true,	32,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
+		{ dds::s3c_dxt1,	ATI_TC_FORMAT_DXT1,			true,	false,	true,	32,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
+
+		{ 0,				ATI_TC_FORMAT_ARGB_8888,	false,	true,	true,	32,	0x000000FFU,	0x0000FF00U,	0x00FF0000U,	0xFF000000U },
+		{ 0,				ATI_TC_FORMAT_ARGB_8888,	false,	false,	true,	32,	0x00FF0000U,	0x0000FF00U,	0x000000FFU,	0xFF000000U },
+
+		{ 0,				ATI_TC_FORMAT_RGB_888,		false,	true,	true,	24,	0x000000FFU,	0x0000FF00U,	0x00FF0000U,	0x00000000U },
+		{ 0,				ATI_TC_FORMAT_RGB_888,		false,	false,	true,	24,	0x00FF0000U,	0x0000FF00U,	0x000000FFU,	0x00000000U },
 	};
 
 	plugin::option_desc_t		op_imp_options[]	= {
@@ -99,7 +118,6 @@ namespace dll {
 
 		dds::header_t* hdr = (dds::header_t*)file_memory;
 
-		bool					fmt_parsed	= false;
 		ATI_TC_Texture			src			= { sizeof( ATI_TC_Texture ), 0 };
 		uint8_t*				pix_data	= file_memory + dds::header_size;
 
@@ -122,45 +140,237 @@ namespace dll {
 
 				return false;
 			};
-		}else{
-			const bool strip_alpha = hdr->m_pixel_format.m_alpha_mask;
+		}else if( hdr->m_pixel_format.m_flags.m_rgb ){
+			const bool strip_alpha = !hdr->m_pixel_format.m_alpha_mask;
 			switch( hdr->m_pixel_format.m_bit_depth ){
 				case 32:{
-					const bool swap_rb = 0x000000FFU == hdr->m_pixel_format.m_blu_mask;
 					dest->set_sizes( src.dwWidth, src.dwHeight );
-					memcpy( dest->memory(), pix_data, 4 * src.dwWidth * src.dwHeight );
-					
-					if( strip_alpha || swap_rb ){
-						const plugin::pixel_desc_t* eol = dest->memory() + src.dwWidth * src.dwHeight;
-						for( plugin::pixel_desc_t* px = dest->memory(); eol > px; px++ ){
-							if( strip_alpha ){
-								px->m_aplha = 0xFFU;
-							};
 
-							if( swap_rb ){
-								const plugin::channel_t ch	= px->m_red;
-								px->m_red					= px->m_blue;
-								px->m_blue					= ch;
-							};
+					uint8_t rd = 0;
+					uint8_t gd = 1;
+					uint8_t bd = 2;
+					uint8_t ad = 3;
+
+					for( uint8_t id = 0; 4 > id; id++ ){
+						if( ((plugin::pixel_desc_t&)(hdr->m_pixel_format.m_red_mask)).m_rgba[ id ] ){
+							rd = id;
+						};
+
+						if( ((plugin::pixel_desc_t&)(hdr->m_pixel_format.m_grn_mask)).m_rgba[ id ] ){
+							gd = id;
+						};
+
+						if( ((plugin::pixel_desc_t&)(hdr->m_pixel_format.m_blu_mask)).m_rgba[ id ] ){
+							bd = id;
+						};
+
+						if( ((plugin::pixel_desc_t&)(hdr->m_pixel_format.m_alpha_mask)).m_rgba[ id ] ){
+							ad = id;
 						};
 					};
 
-					fmt_parsed = true;
-				}break;
-				case 24:{
-					
-				}break;
-				case 16:{
+					if( ( 0 == rd ) && ( 3 == ad ) ){
+						memcpy( dest->memory(), pix_data, 4 * src.dwWidth * src.dwHeight );
+						if( strip_alpha ){
+							const plugin::pixel_desc_t* eol = dest->memory() + src.dwWidth * src.dwHeight;
+							for( plugin::pixel_desc_t* px = dest->memory(); eol > px; px++ ){
+								px->m_aplha = 0xFFU;
+							};
+						};
+					}else{
+						plugin::pixel_desc_t* src_pix = (plugin::pixel_desc_t*)pix_data;
+						const plugin::pixel_desc_t* eol = dest->memory() + src.dwWidth * src.dwHeight;
+						for( plugin::pixel_desc_t* px = dest->memory(); eol > px; px++ ){
+							px->m_red	= src_pix->m_rgba[ rd ];
+							px->m_green	= src_pix->m_rgba[ gd ];
+							px->m_blue	= src_pix->m_rgba[ bd ];
+							px->m_aplha	= ( strip_alpha )? 0xFFU : src_pix->m_rgba[ ad ];
+							src_pix++;
+						};
+					};
 
-				}break;
+					return true;
+				}return false;
+				case 24:
+					if( strip_alpha ){
+						dest->set_sizes( src.dwWidth, src.dwHeight );
+
+						uint8_t rd = 0;
+						uint8_t gd = 1;
+						uint8_t bd = 2;
+
+						for( uint8_t id = 0; 4 > id; id++ ){
+							if( ((plugin::pixel_desc_t&)(hdr->m_pixel_format.m_red_mask)).m_rgba[ id ] ){
+								rd = id;
+							};
+
+							if( ((plugin::pixel_desc_t&)(hdr->m_pixel_format.m_grn_mask)).m_rgba[ id ] ){
+								gd = id;
+							};
+
+							if( ((plugin::pixel_desc_t&)(hdr->m_pixel_format.m_blu_mask)).m_rgba[ id ] ){
+								bd = id;
+							};
+						};
+
+						const uint8_t* eol = pix_data + ( 3 * src.dwWidth * src.dwHeight );
+						plugin::pixel_desc_t* px = dest->memory();
+						while( eol > pix_data ){
+							px->m_red	= pix_data[ rd ];
+							px->m_green	= pix_data[ gd ];
+							px->m_blue	= pix_data[ bd ];
+							px->m_aplha	= 0xFFU;
+
+							pix_data += 3;
+							px++;
+						};
+
+						return true;
+					};
+				return false;
+				case 16:{
+					static const float b4_pct	= 255.0f / 15.0f;
+					static const float b5_pct	= 255.0f / 31.0f;
+					static const float b6_pct	= 255.0f / 63.0f;
+
+					if( strip_alpha ){
+						if(
+							( 0x001FU == hdr->m_pixel_format.m_red_mask ) &&
+							( 0x07E0U == hdr->m_pixel_format.m_grn_mask ) &&
+							( 0xF800U == hdr->m_pixel_format.m_blu_mask )
+						){
+							dest->set_sizes( src.dwWidth, src.dwHeight );
+							
+							plugin::pixel_desc_t* dpx = dest->memory();
+							const uint8_t* eol = pix_data + ( 2 * src.dwWidth * src.dwHeight );
+
+							while( eol > pix_data ){
+								dpx->m_red		= (plugin::channel_t)( 0.5f + b5_pct * ( 0x001FU & (*((uint16_t*)pix_data)) ) );
+								dpx->m_green		= (plugin::channel_t)( 0.5f + b6_pct * ( 0x003FU & ( (*((uint16_t*)pix_data)) >> 5 ) ) );
+								dpx->m_blue		= (plugin::channel_t)( 0.5f + b5_pct * ( 0x001FU & ( (*((uint16_t*)pix_data)) >> 11 ) ) );
+								dpx->m_aplha		= 0xFFU;
+
+								pix_data += 2;
+								dpx++;
+							};
+
+							return true;
+						}else if(
+							( 0xF800U == hdr->m_pixel_format.m_red_mask ) &&
+							( 0x07E0U == hdr->m_pixel_format.m_grn_mask ) &&
+							( 0x001FU == hdr->m_pixel_format.m_blu_mask )
+						){
+							dest->set_sizes( src.dwWidth, src.dwHeight );
+							
+							plugin::pixel_desc_t* px = dest->memory();
+							const uint8_t* eol = pix_data + ( 2 * src.dwWidth * src.dwHeight );
+
+							while( eol > pix_data ){
+								px->m_red	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x001FU & ( (*((uint16_t*)pix_data)) >> 11 ) ) );
+								px->m_green	= (plugin::channel_t)( 0.5f + b6_pct * ( 0x003FU & ( (*((uint16_t*)pix_data)) >> 5 ) ) );
+								px->m_blue	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x001FU & (*((uint16_t*)pix_data)) ) );
+								px->m_aplha	= 0xFFU;
+
+								pix_data += 2;
+								px++;
+							};
+
+							return true;
+						};
+					}else if(
+						( 0x0F00U == hdr->m_pixel_format.m_red_mask ) &&
+						( 0x00F0U == hdr->m_pixel_format.m_grn_mask ) &&
+						( 0x000FU == hdr->m_pixel_format.m_blu_mask ) &&
+						( 0xF000U == hdr->m_pixel_format.m_alpha_mask )
+					){
+						dest->set_sizes( src.dwWidth, src.dwHeight );
+							
+						plugin::pixel_desc_t* px = dest->memory();
+						const uint8_t* eol = pix_data + ( 2 * src.dwWidth * src.dwHeight );
+
+						while( eol > pix_data ){
+							px->m_red	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[1] ) ) );
+							px->m_green	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[0] >> 4 ) ) );
+							px->m_blue	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[0] ) ) );
+							px->m_aplha	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[1] >> 4 ) ) );
+
+							pix_data += 2;
+							px++;
+						};
+
+						return true;
+					}else if(
+						( 0x000FU == hdr->m_pixel_format.m_red_mask ) &&
+						( 0x00F0U == hdr->m_pixel_format.m_grn_mask ) &&
+						( 0x0F00U == hdr->m_pixel_format.m_blu_mask ) &&
+						( 0xF000U == hdr->m_pixel_format.m_alpha_mask )
+					){
+						dest->set_sizes( src.dwWidth, src.dwHeight );
+							
+						plugin::pixel_desc_t* px = dest->memory();
+						const uint8_t* eol = pix_data + ( 2 * src.dwWidth * src.dwHeight );
+
+						while( eol > pix_data ){
+							px->m_red	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[0] ) ) );
+							px->m_green	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[0] >> 4 ) ) );
+							px->m_blue	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[1] ) ) );
+							px->m_aplha	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[1] >> 4 ) ) );
+
+							pix_data += 2;
+							px++;
+						};
+
+						return true;
+					}else if(
+						( 0x001FU == hdr->m_pixel_format.m_red_mask ) &&
+						( 0x03E0U == hdr->m_pixel_format.m_grn_mask ) &&
+						( 0x7C00U == hdr->m_pixel_format.m_blu_mask ) &&
+						( 0x8000U == hdr->m_pixel_format.m_alpha_mask )
+					){
+						dest->set_sizes( src.dwWidth, src.dwHeight );
+							
+						plugin::pixel_desc_t* px = dest->memory();
+						const uint8_t* eol = pix_data + ( 2 * src.dwWidth * src.dwHeight );
+
+						while( eol > pix_data ){
+							px->m_red	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x1FU & ( pix_data[0] ) ) );
+							px->m_green	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x1FU & ( *((uint16_t*)pix_data) >> 5 ) ) );
+							px->m_blue	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x1FU & ( pix_data[1] ) ) );
+							px->m_aplha	= ( 0x80U & pix_data[1] )? 0xFFU : 0x00;
+
+							pix_data += 2;
+							px++;
+						};
+
+						return true;
+					}else if(
+						( 0x7C00U == hdr->m_pixel_format.m_red_mask ) &&
+						( 0x03E0U == hdr->m_pixel_format.m_grn_mask ) &&
+						( 0x001FU == hdr->m_pixel_format.m_blu_mask ) &&
+						( 0x8000U == hdr->m_pixel_format.m_alpha_mask )
+					){
+						dest->set_sizes( src.dwWidth, src.dwHeight );
+							
+						plugin::pixel_desc_t* px = dest->memory();
+						const uint8_t* eol = pix_data + ( 2 * src.dwWidth * src.dwHeight );
+
+						while( eol > pix_data ){
+							px->m_red	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x1FU & ( *((uint16_t*)pix_data) >> 10 ) ) );
+							px->m_green	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x1FU & ( *((uint16_t*)pix_data) >> 5 ) ) );
+							px->m_blue	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x1FU & ( pix_data[0] ) ) );
+							px->m_aplha	= ( 0x80U & pix_data[1] )? 0xFFU : 0x00;
+
+							pix_data += 2;
+							px++;
+						};
+
+						return true;
+					};
+				}return false;
 				default:
 
 				return false;
 			};
-		};
-
-		if( fmt_parsed ){
-			return true;
 		};
 
 		ATI_TC_Texture			dst = { sizeof( ATI_TC_Texture ), 0 };
@@ -198,6 +408,29 @@ namespace dll {
 	};
 
 	const bool dds_operator_t::save( const char* file_name, plugin::image_desc_t* source, plugin::option_t* options ){
+		const int32_t	mip_count	= 1 + ( ( options )? options[0].m_as_int : 0 );
+		const int32_t	format		= ( options )? options[1].m_as_int % 7 : 0;
+
+		file_system::file_t file;
+
+		dds::header_t hdr						= { 0 };
+		hdr.m_magic								= dds::header_magic;
+		hdr.m_size								= dds::header_file_size;
+		hdr.m_flags.m_caps						= true;
+		hdr.m_flags.m_width						= true;
+		hdr.m_flags.m_height					= true;
+		hdr.m_flags.m_pixel_format				= true;
+		hdr.m_flags.m_mip_count					= 1 < mip_count;
+		hdr.m_flags.m_linear_size				= true;
+		hdr.m_width								= source->width();
+		hdr.m_height							= source->height();
+		hdr.m_mip_count							= mip_count;
+		hdr.m_caps.m_caps[0]					= dds::dc1_texture | dds::dc1_complex | dds::dc1_mipmap;
+		hdr.m_pixel_format.m_size				= dds::pixel_format_size;
+		hdr.m_pixel_format.m_flags.m_format		= 0 != op_exp_fourcc[ format ];
+
+		
+		
 		return true;
 	};
 
