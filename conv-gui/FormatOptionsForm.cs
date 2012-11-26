@@ -80,7 +80,7 @@ namespace conv_gui
 								};
 
 								cb.DropDownStyle	= ComboBoxStyle.DropDownList;
-								cb.SelectedIndex	= val;
+								cb.SelectedIndex	= ( ( 0 <= val ) && ( cb.Items.Count > val ) )? val : 0;
 							};
 
 							cb.Tag					= m_new_options[ op_id ];

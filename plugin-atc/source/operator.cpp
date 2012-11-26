@@ -180,7 +180,7 @@ namespace dll {
 		switch( hdr.m_pixel_format.m_format ){
 			case dds::atc_rgba_expl:
 			case dds::atc_rgba_interp:
-				hdr.m_pixel_format.m_flags.m_alpha_pixels = true;
+				hdr.m_pixel_format.m_flags.m_alpha = true;
 			break;
 		};
 

@@ -11,8 +11,8 @@ namespace dll {
 
 	char*						op_exp_names[]		= {
 		"DXT-5",						"DXT-3",						"DXT-1", 
-		"RGBA 8888",				"BGRA 8888",				"RGB 888",
-		"BGR 888",
+		"RGBA 8888",				"BGRA 8888",				//"RGBA 888",
+		//"BGRA 888",
 		0
 	};
 
@@ -30,15 +30,15 @@ namespace dll {
 	};
 
 	exp_format_t				op_formats[]		= {
-		{ dds::s3c_dxt5,	ATI_TC_FORMAT_DXT5,			true,	false,	true,	32,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
-		{ dds::s3c_dxt3,	ATI_TC_FORMAT_DXT3,			true,	false,	true,	32,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
-		{ dds::s3c_dxt1,	ATI_TC_FORMAT_DXT1,			true,	false,	true,	32,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
+		{ dds::s3c_dxt5,	ATI_TC_FORMAT_DXT5,			true,	false,	true,	0,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
+		{ dds::s3c_dxt3,	ATI_TC_FORMAT_DXT3,			true,	false,	true,	0,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
+		{ dds::s3c_dxt1,	ATI_TC_FORMAT_DXT1,			true,	false,	true,	0,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
 
 		{ 0,				ATI_TC_FORMAT_ARGB_8888,	false,	true,	true,	32,	0x000000FFU,	0x0000FF00U,	0x00FF0000U,	0xFF000000U },
 		{ 0,				ATI_TC_FORMAT_ARGB_8888,	false,	false,	true,	32,	0x00FF0000U,	0x0000FF00U,	0x000000FFU,	0xFF000000U },
 
-		{ 0,				ATI_TC_FORMAT_RGB_888,		false,	true,	true,	24,	0x000000FFU,	0x0000FF00U,	0x00FF0000U,	0x00000000U },
-		{ 0,				ATI_TC_FORMAT_RGB_888,		false,	false,	true,	24,	0x00FF0000U,	0x0000FF00U,	0x000000FFU,	0x00000000U },
+		{ 0,				ATI_TC_FORMAT_RGB_888,		false,	true,	false,	24,	0x000000FFU,	0x0000FF00U,	0x00FF0000U,	0x00000000U },
+		{ 0,				ATI_TC_FORMAT_RGB_888,		false,	false,	false,	24,	0x00FF0000U,	0x0000FF00U,	0x000000FFU,	0x00000000U },
 	};
 
 	plugin::option_desc_t		op_imp_options[]	= {
@@ -47,7 +47,7 @@ namespace dll {
 
 	plugin::option_desc_t		op_exp_options[]	= {
 		{ "Mips Count",	0,	plugin::ot_uint,	0,	0,	10,	NULL },
-		{ "Method",		1,	plugin::ot_enum,	0,	0,	6,	op_exp_names }
+		{ "Method",		1,	plugin::ot_enum,	0,	0,	4,	op_exp_names }
 	};
 
 	plugin::options_desc_t		op_imp_desc			= {
@@ -408,28 +408,122 @@ namespace dll {
 	};
 
 	const bool dds_operator_t::save( const char* file_name, plugin::image_desc_t* source, plugin::option_t* options ){
-		const int32_t	mip_count	= 1 + ( ( options )? options[0].m_as_int : 0 );
-		const int32_t	format		= ( options )? options[1].m_as_int % 7 : 0;
+		const int32_t			mip_count		= 1 + ( ( options )? options[0].m_as_int : 0 );
+		const exp_format_t&		format			= op_formats[ ( ( options )? options[1].m_as_int % 5 : 0 ) ];
+		const int32_t			ch_stride		= format.m_bit_depth / 8;
 
-		file_system::file_t file;
+		file_system::file_t		file;
+		ATI_TC_Texture			src				= { sizeof( ATI_TC_Texture ), 0 };
+		ATI_TC_Texture			dst				= { sizeof( ATI_TC_Texture ), 0 };
+		ATI_TC_CompressOptions	opt				= { sizeof( ATI_TC_CompressOptions ), 0 };
+
+		opt.nCompressionSpeed					= ATI_TC_Speed_Normal;
+		opt.bDXT1UseAlpha						= dds::s3c_dxt1 == format.m_fourcc;
+		opt.nAlphaThreshold						= ( opt.bDXT1UseAlpha )? 1 : 0;
 
 		dds::header_t hdr						= { 0 };
 		hdr.m_magic								= dds::header_magic;
 		hdr.m_size								= dds::header_file_size;
+		
 		hdr.m_flags.m_caps						= true;
 		hdr.m_flags.m_width						= true;
 		hdr.m_flags.m_height					= true;
 		hdr.m_flags.m_pixel_format				= true;
 		hdr.m_flags.m_mip_count					= 1 < mip_count;
 		hdr.m_flags.m_linear_size				= true;
+		
 		hdr.m_width								= source->width();
 		hdr.m_height							= source->height();
 		hdr.m_mip_count							= mip_count;
 		hdr.m_caps.m_caps[0]					= dds::dc1_texture | dds::dc1_complex | dds::dc1_mipmap;
 		hdr.m_pixel_format.m_size				= dds::pixel_format_size;
-		hdr.m_pixel_format.m_flags.m_format		= 0 != op_exp_fourcc[ format ];
-
 		
+		hdr.m_pixel_format.m_flags.m_format		= format.m_compressed;
+		hdr.m_pixel_format.m_flags.m_rgb		= !format.m_compressed;
+		hdr.m_pixel_format.m_flags.m_alpha		= format.m_use_alpha;
+		
+		hdr.m_pixel_format.m_bit_depth			= format.m_bit_depth;
+		hdr.m_pixel_format.m_format				= format.m_fourcc;
+		hdr.m_pixel_format.m_red_mask			= format.m_red_mask;
+		hdr.m_pixel_format.m_grn_mask			= format.m_grn_mask;
+		hdr.m_pixel_format.m_blu_mask			= format.m_blu_mask;
+		hdr.m_pixel_format.m_alpha_mask			= format.m_alp_mask;
+
+		hdr.m_bit_depth							= hdr.m_pixel_format.m_bit_depth;
+
+		src.dwWidth								= hdr.m_width;
+		src.dwHeight							= hdr.m_height;
+		src.dwPitch								= 4 * src.dwWidth;
+		src.format								= ATI_TC_FORMAT_ARGB_8888;
+		src.dwDataSize							= src.dwPitch * src.dwHeight;
+		src.pData								= new uint8_t[ src.dwDataSize ];
+		memcpy( src.pData, source->memory(), src.dwDataSize );
+
+		plugin::pixel_desc_t*		px	= (plugin::pixel_desc_t*)src.pData;
+		const plugin::pixel_desc_t*	eol	= px + ( src.dwWidth * src.dwHeight );
+		while( eol > px ){
+			const plugin::channel_t ch = px->m_red;
+			px->m_red = px->m_blue;
+			px->m_blue = ch;
+
+			px++;
+		};
+
+		dst.dwWidth								= hdr.m_width;
+		dst.dwHeight							= hdr.m_height;
+		dst.dwPitch								= ch_stride * dst.dwWidth;
+		dst.format								= format.m_target;
+		dst.dwDataSize							= ATI_TC_CalculateBufferSize( &dst );
+		dst.pData								= new uint8_t[ src.dwDataSize ];
+		
+		const size_t ptr_size					= dst.dwDataSize;
+		memset( dst.pData, 0, ptr_size );
+
+		if( !file.construct( file_name, GENERIC_WRITE, CREATE_ALWAYS ) ){
+			delete[] src.pData;
+			delete[] dst.pData;
+			return false;
+		};
+
+		file.write( &hdr, dds::header_size );
+
+		for( int32_t mip = 0; mip_count > mip; mip++ ){
+			if( ATI_TC_OK != ATI_TC_ConvertTexture( &src, &dst, &opt, NULL, NULL, NULL ) ){
+				delete[] src.pData;
+				delete[] dst.pData;
+
+				file.close();
+				file_system::delete_file( file_name );
+
+				return false;
+			};
+
+			if( !format.m_compressed && format.m_invert ){
+				const uint8_t* eol = dst.pData + dst.dwDataSize;
+				for( uint8_t* ch = dst.pData; eol > ch; ch += ch_stride ){
+					const uint8_t cd = ch[0];
+					ch[0] = ch[2];
+					ch[2] = cd;
+				};
+			};
+
+			file.write( dst.pData, dst.dwDataSize );
+
+			dst.dwPitch		= 0;
+			dst.dwWidth		= dst.dwWidth >> 1;
+			dst.dwHeight	= dst.dwHeight >> 1;
+
+			if( !( dst.dwWidth && dst.dwHeight ) ){
+				break;
+			};
+
+			dst.dwDataSize	= ATI_TC_CalculateBufferSize( &dst );
+			memset( dst.pData, 0, ptr_size );
+		};
+
+		file.close();
+		delete[] src.pData;
+		delete[] dst.pData;
 		
 		return true;
 	};

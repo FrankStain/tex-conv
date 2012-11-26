@@ -25,6 +25,9 @@
     <Filter Include="common\sources">
       <UniqueIdentifier>{91e90a7e-ec8c-4999-bfd7-de0a8870af52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="pvrtexlib">
+      <UniqueIdentifier>{1faae6dc-fd49-4151-a279-4b70d3755971}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\plugin_api\plugin_client_api.h">
@@ -74,6 +77,33 @@
     </ClInclude>
     <ClInclude Include="..\plugin_api\plugin_option.h">
       <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\CPVRTexture.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\CPVRTextureData.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\CPVRTextureHeader.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\Pixel.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRException.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTexLib.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTexLibGlobals.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTexLibVersion.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTGlobal.h">
+      <Filter>pvrtexlib</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

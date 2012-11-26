@@ -19,11 +19,10 @@
 *.cache
 *.ilk
 *.log
-*.lib
 *.sbr
 *.scc
 [Bb]in
-[Dd]ebug*/
+[Db]ebug*/
 obj/
 [Rr]elease*/
 _ReSharper*/

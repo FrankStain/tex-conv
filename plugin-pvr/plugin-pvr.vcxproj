@@ -52,13 +52,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;PLUGINPVR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(SolutionDir)common\include;$(SolutionDir)plugin_api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(SolutionDir)common\include;$(SolutionDir)plugin_api;$(ProjectDir)pvrtexlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>PVRTexLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -70,7 +72,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;PLUGINPVR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(SolutionDir)common\include;$(SolutionDir)plugin_api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(SolutionDir)common\include;$(SolutionDir)plugin_api;$(ProjectDir)pvrtexlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -79,6 +81,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>PVRTexLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -98,6 +102,15 @@
     <ClInclude Include="include\core.h" />
     <ClInclude Include="include\descriptor.h" />
     <ClInclude Include="include\operator.h" />
+    <ClInclude Include="pvrtexlib\CPVRTexture.h" />
+    <ClInclude Include="pvrtexlib\CPVRTextureData.h" />
+    <ClInclude Include="pvrtexlib\CPVRTextureHeader.h" />
+    <ClInclude Include="pvrtexlib\Pixel.h" />
+    <ClInclude Include="pvrtexlib\PVRException.h" />
+    <ClInclude Include="pvrtexlib\PVRTexLib.h" />
+    <ClInclude Include="pvrtexlib\PVRTexLibGlobals.h" />
+    <ClInclude Include="pvrtexlib\PVRTexLibVersion.h" />
+    <ClInclude Include="pvrtexlib\PVRTGlobal.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\common\source\cFile.cpp" />

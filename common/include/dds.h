@@ -76,7 +76,7 @@ namespace dds {
 	union pixel_format_flags_t {
 		uint32_t		m_flags;
 		struct {
-			uint8_t		m_alpha_pixels : 1;
+			uint8_t		m_alpha : 1;
 			uint8_t		m_resedved_1 : 1;
 			uint8_t		m_format : 1;
 			uint8_t		m_resedved_2 : 2;

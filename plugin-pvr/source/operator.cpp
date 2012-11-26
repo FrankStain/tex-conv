@@ -1,17 +1,45 @@
 #include "operator.h"
+#include "PVRTexLib.h"
 
 namespace dll {
+	struct exp_format_t {
+		pvrtexlib::PixelType	m_target;
+	};
+
 	const char					op_name[]		= "PVR";
 	const char					op_desc[]		= "PowerVR Format";
 	const char					op_ext[]		= "pvr";
 	plugin::operator_options_t	op_type			= plugin::OPER_IMPORT | plugin::OPER_EXPORT;
 
+	char*						op_exp_names[]		= {
+		"PVR-TC4",		"PVR-TC2",		"ETC RGB",
+		"RGBA 8888",	"RGBA 5551",	"RGBA 4444",
+		"RGB 888",		"RGB 565",
+		0
+	};
+
+	exp_format_t				op_exp_formats[]	= {
+		{ pvrtexlib::MGLPT_PVRTC4 },
+		{ pvrtexlib::MGLPT_PVRTC2 },
+		{ pvrtexlib::ETC_RGB_4BPP },
+		{ pvrtexlib::OGL_RGBA_8888 },
+		{ pvrtexlib::OGL_RGBA_5551 },
+		{ pvrtexlib::OGL_RGBA_4444 },
+		{ pvrtexlib::OGL_RGB_888 },
+		{ pvrtexlib::OGL_RGB_565 }
+	};
+
 	plugin::options_desc_t		op_imp_desc			= {
 		NULL, 0
 	};
 
+	plugin::option_desc_t		op_exp_options[]	= {
+		{ "Mips Count",	0,	plugin::ot_uint,	0,	0,	10,	NULL },
+		{ "Method",		1,	plugin::ot_enum,	0,	0,	7,	op_exp_names }
+	};
+
 	plugin::options_desc_t		op_exp_desc			= {
-		NULL, 0
+		op_exp_options, sizeof( op_exp_options ) / sizeof( plugin::option_desc_t )
 	};
 		
 	pvr_operator_t::pvr_operator_t(){
@@ -39,7 +67,15 @@ namespace dll {
 	};
 
 	const bool pvr_operator_t::validate_file( const char* file_name ){
-		return true;
+		bool result = true;
+
+		try{
+			pvrtexlib::CPVRTexture texture( file_name );
+		}catch( PVRException& ){
+			result = false;
+		};
+
+		return result;
 	};
 
 	const bool pvr_operator_t::load( const char* file_name, plugin::image_desc_t* dest, plugin::option_t* options ){

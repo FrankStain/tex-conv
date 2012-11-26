@@ -77,6 +77,8 @@ namespace conv_gui
 				threads_count = 1;
 			};
 
+			threads_count = 1;
+
 			for( int proc_id = 0; threads_count > proc_id; proc_id++ ){
 				m_threads.Add( new Thread( thread_routine ) );
 				m_routines.Add( new List<ListViewItem>() );
