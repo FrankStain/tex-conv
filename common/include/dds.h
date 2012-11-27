@@ -2,9 +2,6 @@
 
 #include "common_defs.h"
 
-#define FCCB(B) ( ( B ) << 8 )
-#define FOURCC(B1,B2,B3,B4) ( B1 | FCCB( B2 | FCCB( B3 | FCCB( B4 ) ) ) )
-
 #pragma pack( push, 1 )
 namespace dds {
 	extern const uint32_t	header_magic;

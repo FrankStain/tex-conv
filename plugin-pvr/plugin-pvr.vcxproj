@@ -91,6 +91,7 @@
     <ClInclude Include="..\common\include\cFileSystemPath.h" />
     <ClInclude Include="..\common\include\common_defs.h" />
     <ClInclude Include="..\common\include\file_system.h" />
+    <ClInclude Include="..\common\include\pvr.h" />
     <ClInclude Include="..\conv-core\include\cDllWorkspace.h" />
     <ClInclude Include="..\conv-core\include\object_id.h" />
     <ClInclude Include="..\plugin_api\plugin_client_api.h" />
@@ -102,21 +103,25 @@
     <ClInclude Include="include\core.h" />
     <ClInclude Include="include\descriptor.h" />
     <ClInclude Include="include\operator.h" />
-    <ClInclude Include="pvrtexlib\CPVRTexture.h" />
-    <ClInclude Include="pvrtexlib\CPVRTextureData.h" />
-    <ClInclude Include="pvrtexlib\CPVRTextureHeader.h" />
-    <ClInclude Include="pvrtexlib\Pixel.h" />
-    <ClInclude Include="pvrtexlib\PVRException.h" />
-    <ClInclude Include="pvrtexlib\PVRTexLib.h" />
-    <ClInclude Include="pvrtexlib\PVRTexLibGlobals.h" />
+    <ClInclude Include="pvrtexlib\PVRTArray.h" />
+    <ClInclude Include="pvrtexlib\PVRTError.h" />
     <ClInclude Include="pvrtexlib\PVRTexLibVersion.h" />
+    <ClInclude Include="pvrtexlib\PVRTexture.h" />
+    <ClInclude Include="pvrtexlib\PVRTextureDefines.h" />
+    <ClInclude Include="pvrtexlib\PVRTextureFormat.h" />
+    <ClInclude Include="pvrtexlib\PVRTextureHeader.h" />
+    <ClInclude Include="pvrtexlib\PVRTextureUtilities.h" />
     <ClInclude Include="pvrtexlib\PVRTGlobal.h" />
+    <ClInclude Include="pvrtexlib\PVRTMap.h" />
+    <ClInclude Include="pvrtexlib\PVRTString.h" />
+    <ClInclude Include="pvrtexlib\PVRTTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\common\source\cFile.cpp" />
     <ClCompile Include="..\common\source\cFileMapping.cpp" />
     <ClCompile Include="..\common\source\cFileSystemPath.cpp" />
     <ClCompile Include="..\common\source\file_system.cpp" />
+    <ClCompile Include="..\common\source\pvr.cpp" />
     <ClCompile Include="source\core.cpp" />
     <ClCompile Include="source\descriptor.cpp" />
     <ClCompile Include="source\operator.cpp" />

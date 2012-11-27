@@ -78,31 +78,43 @@
     <ClInclude Include="..\plugin_api\plugin_option.h">
       <Filter>plugin_api</Filter>
     </ClInclude>
-    <ClInclude Include="pvrtexlib\CPVRTexture.h">
+    <ClInclude Include="..\common\include\pvr.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTArray.h">
       <Filter>pvrtexlib</Filter>
     </ClInclude>
-    <ClInclude Include="pvrtexlib\CPVRTextureData.h">
-      <Filter>pvrtexlib</Filter>
-    </ClInclude>
-    <ClInclude Include="pvrtexlib\CPVRTextureHeader.h">
-      <Filter>pvrtexlib</Filter>
-    </ClInclude>
-    <ClInclude Include="pvrtexlib\Pixel.h">
-      <Filter>pvrtexlib</Filter>
-    </ClInclude>
-    <ClInclude Include="pvrtexlib\PVRException.h">
-      <Filter>pvrtexlib</Filter>
-    </ClInclude>
-    <ClInclude Include="pvrtexlib\PVRTexLib.h">
-      <Filter>pvrtexlib</Filter>
-    </ClInclude>
-    <ClInclude Include="pvrtexlib\PVRTexLibGlobals.h">
+    <ClInclude Include="pvrtexlib\PVRTError.h">
       <Filter>pvrtexlib</Filter>
     </ClInclude>
     <ClInclude Include="pvrtexlib\PVRTexLibVersion.h">
       <Filter>pvrtexlib</Filter>
     </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTexture.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTextureDefines.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTextureFormat.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTextureHeader.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTextureUtilities.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
     <ClInclude Include="pvrtexlib\PVRTGlobal.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTMap.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTString.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTTexture.h">
       <Filter>pvrtexlib</Filter>
     </ClInclude>
   </ItemGroup>
@@ -127,6 +139,9 @@
     </ClCompile>
     <ClCompile Include="source\operator.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\source\pvr.cpp">
+      <Filter>common\sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

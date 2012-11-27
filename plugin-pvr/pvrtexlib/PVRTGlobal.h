@@ -144,6 +144,12 @@ typedef signed long long   PVRTint64;
 typedef unsigned long long PVRTuint64;
 #endif
 
+#if __SIZEOF_WCHAR_T__  == 4 || __WCHAR_MAX__ > 0x10000
+	#define PVRTSIZEOFWCHAR 4
+#else
+	#define PVRTSIZEOFWCHAR 2
+#endif
+
 PVRTSIZEASSERT(PVRTchar8,   1);
 PVRTSIZEASSERT(PVRTint8,   1);
 PVRTSIZEASSERT(PVRTuint8,  1);
@@ -154,6 +160,34 @@ PVRTSIZEASSERT(PVRTuint32, 4);
 PVRTSIZEASSERT(PVRTint64,  8);
 PVRTSIZEASSERT(PVRTuint64, 8);
 PVRTSIZEASSERT(PVRTfloat32, 4);
+
+/*!**************************************************************************
+@Enum   ETextureFilter
+@Brief  Enum values for defining texture filtering
+****************************************************************************/
+enum ETextureFilter
+{
+	eFilter_Nearest,
+	eFilter_Linear,
+	eFilter_None,
+
+	eFilter_Size,
+	eFilter_Default		= eFilter_Nearest,
+	eFilter_MipDefault	= eFilter_None
+};
+
+/*!**************************************************************************
+@Enum   ETextureWrap
+@Brief  Enum values for defining texture wrapping
+****************************************************************************/
+enum ETextureWrap
+{
+	eWrap_Clamp,
+	eWrap_Repeat,
+
+	eWrap_Size,
+	eWrap_Default = eWrap_Repeat
+};
 
 /****************************************************************************
 ** swap template function
@@ -176,6 +210,23 @@ inline void PVRTswap(T& a, T& b)
 #ifdef _UITRON_
 template void PVRTswap<unsigned char>(unsigned char& a, unsigned char& b);
 #endif
+
+/*!***************************************************************************
+ @Function		PVRTClamp
+ @Input			val		Value to clamp
+ @Input			min		Minimum legal value
+ @Input			max		Maximum legal value
+ @Description	A clamp template function that clamps val between min and max.
+*****************************************************************************/
+template <typename T>
+inline T PVRTClamp(const T& val, const T& min, const T& max)
+{
+	if(val > max)
+		return max;
+	if(val < min)
+		return min;
+	return val;
+}
 
 /*!***************************************************************************
  @Function		PVRTByteSwap

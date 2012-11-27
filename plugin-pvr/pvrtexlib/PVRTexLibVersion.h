@@ -2,21 +2,22 @@
 
  @File         PVRTexLibVersion.h
 
- @Title        Console Log
+ @Title        
 
- @Version      Name : etc_conversion.cpp
+ @Version      
 
  @Copyright    Copyright (c) Imagination Technologies Limited. All Rights Reserved. Strictly Confidential.
 
- @Platform     ANSI
+ @Platform     
 
- @Description  Interface to PVRTC for PVRTexLib that bypasses public one
+ @Description  
 
 ******************************************************************************/
 #ifndef PVRTEXLIBVERSION_H
 #define PVRTEXLIBVERSION_H
-#define PVRTLMAJORVERSION 3
-#define PVRTLMINORVERSION 23
-#define PVRTLSTRINGVERSION "3.23"
+#define PVRTLMAJORVERSION 4
+#define PVRTLMINORVERSION 04
+#define PVRTLSTRINGVERSION "4.04"
+#define PVRTLVERSIONDESCRIPTOR "" //"BETA" //"ALPHA" //"ENGINEERING DROP"
 #endif
 
