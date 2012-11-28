@@ -29,8 +29,8 @@ namespace dll {
 	};
 
 	exp_format_t				op_exp_formats[]	= {
-		{ { ePVRTPF_PVRTCI_4bpp_RGBA },						pvr::v2::OGL_PVRTC2_4,	0,	true,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
-		{ { ePVRTPF_PVRTCI_2bpp_RGBA },						pvr::v2::OGL_PVRTC2_2,	0,	true,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
+		{ { ePVRTPF_PVRTCI_4bpp_RGBA },						pvr::v2::OGL_PVRTC4,	0,	true,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
+		{ { ePVRTPF_PVRTCI_2bpp_RGBA },						pvr::v2::OGL_PVRTC2,	0,	true,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
 		{ { ePVRTPF_ETC2_RGB },								pvr::v2::ETC_RGB_4BPP,	0,	true,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
 		{ { FRCC64( 'r', 'g', 'b', 'a',	8, 8, 8, 8 ) },		pvr::v2::OGL_RGBA_8888,	32,	false,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
 		{ { FRCC64( 'r', 'g', 'b', 'a',	5, 5, 5, 1 ) },		pvr::v2::OGL_RGBA_5551,	16,	false,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
@@ -158,38 +158,34 @@ namespace dll {
 			};
 
 			switch( version ){
-				case 2:
-					if( format.m_compressed ){
-						result = texture.saveFileLegacyPVR( file_name, pvrtexture::eOGLES );
-					}else{
-						file_system::file_t	file;
-						pvr::v2::header_t	hdr;
-						memset( &hdr, 0, pvr::v2::header_size );
+				case 2:{
+					file_system::file_t	file;
+					pvr::v2::header_t	hdr;
+					memset( &hdr, 0, pvr::v2::header_size );
 
-						hdr.m_size				= pvr::v2::header_file_size;
-						hdr.m_magic				= pvr::v2::header_magic;
-						hdr.m_surface_count		= 1;
-						hdr.m_width				= texture.getWidth();
-						hdr.m_height			= texture.getHeight();
-						hdr.m_bit_depth			= format.m_bit_depth;
-						hdr.m_mips_count		= mip_count;
-						hdr.m_flags.m_format	= format.m_v2_target;
-						hdr.m_mask.m_red		= format.m_red_mask;
-						hdr.m_mask.m_green		= format.m_grn_mask;
-						hdr.m_mask.m_blue		= format.m_blu_mask;
-						hdr.m_mask.m_alpha		= format.m_alp_mask;
-						hdr.m_data_size			= texture.getDataSize();
+					hdr.m_size				= pvr::v2::header_file_size;
+					hdr.m_magic				= pvr::v2::header_magic;
+					hdr.m_surface_count		= 1;
+					hdr.m_width				= texture.getWidth();
+					hdr.m_height			= texture.getHeight();
+					hdr.m_bit_depth			= format.m_bit_depth;
+					hdr.m_mips_count		= mip_count;
+					hdr.m_flags.m_format	= format.m_v2_target;
+					hdr.m_mask.m_red		= format.m_red_mask;
+					hdr.m_mask.m_green		= format.m_grn_mask;
+					hdr.m_mask.m_blue		= format.m_blu_mask;
+					hdr.m_mask.m_alpha		= format.m_alp_mask;
+					hdr.m_data_size			= texture.getDataSize();
 
-						file.construct( file_name, GENERIC_WRITE, CREATE_ALWAYS );
-						if( !file.is_ready() ){
-							return false;
-						};
-
-						result = file.write( &hdr, pvr::v2::header_size ) && file.write( texture.getDataPtr(), hdr.m_data_size );
-
-						file.close();
+					file.construct( file_name, GENERIC_WRITE, CREATE_ALWAYS );
+					if( !file.is_ready() ){
+						return false;
 					};
-				break;
+
+					result = file.write( &hdr, pvr::v2::header_size ) && file.write( texture.getDataPtr(), hdr.m_data_size );
+
+					file.close();
+				}break;
 				case 3:
 					result = texture.saveFile( file_name );
 				break;

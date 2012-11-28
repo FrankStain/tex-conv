@@ -60,7 +60,12 @@ namespace conv_gui
 								ListViewItem.ListViewSubItem lsi	= li.SubItems.Add( li.Name + "." + fmt.ext );
 								lsi.Tag								= new conv_core.cImageFile( form.t_base_dir.Text + "\\" + lsi.Text );
 							}else{
-								ListViewItem.ListViewSubItem lsi	= li.SubItems.Add( convert.Attributes["destination"].Value );
+								string conv_name = convert.Attributes["destination"].Value;
+								if( '\\' == conv_name[0] ){
+									conv_name = conv_name.Remove( 0, 1 );
+								};
+
+								ListViewItem.ListViewSubItem lsi	= li.SubItems.Add( conv_name );
 								conv_core.cImageFile img			= new conv_core.cImageFile( form.t_base_dir.Text + "\\" + lsi.Text );
 								lsi.Tag								= img;
 								img.enabled							= Convert.ToBoolean( convert.Attributes["enabled"].Value );
@@ -145,10 +150,16 @@ namespace conv_gui
 
 					foreach( ColumnHeader hdr in form.m_formats ){
 						ListViewItem.ListViewSubItem lsi	= li.SubItems[ hdr.Index ];
-						conv_core.cImageFile img			= lsi.Tag as conv_core.cImageFile;
+						conv_core.cImageFile img			= lsi.Tag as conv_core.cImageFile;						
 						XmlElement conv						= fd.AppendChild( file.CreateElement( "convert" ) ) as XmlElement;
+						
+						string conv_name = conv_core.workbench.relative_path( base_dir, img.path );
+						while( ( '.' == conv_name[0] ) || ( '\\' == conv_name[0] ) ){
+							conv_name.Remove( 0, 1 );
+						};
+						
 						conv.SetAttribute( "format", hdr.Text );
-						conv.SetAttribute( "destination", conv_core.workbench.relative_path( base_dir, img.path ) );
+						conv.SetAttribute( "destination", conv_name );
 						conv.SetAttribute( "enabled", Convert.ToString( img.enabled ) );
 
 						if( null != img.options ){

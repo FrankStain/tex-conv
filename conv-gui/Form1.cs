@@ -146,6 +146,11 @@ namespace conv_gui
 			b_progress_cancel.Enabled	= false;
 			
 			lv_files.Items.Clear();
+			foreach( ColumnHeader hdr in m_formats ){
+				lv_files.Columns.Remove( hdr );
+			};
+
+			m_formats.Clear();
 		}
 
 		private void b_open_Click(object sender, EventArgs e)
@@ -251,6 +256,16 @@ namespace conv_gui
 			};
 		}
 
+		bool source_file_exists( string fn ){
+			foreach( ListViewItem li in lv_files.Items ){
+				if( fn == li.ToolTipText ){
+					return true;
+				};
+			};
+			
+			return false;
+		}
+
 		bool load_images( string[] files ){
 			if( ConvertProcessor.in_process ){
 				return false;
@@ -259,7 +274,7 @@ namespace conv_gui
 			int included_count = 0;
 			
 			foreach( string file in files ){
-				if( conv_core.workbench.valid_file( file ) ){
+				if( conv_core.workbench.valid_file( file ) && !source_file_exists( file ) ){
 					
 					ListViewItem li = lv_files.Items.Add( "" );
 					li.Name			= Path.GetFileNameWithoutExtension( file );
@@ -404,11 +419,12 @@ namespace conv_gui
 						ColumnHeader hdr = m_formats[ hdr_id ];
 						if( 0 > form.m_selected_items.FindIndex( delegate( string str ){ return hdr.Text == str; } ) ){
 							m_formats.Remove( hdr );
-							lv_files.Columns.Remove( hdr );
-
+							
 							foreach( ListViewItem li in lv_files.Items ){
 								li.SubItems.RemoveAt( hdr.Index );
 							};
+
+							lv_files.Columns.Remove( hdr );
 
 							t_mod.Enabled = true;
 						}else{
