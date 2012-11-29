@@ -1,8 +1,9 @@
 #include "core.h"
 
-HINSTANCE		dll::g_instance		= NULL;
-cPngDesc		dll::g_png_desc;
-cPluginLogger*	dll::g_logger		= NULL;
+namespace dll {
+	HINSTANCE		g_instance		= NULL;
+	png_desc_t		g_descriptor;
+};
 
 BOOL WINAPI DllMain( HINSTANCE inst, ULONG reason, LPVOID reserved )
 {
@@ -26,7 +27,7 @@ BOOL WINAPI DllMain( HINSTANCE inst, ULONG reason, LPVOID reserved )
 	return TRUE;
 };
 
-cPluginDesc* WINAPI plugin_get_desc()
+plugin::desc_t* WINAPI plugin_get_desc()
 {
-	return &dll::g_png_desc;
+	return &dll::g_descriptor;
 };

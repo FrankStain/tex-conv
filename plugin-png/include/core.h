@@ -1,15 +1,12 @@
 #pragma once
 
 #include <windows.h>
-#include "plugin_api.h"
-#include "cPngDesc.h"
-#include "cPngOperator.h"
+#include "plugin_client_api.h"
+#include "descriptor.h"
 
-cPluginDesc* WINAPI plugin_get_desc();
+plugin::desc_t* WINAPI plugin_get_desc();
 
-namespace dll
-{
+namespace dll {
 	extern HINSTANCE		g_instance;
-	extern cPngDesc			g_png_desc;
-	extern cPluginLogger*	g_logger;
+	extern png_desc_t		g_descriptor;
 };

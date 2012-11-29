@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{17A9BBBD-AC33-4291-9122-9737C25166BD}</ProjectGuid>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <Keyword>ManagedCProj</Keyword>
+    <RootNamespace>convcore</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IntDir>$(Configuration)-$(PlatformShortName)$(PlatformToolset)-$(MSBuildProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)debug\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Configuration)-$(PlatformShortName)$(PlatformToolset)-$(MSBuildProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(SolutionDir)common\include;$(SolutionDir)plugin_api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(SolutionDir)common\include;$(SolutionDir)plugin_api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ProgramDataBaseFileName>$(SolutionDir)pdb\vc$(PlatformToolsetVersion)-$(ProjectName).pdb</ProgramDataBaseFileName>
+      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <ProgramDatabaseFile>$(SolutionDir)pdb\$(TargetName).pdb</ProgramDatabaseFile>
+      <ProfileGuidedDatabase>$(SolutionDir)pdb\$(TargetName).pgd</ProfileGuidedDatabase>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\include\cFile.h" />
+    <ClInclude Include="..\common\include\cFileMapping.h" />
+    <ClInclude Include="..\common\include\cFileSystemPath.h" />
+    <ClInclude Include="..\common\include\common_defs.h" />
+    <ClInclude Include="..\common\include\file_system.h" />
+    <ClInclude Include="..\plugin_api\plugin_client_api.h" />
+    <ClInclude Include="..\plugin_api\plugin_desc.h" />
+    <ClInclude Include="..\plugin_api\plugin_image.h" />
+    <ClInclude Include="..\plugin_api\plugin_logger.h" />
+    <ClInclude Include="..\plugin_api\plugin_operator.h" />
+    <ClInclude Include="..\plugin_api\plugin_option.h" />
+    <ClInclude Include="include\cDllImageFile.h" />
+    <ClInclude Include="include\cDllWorkspace.h" />
+    <ClInclude Include="include\conv-core.h" />
+    <ClInclude Include="include\native-core.h" />
+    <ClInclude Include="include\object_id.h" />
+    <ClInclude Include="include\Stdafx.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\source\cFile.cpp" />
+    <ClCompile Include="..\common\source\cFileMapping.cpp" />
+    <ClCompile Include="..\common\source\cFileSystemPath.cpp" />
+    <ClCompile Include="..\common\source\file_system.cpp" />
+    <ClCompile Include="sources\AssemblyInfo.cpp" />
+    <ClCompile Include="sources\cFormat.cpp" />
+    <ClCompile Include="sources\cFormatCollection.cpp" />
+    <ClCompile Include="sources\cImageFile.cpp" />
+    <ClCompile Include="sources\conv-core.cpp" />
+    <ClCompile Include="sources\cOption.cpp" />
+    <ClCompile Include="sources\cOptionDesc.cpp" />
+    <ClCompile Include="sources\cOptionsCollection.cpp" />
+    <ClCompile Include="sources\cOptionsDescCollection.cpp" />
+    <ClCompile Include="sources\core\cDllImageFile.cpp" />
+    <ClCompile Include="sources\core\cDllWorkspace.cpp" />
+    <ClCompile Include="sources\core\native-core.cpp" />
+    <ClCompile Include="sources\core\object_id.cpp" />
+    <ClCompile Include="sources\Stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="sources\workbench.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\app.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\app.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

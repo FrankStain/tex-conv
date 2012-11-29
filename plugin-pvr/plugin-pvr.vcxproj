@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EBDC85AA-B8A3-4F81-ABB0-3B0B4449E1F8}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>pluginpvr</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)debug\plugins\</OutDir>
+    <IntDir>$(Configuration)-$(PlatformShortName)$(PlatformToolset)-$(MSBuildProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\plugins\</OutDir>
+    <IntDir>$(Configuration)-$(PlatformShortName)$(PlatformToolset)-$(MSBuildProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;PLUGINPVR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(SolutionDir)common\include;$(SolutionDir)plugin_api;$(ProjectDir)pvrtexlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>PVRTexLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;PLUGINPVR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(SolutionDir)common\include;$(SolutionDir)plugin_api;$(ProjectDir)pvrtexlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(SolutionDir)pdb\vc$(PlatformToolsetVersion)-$(ProjectName).pdb</ProgramDataBaseFileName>
+      <ExceptionHandling>Async</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>PVRTexLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ProgramDatabaseFile>$(SolutionDir)pdb\$(TargetName).pdb</ProgramDatabaseFile>
+      <ProfileGuidedDatabase>$(SolutionDir)pdb\$(TargetName).pgd</ProfileGuidedDatabase>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\include\cFile.h" />
+    <ClInclude Include="..\common\include\cFileMapping.h" />
+    <ClInclude Include="..\common\include\cFileSystemPath.h" />
+    <ClInclude Include="..\common\include\common_defs.h" />
+    <ClInclude Include="..\common\include\file_system.h" />
+    <ClInclude Include="..\common\include\pvr.h" />
+    <ClInclude Include="..\conv-core\include\cDllWorkspace.h" />
+    <ClInclude Include="..\conv-core\include\object_id.h" />
+    <ClInclude Include="..\plugin_api\plugin_client_api.h" />
+    <ClInclude Include="..\plugin_api\plugin_desc.h" />
+    <ClInclude Include="..\plugin_api\plugin_image.h" />
+    <ClInclude Include="..\plugin_api\plugin_logger.h" />
+    <ClInclude Include="..\plugin_api\plugin_operator.h" />
+    <ClInclude Include="..\plugin_api\plugin_option.h" />
+    <ClInclude Include="include\core.h" />
+    <ClInclude Include="include\descriptor.h" />
+    <ClInclude Include="include\operator.h" />
+    <ClInclude Include="pvrtexlib\PVRTArray.h" />
+    <ClInclude Include="pvrtexlib\PVRTError.h" />
+    <ClInclude Include="pvrtexlib\PVRTexLibVersion.h" />
+    <ClInclude Include="pvrtexlib\PVRTexture.h" />
+    <ClInclude Include="pvrtexlib\PVRTextureDefines.h" />
+    <ClInclude Include="pvrtexlib\PVRTextureFormat.h" />
+    <ClInclude Include="pvrtexlib\PVRTextureHeader.h" />
+    <ClInclude Include="pvrtexlib\PVRTextureUtilities.h" />
+    <ClInclude Include="pvrtexlib\PVRTGlobal.h" />
+    <ClInclude Include="pvrtexlib\PVRTMap.h" />
+    <ClInclude Include="pvrtexlib\PVRTString.h" />
+    <ClInclude Include="pvrtexlib\PVRTTexture.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\source\cFile.cpp" />
+    <ClCompile Include="..\common\source\cFileMapping.cpp" />
+    <ClCompile Include="..\common\source\cFileSystemPath.cpp" />
+    <ClCompile Include="..\common\source\file_system.cpp" />
+    <ClCompile Include="..\common\source\pvr.cpp" />
+    <ClCompile Include="source\core.cpp" />
+    <ClCompile Include="source\descriptor.cpp" />
+    <ClCompile Include="source\operator.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="exports.def" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

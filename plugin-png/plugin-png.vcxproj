@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0FA44C8C-F77C-4DB3-A432-70B467B2A1EB}</ProjectGuid>
+    <ProjectGuid>{EDB46B49-B840-4A8D-849D-4514282E4B8C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>pluginpng</RootNamespace>
   </PropertyGroup>
@@ -25,7 +25,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -39,11 +39,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)debug\plugins\</OutDir>
     <IntDir>$(Configuration)-$(PlatformShortName)$(PlatformToolset)-$(MSBuildProjectName)\</IntDir>
-    <OutDir>$(SolutionDir)$(Configuration)\plugins\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\plugins\</OutDir>
     <IntDir>$(Configuration)-$(PlatformShortName)$(PlatformToolset)-$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -53,12 +54,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;PLUGINPNG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)png;$(ProjectDir)zlib;$(SolutionDir)plugin_api;$(SolutionDir)plugin_common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(SolutionDir)common\include;$(SolutionDir)common\zlib;$(ProjectDir)png;$(SolutionDir)plugin_api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>plugin-png.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -70,46 +72,71 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;PLUGINPNG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(SolutionDir)common\include;$(SolutionDir)common\zlib;$(ProjectDir)png;$(SolutionDir)plugin_api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(SolutionDir)pdb\vc$(PlatformToolsetVersion)-$(ProjectName).pdb</ProgramDataBaseFileName>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile>plugin-png.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
+      <ProgramDatabaseFile>$(SolutionDir)pdb\$(TargetName).pdb</ProgramDatabaseFile>
+      <ProfileGuidedDatabase>$(SolutionDir)pdb\$(TargetName).pgd</ProfileGuidedDatabase>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\plugin_api\cImageDesc.h" />
-    <ClInclude Include="..\plugin_api\cPluginDesc.h" />
-    <ClInclude Include="..\plugin_api\cPluginLogger.h" />
-    <ClInclude Include="..\plugin_api\cPluginOperator.h" />
-    <ClInclude Include="..\plugin_api\plugin_api.h" />
-    <ClInclude Include="..\plugin_common\include\cFileMapping.h" />
-    <ClInclude Include="..\plugin_common\include\cFileName.h" />
-    <ClInclude Include="..\plugin_common\include\common_defs.h" />
-    <ClInclude Include="..\plugin_common\include\plugin_common.h" />
+    <ClInclude Include="..\common\include\cFile.h" />
+    <ClInclude Include="..\common\include\cFileMapping.h" />
+    <ClInclude Include="..\common\include\cFileSystemPath.h" />
+    <ClInclude Include="..\common\include\common_defs.h" />
+    <ClInclude Include="..\common\include\file_system.h" />
+    <ClInclude Include="..\common\zlib\deflate.h" />
+    <ClInclude Include="..\common\zlib\infblock.h" />
+    <ClInclude Include="..\common\zlib\infcodes.h" />
+    <ClInclude Include="..\common\zlib\inffast.h" />
+    <ClInclude Include="..\common\zlib\inffixed.h" />
+    <ClInclude Include="..\common\zlib\inftrees.h" />
+    <ClInclude Include="..\common\zlib\infutil.h" />
+    <ClInclude Include="..\common\zlib\trees.h" />
+    <ClInclude Include="..\common\zlib\zconf.h" />
+    <ClInclude Include="..\common\zlib\zlib.h" />
+    <ClInclude Include="..\common\zlib\zutil.h" />
+    <ClInclude Include="..\conv-core\include\cDllWorkspace.h" />
+    <ClInclude Include="..\conv-core\include\object_id.h" />
+    <ClInclude Include="..\plugin_api\plugin_client_api.h" />
+    <ClInclude Include="..\plugin_api\plugin_desc.h" />
+    <ClInclude Include="..\plugin_api\plugin_image.h" />
+    <ClInclude Include="..\plugin_api\plugin_logger.h" />
+    <ClInclude Include="..\plugin_api\plugin_operator.h" />
+    <ClInclude Include="..\plugin_api\plugin_option.h" />
     <ClInclude Include="include\core.h" />
-    <ClInclude Include="include\cPngDesc.h" />
-    <ClInclude Include="include\cPngOperator.h" />
+    <ClInclude Include="include\descriptor.h" />
+    <ClInclude Include="include\operator.h" />
     <ClInclude Include="png\png.h" />
     <ClInclude Include="png\pngconf.h" />
     <ClInclude Include="png\pngpriv.h" />
-    <ClInclude Include="zlib\deflate.h" />
-    <ClInclude Include="zlib\infblock.h" />
-    <ClInclude Include="zlib\infcodes.h" />
-    <ClInclude Include="zlib\inffast.h" />
-    <ClInclude Include="zlib\inffixed.h" />
-    <ClInclude Include="zlib\inftrees.h" />
-    <ClInclude Include="zlib\infutil.h" />
-    <ClInclude Include="zlib\trees.h" />
-    <ClInclude Include="zlib\zconf.h" />
-    <ClInclude Include="zlib\zlib.h" />
-    <ClInclude Include="zlib\zutil.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\plugin_common\source\cFileMapping.cpp" />
-    <ClCompile Include="..\plugin_common\source\cFileName.cpp" />
+    <ClCompile Include="..\common\source\cFile.cpp" />
+    <ClCompile Include="..\common\source\cFileMapping.cpp" />
+    <ClCompile Include="..\common\source\cFileSystemPath.cpp" />
+    <ClCompile Include="..\common\source\file_system.cpp" />
+    <ClCompile Include="..\common\zlib\adler32.c" />
+    <ClCompile Include="..\common\zlib\compress.c" />
+    <ClCompile Include="..\common\zlib\crc32.c" />
+    <ClCompile Include="..\common\zlib\deflate.c" />
+    <ClCompile Include="..\common\zlib\infblock.c" />
+    <ClCompile Include="..\common\zlib\infcodes.c" />
+    <ClCompile Include="..\common\zlib\inffast.c" />
+    <ClCompile Include="..\common\zlib\inflate.c" />
+    <ClCompile Include="..\common\zlib\inftrees.c" />
+    <ClCompile Include="..\common\zlib\infutil.c" />
+    <ClCompile Include="..\common\zlib\trees.c" />
+    <ClCompile Include="..\common\zlib\uncompr.c" />
+    <ClCompile Include="..\common\zlib\zutil.c" />
     <ClCompile Include="png\png.c" />
     <ClCompile Include="png\pngerror.c" />
     <ClCompile Include="png\pnggccrd.c" />
@@ -128,24 +155,11 @@
     <ClCompile Include="png\pngwtran.c" />
     <ClCompile Include="png\pngwutil.c" />
     <ClCompile Include="source\core.cpp" />
-    <ClCompile Include="source\cPngDesc.cpp" />
-    <ClCompile Include="source\cPngOperator.cpp" />
-    <ClCompile Include="zlib\adler32.c" />
-    <ClCompile Include="zlib\compress.c" />
-    <ClCompile Include="zlib\crc32.c" />
-    <ClCompile Include="zlib\deflate.c" />
-    <ClCompile Include="zlib\infblock.c" />
-    <ClCompile Include="zlib\infcodes.c" />
-    <ClCompile Include="zlib\inffast.c" />
-    <ClCompile Include="zlib\inflate.c" />
-    <ClCompile Include="zlib\inftrees.c" />
-    <ClCompile Include="zlib\infutil.c" />
-    <ClCompile Include="zlib\trees.c" />
-    <ClCompile Include="zlib\uncompr.c" />
-    <ClCompile Include="zlib\zutil.c" />
+    <ClCompile Include="source\descriptor.cpp" />
+    <ClCompile Include="source\operator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="plugin-png.def" />
+    <None Include="exports.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

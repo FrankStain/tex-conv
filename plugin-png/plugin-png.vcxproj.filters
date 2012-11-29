@@ -9,212 +9,243 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Header Files\plugins-api">
-      <UniqueIdentifier>{40ff627d-fda1-4a75-aa5b-7a827d571b22}</UniqueIdentifier>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="png">
-      <UniqueIdentifier>{9a99337c-2a4e-494a-a350-1c3e0c986d73}</UniqueIdentifier>
+    <Filter Include="plugin_api">
+      <UniqueIdentifier>{42bd7d40-8651-4bd0-8cd8-66a578a23a77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\plugins-common">
-      <UniqueIdentifier>{ec8d51c3-b13f-4e95-a5ed-b8c3c152b7e2}</UniqueIdentifier>
+    <Filter Include="common">
+      <UniqueIdentifier>{84f4f868-f911-4f54-a99a-9065f4ccafe0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\plugins-common">
-      <UniqueIdentifier>{a867d35b-e25f-40ef-b1d5-30265a710581}</UniqueIdentifier>
+    <Filter Include="common\include">
+      <UniqueIdentifier>{30522e98-29bc-4a6c-aaeb-9b010f6cd2ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\sources">
+      <UniqueIdentifier>{e4e93cc5-2b83-4eed-9609-2f319a79251a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="png-lib">
+      <UniqueIdentifier>{51210e4e-7b82-48cf-8dc8-8c7eada33f7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="png-lib\includes">
+      <UniqueIdentifier>{90e83c36-75c4-4c98-bdb8-7aefecf1ede2}</UniqueIdentifier>
     </Filter>
     <Filter Include="zlib">
-      <UniqueIdentifier>{d0e923d9-a5c3-4159-91c3-ab3c1374f3ec}</UniqueIdentifier>
+      <UniqueIdentifier>{efbf742d-a9bd-4a36-8370-6250559d11d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="zlib\includes">
+      <UniqueIdentifier>{4c91887f-c114-46d2-b238-1cbbb01bb0d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\plugin_api\plugin_client_api.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_desc.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_image.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_logger.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_operator.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\cFile.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\cFileMapping.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\cFileSystemPath.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\common_defs.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\file_system.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\conv-core\include\cDllWorkspace.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\conv-core\include\object_id.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
     <ClInclude Include="include\core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\plugin_api\cImageDesc.h">
-      <Filter>Header Files\plugins-api</Filter>
-    </ClInclude>
-    <ClInclude Include="..\plugin_api\cPluginDesc.h">
-      <Filter>Header Files\plugins-api</Filter>
-    </ClInclude>
-    <ClInclude Include="..\plugin_api\cPluginLogger.h">
-      <Filter>Header Files\plugins-api</Filter>
-    </ClInclude>
-    <ClInclude Include="..\plugin_api\cPluginOperator.h">
-      <Filter>Header Files\plugins-api</Filter>
-    </ClInclude>
-    <ClInclude Include="include\cPngDesc.h">
+    <ClInclude Include="include\descriptor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\cPngOperator.h">
+    <ClInclude Include="include\operator.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_option.h">
+      <Filter>plugin_api</Filter>
     </ClInclude>
     <ClInclude Include="png\png.h">
-      <Filter>png</Filter>
+      <Filter>png-lib\includes</Filter>
     </ClInclude>
     <ClInclude Include="png\pngconf.h">
-      <Filter>png</Filter>
+      <Filter>png-lib\includes</Filter>
     </ClInclude>
     <ClInclude Include="png\pngpriv.h">
-      <Filter>png</Filter>
+      <Filter>png-lib\includes</Filter>
     </ClInclude>
-    <ClInclude Include="..\plugin_common\include\cFileMapping.h">
-      <Filter>Header Files\plugins-common</Filter>
+    <ClInclude Include="..\common\zlib\deflate.h">
+      <Filter>zlib\includes</Filter>
     </ClInclude>
-    <ClInclude Include="..\plugin_common\include\plugin_common.h">
-      <Filter>Header Files\plugins-common</Filter>
+    <ClInclude Include="..\common\zlib\infblock.h">
+      <Filter>zlib\includes</Filter>
     </ClInclude>
-    <ClInclude Include="..\plugin_api\plugin_api.h">
-      <Filter>Header Files\plugins-api</Filter>
+    <ClInclude Include="..\common\zlib\infcodes.h">
+      <Filter>zlib\includes</Filter>
     </ClInclude>
-    <ClInclude Include="..\plugin_common\include\common_defs.h">
-      <Filter>Header Files\plugins-common</Filter>
+    <ClInclude Include="..\common\zlib\inffast.h">
+      <Filter>zlib\includes</Filter>
     </ClInclude>
-    <ClInclude Include="zlib\deflate.h">
-      <Filter>zlib</Filter>
+    <ClInclude Include="..\common\zlib\inffixed.h">
+      <Filter>zlib\includes</Filter>
     </ClInclude>
-    <ClInclude Include="zlib\infblock.h">
-      <Filter>zlib</Filter>
+    <ClInclude Include="..\common\zlib\inftrees.h">
+      <Filter>zlib\includes</Filter>
     </ClInclude>
-    <ClInclude Include="zlib\infcodes.h">
-      <Filter>zlib</Filter>
+    <ClInclude Include="..\common\zlib\infutil.h">
+      <Filter>zlib\includes</Filter>
     </ClInclude>
-    <ClInclude Include="zlib\inffast.h">
-      <Filter>zlib</Filter>
+    <ClInclude Include="..\common\zlib\trees.h">
+      <Filter>zlib\includes</Filter>
     </ClInclude>
-    <ClInclude Include="zlib\inffixed.h">
-      <Filter>zlib</Filter>
+    <ClInclude Include="..\common\zlib\zconf.h">
+      <Filter>zlib\includes</Filter>
     </ClInclude>
-    <ClInclude Include="zlib\inftrees.h">
-      <Filter>zlib</Filter>
+    <ClInclude Include="..\common\zlib\zlib.h">
+      <Filter>zlib\includes</Filter>
     </ClInclude>
-    <ClInclude Include="zlib\infutil.h">
-      <Filter>zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="zlib\trees.h">
-      <Filter>zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="zlib\zconf.h">
-      <Filter>zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="zlib\zlib.h">
-      <Filter>zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="zlib\zutil.h">
-      <Filter>zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\plugin_common\include\cFileName.h">
-      <Filter>Header Files\plugins-common</Filter>
+    <ClInclude Include="..\common\zlib\zutil.h">
+      <Filter>zlib\includes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\source\cFile.cpp">
+      <Filter>common\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\source\cFileMapping.cpp">
+      <Filter>common\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\source\cFileSystemPath.cpp">
+      <Filter>common\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\source\file_system.cpp">
+      <Filter>common\sources</Filter>
+    </ClCompile>
     <ClCompile Include="source\core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\cPngDesc.cpp">
+    <ClCompile Include="source\descriptor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\cPngOperator.cpp">
+    <ClCompile Include="source\operator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="png\png.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pngerror.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pnggccrd.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pngget.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pngmem.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pngpread.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pngread.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pngrio.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pngrtran.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pngrutil.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pngset.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pngtrans.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pngvcrd.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pngwio.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pngwrite.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pngwtran.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
     <ClCompile Include="png\pngwutil.c">
-      <Filter>png</Filter>
+      <Filter>png-lib</Filter>
     </ClCompile>
-    <ClCompile Include="..\plugin_common\source\cFileMapping.cpp">
-      <Filter>Source Files\plugins-common</Filter>
-    </ClCompile>
-    <ClCompile Include="zlib\adler32.c">
+    <ClCompile Include="..\common\zlib\adler32.c">
       <Filter>zlib</Filter>
     </ClCompile>
-    <ClCompile Include="zlib\compress.c">
+    <ClCompile Include="..\common\zlib\compress.c">
       <Filter>zlib</Filter>
     </ClCompile>
-    <ClCompile Include="zlib\crc32.c">
+    <ClCompile Include="..\common\zlib\crc32.c">
       <Filter>zlib</Filter>
     </ClCompile>
-    <ClCompile Include="zlib\deflate.c">
+    <ClCompile Include="..\common\zlib\deflate.c">
       <Filter>zlib</Filter>
     </ClCompile>
-    <ClCompile Include="zlib\infblock.c">
+    <ClCompile Include="..\common\zlib\infblock.c">
       <Filter>zlib</Filter>
     </ClCompile>
-    <ClCompile Include="zlib\infcodes.c">
+    <ClCompile Include="..\common\zlib\infcodes.c">
       <Filter>zlib</Filter>
     </ClCompile>
-    <ClCompile Include="zlib\inffast.c">
+    <ClCompile Include="..\common\zlib\inffast.c">
       <Filter>zlib</Filter>
     </ClCompile>
-    <ClCompile Include="zlib\inflate.c">
+    <ClCompile Include="..\common\zlib\inflate.c">
       <Filter>zlib</Filter>
     </ClCompile>
-    <ClCompile Include="zlib\inftrees.c">
+    <ClCompile Include="..\common\zlib\inftrees.c">
       <Filter>zlib</Filter>
     </ClCompile>
-    <ClCompile Include="zlib\infutil.c">
+    <ClCompile Include="..\common\zlib\infutil.c">
       <Filter>zlib</Filter>
     </ClCompile>
-    <ClCompile Include="zlib\trees.c">
+    <ClCompile Include="..\common\zlib\trees.c">
       <Filter>zlib</Filter>
     </ClCompile>
-    <ClCompile Include="zlib\uncompr.c">
+    <ClCompile Include="..\common\zlib\uncompr.c">
       <Filter>zlib</Filter>
     </ClCompile>
-    <ClCompile Include="zlib\zutil.c">
+    <ClCompile Include="..\common\zlib\zutil.c">
       <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\plugin_common\source\cFileName.cpp">
-      <Filter>Source Files\plugins-common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="plugin-png.def">
-      <Filter>Source Files</Filter>
+    <None Include="exports.def">
+      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
 </Project>

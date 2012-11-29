@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="plugin_api">
+      <UniqueIdentifier>{2bff6f77-5912-4ab4-a918-3fb38795310e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{b3899198-e5b5-4625-90e5-b502bb2b9821}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\include">
+      <UniqueIdentifier>{cf876bbc-2c21-4c2d-b167-528ec3497109}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\sources">
+      <UniqueIdentifier>{91e90a7e-ec8c-4999-bfd7-de0a8870af52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pvrtexlib">
+      <UniqueIdentifier>{1faae6dc-fd49-4151-a279-4b70d3755971}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\plugin_api\plugin_client_api.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_desc.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_image.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_logger.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_operator.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\cFile.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\cFileMapping.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\cFileSystemPath.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\common_defs.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\file_system.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\conv-core\include\cDllWorkspace.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\conv-core\include\object_id.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\descriptor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\operator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\plugin_api\plugin_option.h">
+      <Filter>plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\include\pvr.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTArray.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTError.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTexLibVersion.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTexture.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTextureDefines.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTextureFormat.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTextureHeader.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTextureUtilities.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTGlobal.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTMap.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTString.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+    <ClInclude Include="pvrtexlib\PVRTTexture.h">
+      <Filter>pvrtexlib</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\source\cFile.cpp">
+      <Filter>common\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\source\cFileMapping.cpp">
+      <Filter>common\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\source\cFileSystemPath.cpp">
+      <Filter>common\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\source\file_system.cpp">
+      <Filter>common\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\descriptor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\operator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\source\pvr.cpp">
+      <Filter>common\sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="exports.def">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

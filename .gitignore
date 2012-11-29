@@ -4,7 +4,6 @@
 *.obj
 *.exe
 *.dll
-*.pdb
 *.user
 *.aps
 *.pch
@@ -19,11 +18,10 @@
 *.cache
 *.ilk
 *.log
-*.lib
 *.sbr
 *.scc
 [Bb]in
-[Dd]ebug*/
+[Db]ebug*/
 obj/
 [Rr]elease*/
 _ReSharper*/
