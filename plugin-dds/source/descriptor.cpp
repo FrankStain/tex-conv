@@ -2,7 +2,7 @@
 
 namespace dll {	
 	const char g_dds_name[] = "Basic dds converter";
-	const char g_dds_desc[] = "Basic dds converter library with import to and export from ATI-TC files";
+	const char g_dds_desc[] = "Basic dds converter library with import to and export from S3-TC(DXT) files";
 
 	plugin::logger_t* g_logger = NULL;
 	

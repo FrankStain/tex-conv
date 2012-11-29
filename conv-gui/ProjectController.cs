@@ -155,7 +155,7 @@ namespace conv_gui
 						
 						string conv_name = conv_core.workbench.relative_path( base_dir, img.path );
 						while( ( '.' == conv_name[0] ) || ( '\\' == conv_name[0] ) ){
-							conv_name.Remove( 0, 1 );
+							conv_name = conv_name.Remove( 0, 1 );
 						};
 						
 						conv.SetAttribute( "format", hdr.Text );

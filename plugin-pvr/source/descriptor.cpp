@@ -2,7 +2,7 @@
 
 namespace dll {	
 	const char g_pvr_name[] = "Basic pvr converter";
-	const char g_pvr_desc[] = "Basic pvr converter library with import to and export from ATI-TC files";
+	const char g_pvr_desc[] = "Basic pvr converter library with import to and export from PVR-TC files";
 
 	plugin::logger_t* g_logger = NULL;
 	

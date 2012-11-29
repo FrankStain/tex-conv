@@ -160,10 +160,8 @@ namespace dll {
 			switch( version ){
 				case 2:{
 					file_system::file_t	file;
-					pvr::v2::header_t	hdr;
-					memset( &hdr, 0, pvr::v2::header_size );
+					pvr::v2::header_t	hdr	= { pvr::v2::header_file_size, 0 };
 
-					hdr.m_size				= pvr::v2::header_file_size;
 					hdr.m_magic				= pvr::v2::header_magic;
 					hdr.m_surface_count		= 1;
 					hdr.m_width				= texture.getWidth();

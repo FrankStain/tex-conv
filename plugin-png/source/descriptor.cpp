@@ -2,7 +2,7 @@
 
 namespace dll {	
 	const char g_png_name[] = "Basic png converter";
-	const char g_png_desc[] = "Basic png converter library with import to and export from ATI-TC files";
+	const char g_png_desc[] = "Basic png converter library";
 
 	plugin::logger_t* g_logger = NULL;
 	

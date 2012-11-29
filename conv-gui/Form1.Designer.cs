@@ -306,7 +306,7 @@
             this.b_del_files,
             this.toolStripSeparator5,
             this.b_dir_change});
-			this.toolStrip2.Location = new System.Drawing.Point(299, 0);
+			this.toolStrip2.Location = new System.Drawing.Point(312, 0);
 			this.toolStrip2.Name = "toolStrip2";
 			this.toolStrip2.Size = new System.Drawing.Size(87, 25);
 			this.toolStrip2.TabIndex = 2;
@@ -462,6 +462,7 @@
 			this.ClientSize = new System.Drawing.Size(632, 450);
 			this.Controls.Add(this.toolStripContainer1);
 			this.Controls.Add(this.statusStrip1);
+			this.DoubleBuffered = true;
 			this.MinimumSize = new System.Drawing.Size(600, 450);
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

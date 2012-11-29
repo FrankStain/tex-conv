@@ -66,14 +66,14 @@ namespace conv_gui
 		private static void thread_factory(){
 			m_process = true;
 			int items_count = 0;
-			int threads_count = Environment.ProcessorCount;
+			int threads_count = Environment.ProcessorCount / 2;
 			m_form.Invoke( new Action( () => {
 				m_form.b_process.Enabled			= false;
 				m_form.b_progress_cancel.Enabled	= true;
 				items_count = m_form.lv_files.Items.Count;
 			} ) );
 			
-			if( 2 > ( items_count / Environment.ProcessorCount ) ){
+			if( ( 2 > ( items_count / Environment.ProcessorCount ) ) || ( 1 > threads_count ) ){
 				threads_count = 1;
 			};
 

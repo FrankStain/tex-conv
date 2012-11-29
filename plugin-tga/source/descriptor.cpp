@@ -2,7 +2,7 @@
 
 namespace dll {	
 	const char g_tga_name[] = "Basic tga converter";
-	const char g_tga_desc[] = "Basic tga converter library with import to and export from ATI-TC files";
+	const char g_tga_desc[] = "Basic tga converter library";
 
 	plugin::logger_t* g_logger = NULL;
 	

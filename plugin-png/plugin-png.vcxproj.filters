@@ -28,14 +28,14 @@
     <Filter Include="png-lib">
       <UniqueIdentifier>{51210e4e-7b82-48cf-8dc8-8c7eada33f7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="zlib">
-      <UniqueIdentifier>{8d97ea82-c12a-42ec-a682-e618b3d4e283}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="zlib\includes">
-      <UniqueIdentifier>{5f5fdc94-75fa-4a53-8c66-7bd26a12a842}</UniqueIdentifier>
-    </Filter>
     <Filter Include="png-lib\includes">
       <UniqueIdentifier>{90e83c36-75c4-4c98-bdb8-7aefecf1ede2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="zlib">
+      <UniqueIdentifier>{efbf742d-a9bd-4a36-8370-6250559d11d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="zlib\includes">
+      <UniqueIdentifier>{4c91887f-c114-46d2-b238-1cbbb01bb0d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -87,39 +87,6 @@
     <ClInclude Include="..\plugin_api\plugin_option.h">
       <Filter>plugin_api</Filter>
     </ClInclude>
-    <ClInclude Include="zlib\deflate.h">
-      <Filter>zlib\includes</Filter>
-    </ClInclude>
-    <ClInclude Include="zlib\infblock.h">
-      <Filter>zlib\includes</Filter>
-    </ClInclude>
-    <ClInclude Include="zlib\infcodes.h">
-      <Filter>zlib\includes</Filter>
-    </ClInclude>
-    <ClInclude Include="zlib\inffast.h">
-      <Filter>zlib\includes</Filter>
-    </ClInclude>
-    <ClInclude Include="zlib\inffixed.h">
-      <Filter>zlib\includes</Filter>
-    </ClInclude>
-    <ClInclude Include="zlib\inftrees.h">
-      <Filter>zlib\includes</Filter>
-    </ClInclude>
-    <ClInclude Include="zlib\infutil.h">
-      <Filter>zlib\includes</Filter>
-    </ClInclude>
-    <ClInclude Include="zlib\trees.h">
-      <Filter>zlib\includes</Filter>
-    </ClInclude>
-    <ClInclude Include="zlib\zconf.h">
-      <Filter>zlib\includes</Filter>
-    </ClInclude>
-    <ClInclude Include="zlib\zutil.h">
-      <Filter>zlib\includes</Filter>
-    </ClInclude>
-    <ClInclude Include="zlib\zlib.h">
-      <Filter>zlib\includes</Filter>
-    </ClInclude>
     <ClInclude Include="png\png.h">
       <Filter>png-lib\includes</Filter>
     </ClInclude>
@@ -128,6 +95,39 @@
     </ClInclude>
     <ClInclude Include="png\pngpriv.h">
       <Filter>png-lib\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\zlib\deflate.h">
+      <Filter>zlib\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\zlib\infblock.h">
+      <Filter>zlib\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\zlib\infcodes.h">
+      <Filter>zlib\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\zlib\inffast.h">
+      <Filter>zlib\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\zlib\inffixed.h">
+      <Filter>zlib\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\zlib\inftrees.h">
+      <Filter>zlib\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\zlib\infutil.h">
+      <Filter>zlib\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\zlib\trees.h">
+      <Filter>zlib\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\zlib\zconf.h">
+      <Filter>zlib\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\zlib\zlib.h">
+      <Filter>zlib\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\zlib\zutil.h">
+      <Filter>zlib\includes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -151,45 +151,6 @@
     </ClCompile>
     <ClCompile Include="source\operator.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="zlib\adler32.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="zlib\compress.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="zlib\crc32.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="zlib\deflate.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="zlib\infblock.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="zlib\infcodes.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="zlib\inffast.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="zlib\inflate.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="zlib\inftrees.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="zlib\infutil.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="zlib\trees.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="zlib\uncompr.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="zlib\zutil.c">
-      <Filter>zlib</Filter>
     </ClCompile>
     <ClCompile Include="png\png.c">
       <Filter>png-lib</Filter>
@@ -241,6 +202,45 @@
     </ClCompile>
     <ClCompile Include="png\pngwutil.c">
       <Filter>png-lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\zlib\adler32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\zlib\compress.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\zlib\crc32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\zlib\deflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\zlib\infblock.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\zlib\infcodes.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\zlib\inffast.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\zlib\inflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\zlib\inftrees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\zlib\infutil.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\zlib\trees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\zlib\uncompr.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\zlib\zutil.c">
+      <Filter>zlib</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

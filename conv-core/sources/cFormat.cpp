@@ -38,9 +38,17 @@ namespace conv_core {
 		if( nullptr != dest->options ){
 			options = dest->options->values;
 		};
-		
+
+		if( !source->open() ){
+			return false;
+		};
+
+		if( !( source->handle->width() && source->handle->height() ) ){
+			return false;
+		};
+
 		String^ dest_path = dest->path;
-		return source->open() && m_handle->exporter()->save(
+		return m_handle->exporter()->save(
 			msclr::interop::marshal_as<string>( dest_path ).c_str(),
 			source->handle,
 			options
