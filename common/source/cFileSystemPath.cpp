@@ -36,7 +36,7 @@ namespace file_system {
 		path_t result( *this );
 	
 		char relative_path[ MAX_PATH ];
-		if( PathRelativePathTo( relative_path, base_path.path().c_str(), FILE_ATTRIBUTE_DIRECTORY, m_full_name.c_str(), FILE_ATTRIBUTE_DIRECTORY ) ){
+		if( PathRelativePathTo( relative_path, base_path.full_name().c_str(), FILE_ATTRIBUTE_DIRECTORY, m_full_name.c_str(), FILE_ATTRIBUTE_DIRECTORY ) ){
 			result.m_path = relative_path;
 			if( result.m_path == "." ){
 				result.m_path = "";
