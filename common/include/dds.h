@@ -34,18 +34,18 @@ namespace dds {
 	union header_flags_t {
 		uint32_t		m_flags;
 		struct {
-			uint8_t		m_caps : 1;
-			uint8_t		m_height : 1;
-			uint8_t		m_width : 1;
-			uint8_t		m_pitch : 1;
-			uint8_t		m_reserved_1 : 8;
-			uint8_t		m_pixel_format : 1;
-			uint8_t		m_reserved_2 : 4;
-			uint8_t		m_mip_count : 1;
-			uint8_t		m_reserved_3 : 1;
-			uint8_t		m_linear_size : 1;
-			uint8_t		m_reserved_4 : 3;
-			uint8_t		m_depth : 1;
+			uint32_t	m_caps : 1;
+			uint32_t	m_height : 1;
+			uint32_t	m_width : 1;
+			uint32_t	m_pitch : 1;
+			uint32_t	m_reserved_1 : 8;
+			uint32_t	m_pixel_format : 1;
+			uint32_t	m_reserved_2 : 4;
+			uint32_t	m_mip_count : 1;
+			uint32_t	m_reserved_3 : 1;
+			uint32_t	m_linear_size : 1;
+			uint32_t	m_reserved_4 : 3;
+			uint32_t	m_depth : 1;
 		};
 	};
 
