@@ -28,6 +28,8 @@ namespace conv_gui
 		private List<ListViewItem.ListViewSubItem>	m_sel_subitems	= new List<ListViewItem.ListViewSubItem>();
 		private List<ListViewItem>					m_sel_items		= new List<ListViewItem>();
 		private ColumnHeader						m_sel_header	= null;
+
+		private List<string>					m_history			= new List<string>();
 		
 		public MainForm()
 		{
@@ -47,6 +49,8 @@ namespace conv_gui
 					MessageBoxIcon.Error
 				);
 			};
+
+			OptionsController.load_history( m_history );
 
 			t_mod.Enabled = false;
 			b_new_Click( null, null );
@@ -186,6 +190,9 @@ namespace conv_gui
 							MessageBoxButtons.OK,
 							MessageBoxIcon.Error
 						);
+					}else{
+						OptionsController.history_add( m_history, dw_open.FileName );
+						OptionsController.save_history( m_history );
 					};
 				break;
 			};
@@ -706,6 +713,22 @@ namespace conv_gui
 
 				proc.Start();
 			};
+		}
+
+		private void b_open_DropDownOpening(object sender, EventArgs e)
+		{
+			b_open.DropDown.Items.Clear();
+			foreach( string item in m_history ){
+				b_open.DropDown.Items.Add( item, null, load_history );
+			};
+		}
+
+		private void load_history(object sender, EventArgs e)
+		{
+			string file_name = (sender as ToolStripItem).Text;
+			OptionsController.history_add( m_history, file_name );
+			OptionsController.save_history( m_history );
+			load_project( file_name );
 		}
 	}
 }

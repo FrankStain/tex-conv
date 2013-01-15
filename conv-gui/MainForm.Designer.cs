@@ -139,9 +139,9 @@
             this.b_progress_cancel,
             this.toolStripSeparator4,
             this.b_log_show});
-			this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+			this.toolStrip1.Location = new System.Drawing.Point(4, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(215, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(246, 25);
 			this.toolStrip1.TabIndex = 1;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -169,6 +169,7 @@
 			this.b_open.Size = new System.Drawing.Size(32, 22);
 			this.b_open.Text = "Open project";
 			this.b_open.ButtonClick += new System.EventHandler(this.b_open_Click);
+			this.b_open.DropDownOpening += new System.EventHandler(this.b_open_DropDownOpening);
 			// 
 			// b_save
 			// 
@@ -306,7 +307,7 @@
             this.b_del_files,
             this.toolStripSeparator5,
             this.b_dir_change});
-			this.toolStrip2.Location = new System.Drawing.Point(312, 0);
+			this.toolStrip2.Location = new System.Drawing.Point(323, 0);
 			this.toolStrip2.Name = "toolStrip2";
 			this.toolStrip2.Size = new System.Drawing.Size(87, 25);
 			this.toolStrip2.TabIndex = 2;

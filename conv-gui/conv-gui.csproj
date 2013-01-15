@@ -88,6 +88,7 @@
     <Compile Include="LogForm.Designer.cs">
       <DependentUpon>LogForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="OptionsController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
