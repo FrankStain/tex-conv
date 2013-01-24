@@ -1,3 +1,4 @@
+#include "core.h"
 #include "operator.h"
 #include "targa.h"
 

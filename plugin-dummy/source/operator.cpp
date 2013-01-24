@@ -1,3 +1,4 @@
+#include "core.h"
 #include "operator.h"
 #include <time.h>
 
@@ -57,16 +58,23 @@ namespace dll {
 	};
 
 	const bool dummy_operator_t::validate_file( const char* file_name ){
+		log_n( op_name, "Dummy thinks all files are valid as is :)" );
 		return true;
 	};
 
 	const bool dummy_operator_t::load( const char* file_name, plugin::image_desc_t* dest, plugin::option_t* options ){
+		log_i( op_name, "Dummy now will try to LOAD a file '%s'", file_name );
+		log_w( op_name, "And now dummy will sleep -__-" );
 		Sleep( 10 + ( rand() % 250 ) );
+		log_w( op_name, "Dummy wakes up and releases file '%s'", file_name );
 		return true;
 	};
 
 	const bool dummy_operator_t::save( const char* file_name, plugin::image_desc_t* source, plugin::option_t* options ){
+		log_i( op_name, "Dummy now will try to SAVE a file '%s'", file_name );
+		log_w( op_name, "And now dummy will sleep -__-" );
 		Sleep( 150 + ( rand() % 650 ) );
+		log_w( op_name, "Dummy wakes up and releases file '%s'", file_name );
 		return true;
 	};
 

@@ -58,15 +58,32 @@ namespace conv_gui
 
 		public void log_message( conv_core.LogMessageType type, string tag, string message )
 		{
-			ListViewItem item = lv_log.Items.Add( "" );
-			item.Text = String.Format( "{0:d.M.yyyy HH:mm:ss}", DateTime.Now );
-			item.SubItems.Add( log_type_string( type ) );
-			item.SubItems.Add( tag );
-			item.SubItems.Add( message );
+			lock( this ){
+				if( InvokeRequired ){
+					Invoke( new Action( () => {
+						ListViewItem item = lv_log.Items.Add( "" );
+						item.Text = String.Format( "{0:d.M.yyyy HH:mm:ss}", DateTime.Now );
+						item.SubItems.Add( log_type_string( type ) );
+						item.SubItems.Add( tag );
+						item.SubItems.Add( message );
 
-			if( Visible && b_autoscroll.Checked ){
-				lv_log.SelectedIndices.Clear();
-				lv_log.SelectedIndices.Add( item.Index );
+						if( Visible && b_autoscroll.Checked ){
+							lv_log.SelectedIndices.Clear();
+							lv_log.SelectedIndices.Add( item.Index );
+						};
+					} ) );
+				}else{
+					ListViewItem item = lv_log.Items.Add( "" );
+					item.Text = String.Format( "{0:d.M.yyyy HH:mm:ss}", DateTime.Now );
+					item.SubItems.Add( log_type_string( type ) );
+					item.SubItems.Add( tag );
+					item.SubItems.Add( message );
+
+					if( Visible && b_autoscroll.Checked ){
+						lv_log.SelectedIndices.Clear();
+						lv_log.SelectedIndices.Add( item.Index );
+					};
+				};
 			};
 		}
 

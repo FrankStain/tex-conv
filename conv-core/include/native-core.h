@@ -26,8 +26,8 @@ namespace dll {
 		mt_verbose
 	};
 	
-	void log( const msg_type_t type, const string& tag, const string& format, va_list vars );
-	void log( const msg_type_t type, const string& tag, const string& format, ... );
+	void log( const msg_type_t type, const char* tag, const char* format, va_list vars );
+	void log( const msg_type_t type, const char* tag, const char* message );
 
 	void log_v( const char* tag, const char* format, ... );
 	void log_d( const char* tag, const char* format, ... );

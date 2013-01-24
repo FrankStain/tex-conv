@@ -71,6 +71,16 @@ namespace dll {
 		};
 	};
 
+	void log( const msg_type_t type, const char* tag, const char* message ){
+		if( nullptr != conv_core::workbench::log_event ){
+			conv_core::workbench::log_event(
+				convert( type ),
+				msclr::interop::marshal_as<System::String^>( tag ),
+				msclr::interop::marshal_as<System::String^>( message )
+			);
+		}
+	};
+
 	#pragma unmanaged
 	void log( const msg_type_t type, const char* tag, const char* format, ... ){
 		va_list args;

@@ -5,17 +5,31 @@ namespace dll {
 	typedef map<id::simple_t, plugin_rec_t>		plugins_list_t;
 				
 	namespace ws {
+		class cWorkspaceLogger : public plugin::logger_t {
+		private:
+			uint8_t m_buffer[1024];
+
+		public:
+			virtual ~cWorkspaceLogger() {};
+
+			virtual void log( plugin::log_msg_t type, const char* tag, const char* message ){
+				dll::log( (msg_type_t&)type, tag, message );
+			};
+		};
+		
 		const char			ws_tag[]			= "workspace";
 		string				g_base_path;
 		plugins_list_t		g_plugins;
 		importers_list_t	g_importers;
 		exporters_list_t	g_exporters;
 		operators_list_t	g_operators;
+		cWorkspaceLogger	g_logger;
 
 		const bool load_plugin( const id::simple_t& rec_id ){
 			plugins_list_t::iterator fd = g_plugins.find( rec_id );
 			if( g_plugins.end() != fd ){
 				plugin::desc_t* desc = fd->second.m_desc;
+				desc->set_logger( &g_logger );
 				fd->second.m_importers.clear();
 				fd->second.m_exporters.clear();
 				
@@ -95,6 +109,7 @@ namespace dll {
 				fd->second.m_importers.clear();
 				fd->second.m_exporters.clear();
 				fd->second.m_operators.clear();
+				desc->set_logger( NULL );
 
 				log_v( ws_tag, "Plugin '%s' unloaded.", desc->name() );
 				return true;
