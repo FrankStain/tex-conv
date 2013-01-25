@@ -112,6 +112,7 @@ namespace dll {
 				texture, pvrtexture::PVRStandard8PixelType,
 				ePVRTVarTypeUnsignedByteNorm, ePVRTCSpacelRGB
 			) ){
+				log_er( op_name, "Can not convert '%s' to RGBA format.", file_name );
 				return false;
 			};
 
@@ -124,10 +125,22 @@ namespace dll {
 
 			result = NULL != dest->memory();
 		}catch( ... ){
+			log_c( op_name, "An exception catched while '%s' compression!", file_name );
 			result = false;
 		};
 		
 		return result;
+	};
+
+	const bool is_p2( int value ){
+		uint8_t count = 0;
+
+		while( value ){
+			count += 0x01 & value;
+			value = value >> 1;
+		};
+
+		return 1 == count;
 	};
 
 	const bool pvr_operator_t::save( const char* file_name, plugin::image_desc_t* source, plugin::option_t* options ){
@@ -136,6 +149,18 @@ namespace dll {
 		const exp_format_t&	format		= op_exp_formats[ ( options )? ( options[2].m_as_int % op_formats_count ) : 0 ];
 
 		bool result = false;
+
+		if( ( pvr::v2::OGL_PVRTC4 == format.m_v2_target ) || ( pvr::v2::OGL_PVRTC2 == format.m_v2_target ) ){
+			if( source->width() != source->height() ){
+				log_er( op_name, "Can not write '%s', width and height must be identical for PVR-TC4 compression!", file_name );
+				return result;
+			};
+
+			if( !is_p2( source->width() ) ){
+				log_er( op_name, "Can not write '%s', width and height must be a power-of-two values!", file_name );
+				return result;
+			};
+		};
 
 		try{
 			pvrtexture::CPVRTextureHeader tex_hdr(
@@ -151,11 +176,13 @@ namespace dll {
 				texture, format.m_v3_target.m_value,
 				ePVRTVarTypeUnsignedByteNorm, ePVRTCSpacelRGB
 			) ){
-				return false;
+				log_er( op_name, "Can not write '%s', file compression failed!", file_name );
+				return result;
 			};
 
 			if( mip_count && !pvrtexture::GenerateMIPMaps( texture, pvrtexture::eResizeCubic, mip_count ) ){
-				return false;
+				log_er( op_name, "Can not create mipmaps for file '%s'!", file_name );
+				return result;
 			};
 
 			switch( version ){
@@ -178,7 +205,8 @@ namespace dll {
 
 					file.construct( file_name, GENERIC_WRITE, CREATE_ALWAYS );
 					if( !file.is_ready() ){
-						return false;
+						log_er( op_name, "Can not rewrite file '%s'!", file_name );
+						return result;
 					};
 
 					result = file.write( &hdr, pvr::v2::header_size ) && file.write( texture.getDataPtr(), hdr.m_data_size );
@@ -191,6 +219,7 @@ namespace dll {
 			};
 
 		}catch( ... ){
+			log_c( op_name, "An exception catched while '%s' compression!", file_name );
 			result = false;
 		};
 
@@ -198,6 +227,10 @@ namespace dll {
 			file_system::delete_file( file_name );
 		};
 		
+		if( !result ){
+			log_er( op_name, "File '%s' was converted, but not saved.", file_name );
+		};
+
 		return result;
 	};
 
