@@ -96,16 +96,16 @@ namespace pvr {
 			union {
 				uint32_t		m_flags;
 				struct {
-					uint8_t		m_format : 8;
-					uint8_t		m_mipmaps : 1;
-					uint8_t		m_twiddled : 1;
-					uint8_t		m_normals : 1;
-					uint8_t		m_border : 1;
-					uint8_t		m_cubemap : 1;
-					uint8_t		m_false_mips : 1;
-					uint8_t		m_volume : 1;
-					uint8_t		m_use_alpha : 1;
-					uint8_t		m_vert_flip : 1;
+					uint32_t	m_format : 8;
+					uint32_t	m_mipmaps : 1;
+					uint32_t	m_twiddled : 1;
+					uint32_t	m_normals : 1;
+					uint32_t	m_border : 1;
+					uint32_t	m_cubemap : 1;
+					uint32_t	m_false_mips : 1;
+					uint32_t	m_volume : 1;
+					uint32_t	m_use_alpha : 1;
+					uint32_t	m_vert_flip : 1;
 				};
 			};
 

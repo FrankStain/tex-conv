@@ -11,6 +11,7 @@ namespace dll {
 		uint8_t					m_v2_target;
 		uint32_t				m_bit_depth;
 		bool					m_compressed;
+		bool					m_use_alpha;
 		uint32_t				m_red_mask;
 		uint32_t				m_grn_mask;
 		uint32_t				m_blu_mask;
@@ -30,14 +31,14 @@ namespace dll {
 	};
 
 	exp_format_t				op_exp_formats[]	= {
-		{ { ePVRTPF_PVRTCI_4bpp_RGBA },						pvr::v2::OGL_PVRTC4,	0,	true,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
-		{ { ePVRTPF_PVRTCI_2bpp_RGBA },						pvr::v2::OGL_PVRTC2,	0,	true,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
-		{ { ePVRTPF_ETC2_RGB },								pvr::v2::ETC_RGB_4BPP,	0,	true,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
-		{ { FRCC64( 'r', 'g', 'b', 'a',	8, 8, 8, 8 ) },		pvr::v2::OGL_RGBA_8888,	32,	false,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
-		{ { FRCC64( 'r', 'g', 'b', 'a',	5, 5, 5, 1 ) },		pvr::v2::OGL_RGBA_5551,	16,	false,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
-		{ { FRCC64( 'r', 'g', 'b', 'a',	4, 4, 4, 4 ) },		pvr::v2::OGL_RGBA_4444,	16,	false,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
-		{ { FRCC64( 'r', 'g', 'b', 0,	8, 8, 8, 0 ) },		pvr::v2::OGL_RGB_888,	24,	false,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
-		{ { FRCC64( 'r', 'g', 'b', 0,	5, 6, 5, 0 ) },		pvr::v2::OGL_RGB_565,	16,	false,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U }
+		{ { ePVRTPF_PVRTCI_4bpp_RGBA },						pvr::v2::OGL_PVRTC4,	4,	true,	true,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000001U },
+		{ { ePVRTPF_PVRTCI_2bpp_RGBA },						pvr::v2::OGL_PVRTC2,	2,	true,	true,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000001U },
+		{ { ePVRTPF_ETC2_RGB },								pvr::v2::ETC_RGB_4BPP,	4,	true,	false,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
+		{ { FRCC64( 'r', 'g', 'b', 'a',	8, 8, 8, 8 ) },		pvr::v2::OGL_RGBA_8888,	32,	false,	true,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
+		{ { FRCC64( 'r', 'g', 'b', 'a',	5, 5, 5, 1 ) },		pvr::v2::OGL_RGBA_5551,	16,	false,	true,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
+		{ { FRCC64( 'r', 'g', 'b', 'a',	4, 4, 4, 4 ) },		pvr::v2::OGL_RGBA_4444,	16,	false,	true,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
+		{ { FRCC64( 'r', 'g', 'b', 0,	8, 8, 8, 0 ) },		pvr::v2::OGL_RGB_888,	24,	false,	false,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U },
+		{ { FRCC64( 'r', 'g', 'b', 0,	5, 6, 5, 0 ) },		pvr::v2::OGL_RGB_565,	16,	false,	false,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000000U }
 	};
 
 	const size_t				op_formats_count	= sizeof( op_exp_formats ) / sizeof( exp_format_t );
@@ -197,6 +198,8 @@ namespace dll {
 					hdr.m_bit_depth			= format.m_bit_depth;
 					hdr.m_mips_count		= mip_count;
 					hdr.m_flags.m_format	= format.m_v2_target;
+					hdr.m_flags.m_twiddled	= ( pvr::v2::OGL_PVRTC2 == hdr.m_flags.m_format ) || ( pvr::v2::OGL_PVRTC4 == hdr.m_flags.m_format );
+					hdr.m_flags.m_use_alpha	= format.m_use_alpha;
 					hdr.m_mask.m_red		= format.m_red_mask;
 					hdr.m_mask.m_green		= format.m_grn_mask;
 					hdr.m_mask.m_blue		= format.m_blu_mask;
