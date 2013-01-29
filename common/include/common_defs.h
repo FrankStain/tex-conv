@@ -1,6 +1,7 @@
 #pragma once
 
 #include <windows.h>
+#include <iterator>
 #include <limits>
 #include <vector>
 #include <deque>

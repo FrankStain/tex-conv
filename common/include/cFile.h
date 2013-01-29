@@ -24,6 +24,12 @@ namespace file_system {
 		const bool read( void* dest, const size_t size );
 		const bool write( const void* src, const size_t size );
 
+		template<typename data_t> inline const bool read( data_t& data ) { return read( &data, sizeof( data_t ) ); };
+		template<typename data_t, int data_size> inline const bool read( data_t data[ data_size ] ) { return read( data, sizeof( data_t ) * data_size ); };
+
+		template<typename data_t> inline const bool write( const data_t& data ) { return write( &data, sizeof( data_t ) ); };
+		template<typename data_t, int data_size> inline const bool write( const data_t data[ data_size ] ) { return write( data, sizeof( data_t ) * data_size ); };
+
 		const size_t last_size() const { return m_last_operation; };
 		const bool is_ready() const { return INVALID_HANDLE_VALUE != m_handle; };
 	};

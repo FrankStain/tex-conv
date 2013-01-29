@@ -25,7 +25,7 @@ namespace file_system {
 		string full_path = name;
 		size_t pos = full_path.find( separator );
 		while( string::npos != pos ){
-			full_path.replace( pos, 1, path_separator );
+			full_path = full_path.replace( pos, 1, path_separator );
 			pos = full_path.find( separator, pos + 1 );
 		};
 

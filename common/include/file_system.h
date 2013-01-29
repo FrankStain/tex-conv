@@ -34,6 +34,9 @@ namespace file_system {
 
 	const bool file_exists( const string& file_name );
 	const bool path_exists( const string& path_name );
+
+	const bool make_folder( const string& path_name );
+
 	const bool delete_file( const string& path_name );
 	const bool delete_path( const string& path_name );
 };
