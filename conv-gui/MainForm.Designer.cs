@@ -68,6 +68,9 @@
 			this.cm_source_menu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.b_src_add_files = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+			this.b_src_convert_sel = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+			this.b_src_enabled = new System.Windows.Forms.ToolStripMenuItem();
 			this.b_src_change_file = new System.Windows.Forms.ToolStripMenuItem();
 			this.b_src_remove_files = new System.Windows.Forms.ToolStripMenuItem();
 			this.b_src_options = new System.Windows.Forms.ToolStripMenuItem();
@@ -139,7 +142,7 @@
             this.b_progress_cancel,
             this.toolStripSeparator4,
             this.b_log_show});
-			this.toolStrip1.Location = new System.Drawing.Point(4, 0);
+			this.toolStrip1.Location = new System.Drawing.Point(3, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(215, 25);
 			this.toolStrip1.TabIndex = 1;
@@ -307,7 +310,7 @@
             this.b_del_files,
             this.toolStripSeparator5,
             this.b_dir_change});
-			this.toolStrip2.Location = new System.Drawing.Point(312, 0);
+			this.toolStrip2.Location = new System.Drawing.Point(351, 0);
 			this.toolStrip2.Name = "toolStrip2";
 			this.toolStrip2.Size = new System.Drawing.Size(87, 25);
 			this.toolStrip2.TabIndex = 2;
@@ -403,13 +406,16 @@
 			this.cm_source_menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.b_src_add_files,
             this.toolStripMenuItem3,
+            this.b_src_convert_sel,
+            this.toolStripMenuItem5,
+            this.b_src_enabled,
             this.b_src_change_file,
             this.b_src_remove_files,
             this.b_src_options,
             this.toolStripMenuItem4,
             this.b_src_file_folder});
 			this.cm_source_menu.Name = "cm_source_menu";
-			this.cm_source_menu.Size = new System.Drawing.Size(176, 148);
+			this.cm_source_menu.Size = new System.Drawing.Size(176, 176);
 			// 
 			// b_src_add_files
 			// 
@@ -422,6 +428,26 @@
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
 			this.toolStripMenuItem3.Size = new System.Drawing.Size(172, 6);
+			// 
+			// b_src_convert_sel
+			// 
+			this.b_src_convert_sel.Name = "b_src_convert_sel";
+			this.b_src_convert_sel.Size = new System.Drawing.Size(175, 22);
+			this.b_src_convert_sel.Text = "Convert source";
+			this.b_src_convert_sel.Click += new System.EventHandler(this.b_src_convert_sel_Click);
+			// 
+			// toolStripMenuItem5
+			// 
+			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+			this.toolStripMenuItem5.Size = new System.Drawing.Size(172, 6);
+			// 
+			// b_src_enabled
+			// 
+			this.b_src_enabled.CheckOnClick = true;
+			this.b_src_enabled.Name = "b_src_enabled";
+			this.b_src_enabled.Size = new System.Drawing.Size(175, 22);
+			this.b_src_enabled.Text = "Source enabled";
+			this.b_src_enabled.Click += new System.EventHandler(this.b_src_enabled_Click);
 			// 
 			// b_src_change_file
 			// 
@@ -532,6 +558,9 @@
 		private System.Windows.Forms.ToolStripMenuItem b_src_options;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
 		private System.Windows.Forms.ToolStripMenuItem b_src_file_folder;
+		private System.Windows.Forms.ToolStripMenuItem b_src_convert_sel;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+		private System.Windows.Forms.ToolStripMenuItem b_src_enabled;
 
 	}
 }

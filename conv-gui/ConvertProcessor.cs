@@ -10,12 +10,14 @@ namespace conv_gui
 {
 	class ConvertProcessor
 	{
-		private static bool m_process	= false;
-		private static bool m_cancel	= false;
-		private static MainForm m_form	= null;
+		private static bool		m_process	= false;
+		private static bool		m_cancel	= false;
+		private static int		m_offset	= -1;
+		private static int		m_count		= -1;
+		private static MainForm	m_form		= null;
 
-		private static List<Thread> m_threads				= new List<Thread>();
-		private static List<List<ListViewItem>> m_routines	= new List<List<ListViewItem>>();
+		private static List<Thread>				m_threads	= new List<Thread>();
+		private static List<List<ListViewItem>>	m_routines	= new List<List<ListViewItem>>();
 		
 		private static void thread_routine( object reference ){
 			List<ListViewItem> pool = reference as List<ListViewItem>;
@@ -70,7 +72,7 @@ namespace conv_gui
 			m_form.Invoke( new Action( () => {
 				m_form.b_process.Enabled			= false;
 				m_form.b_progress_cancel.Enabled	= true;
-				items_count = m_form.lv_files.Items.Count;
+				items_count = ( 0 > m_count )? m_form.lv_files.Items.Count : m_count;
 			} ) );
 			
 			if( ( 2 > ( items_count / Environment.ProcessorCount ) ) || ( 1 > threads_count ) ){
@@ -84,19 +86,38 @@ namespace conv_gui
 
 			int pool = 0;
 
+			items_count = 0;
 			m_form.Invoke( new Action( () => {
 				m_form.lv_files.BeginUpdate();
+				
 				foreach( ListViewItem li in m_form.lv_files.Items ){
-					li.BackColor = Color.FromKnownColor( KnownColor.Window );
-					foreach( ListViewItem.ListViewSubItem lsi in li.SubItems ){
-						lsi.BackColor = li.BackColor;
+					if( 0 < m_offset ){
+						m_offset--;
+						continue;
 					};
 
-					m_routines[ pool++ ].Add( li );
-					if( m_routines.Count <= pool ){
-						pool = 0;
+					if( (li.Tag as conv_core.cImageFile).enabled ){
+						li.BackColor = Color.FromKnownColor( KnownColor.Window );
+						foreach( ListViewItem.ListViewSubItem lsi in li.SubItems ){
+							lsi.BackColor = li.BackColor;
+						};
+						
+						m_routines[ pool++ ].Add( li );
+						if( m_routines.Count <= pool ){
+							pool = 0;
+						};
+
+						items_count++;
+					};
+
+					if( 0 < m_count ){
+						m_count--;
+						if( 1 > m_count ){
+							break;
+						};
 					};
 				};
+
 				m_form.lv_files.EndUpdate();
 			} ) );
 
@@ -110,7 +131,7 @@ namespace conv_gui
 			m_form.Invoke( new Action( () => {
 				m_form.pb_progress.Visible	= true;
 				m_form.pb_progress.Value	= 0;
-				m_form.pb_progress.Maximum	= m_form.lv_files.Items.Count;
+				m_form.pb_progress.Maximum	= items_count;
 			} ) );
 
 			while( !m_cancel ){
@@ -150,8 +171,18 @@ namespace conv_gui
 		}
 
 		public static void start( MainForm form ){
-			m_form = form;
-			Thread fd = new Thread( new ThreadStart( thread_factory ) );
+			m_form		= form;
+			m_offset	= -1;
+			m_count		= -1;
+			Thread fd	= new Thread( new ThreadStart( thread_factory ) );
+			fd.Start();
+		}
+
+		public static void start( MainForm form, int offset, int count ){
+			m_form		= form;
+			m_offset	= ( ( 0 <= offset ) && ( m_form.lv_files.Items.Count > offset ) )? offset : -1;
+			m_count		= ( m_form.lv_files.Items.Count > ( offset + count ) )? count : ( m_form.lv_files.Items.Count - offset - 1 );
+			Thread fd	= new Thread( new ThreadStart( thread_factory ) );
 			fd.Start();
 		}
 

@@ -40,6 +40,7 @@ namespace conv_gui
 						li.Text			= Path.GetFileName( li.ToolTipText );
 						li.Tag			= fid;
 						fid.enabled		= Convert.ToBoolean( fd.Attributes["file.enabled"].Value );
+						li.ForeColor	= Color.FromArgb( (int)( ( fid.enabled )? 0xFF000000 : 0xFF666666 ) );
 						li.UseItemStyleForSubItems = false;
 
 						if( ( null != fd.Attributes["file.format"] ) && Convert.ToBoolean( fd.Attributes["file.format"].Value ) ){

@@ -507,7 +507,11 @@ namespace conv_gui
 						b_src_change_file.Enabled	=
 						b_src_file_folder.Enabled	=
 						b_src_options.Enabled		=
+						b_src_convert_sel.Enabled	=
+						b_src_enabled.Enabled		=
 						b_src_remove_files.Enabled	= 0 < m_sel_subitems.Count;
+						b_src_enabled.Checked		= (m_sel_items[0].Tag as conv_core.cImageFile).enabled;
+						b_src_convert_sel.Enabled	= b_src_convert_sel.Enabled && !ConvertProcessor.in_process;
 						cm_source_menu.Show( lv_files, e.Location );
 					} else if( 0 < m_sel_subitems.Count ) {
 						b_format_enable.Checked = (m_sel_subitems[0].Tag as conv_core.cImageFile).enabled;
@@ -559,6 +563,20 @@ namespace conv_gui
 					fd.enabled = b_format_enable.Checked;
 
 					lsi.ForeColor = Color.FromArgb( (int)( ( fd.enabled )? 0xFF000000 : 0xFF666666 ) );
+				};
+
+				t_mod.Enabled = true;
+			};
+		}
+
+		private void b_src_enabled_Click(object sender, EventArgs e)
+		{
+			if( ( null != m_sel_header ) && ( 0 < m_sel_items.Count ) ){
+				foreach( ListViewItem li in m_sel_items ){
+					conv_core.cImageFile fd = li.Tag as conv_core.cImageFile;
+					fd.enabled = b_src_enabled.Checked;
+
+					li.ForeColor = Color.FromArgb( (int)( ( fd.enabled )? 0xFF000000 : 0xFF666666 ) );
 				};
 
 				t_mod.Enabled = true;
@@ -664,6 +682,21 @@ namespace conv_gui
 		private void b_progress_cancel_Click(object sender, EventArgs e)
 		{
 			ConvertProcessor.cancel();
+		}
+
+		private void b_src_convert_sel_Click(object sender, EventArgs e)
+		{
+			if( ( null != m_sel_header ) && ( 0 < m_sel_items.Count ) ){
+				int beg		= m_sel_items.First().Index;
+				int count	= m_sel_items.Count;
+				foreach( ListViewItem li in m_sel_items ){
+					if( beg > li.Index ){
+						beg = li.Index;
+					};
+				};
+
+				ConvertProcessor.start( this, beg, count );
+			};
 		}
 
 		private void b_src_change_file_Click(object sender, EventArgs e)
