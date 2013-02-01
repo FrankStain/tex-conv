@@ -687,15 +687,7 @@ namespace conv_gui
 		private void b_src_convert_sel_Click(object sender, EventArgs e)
 		{
 			if( ( null != m_sel_header ) && ( 0 < m_sel_items.Count ) ){
-				int beg		= m_sel_items.First().Index;
-				int count	= m_sel_items.Count;
-				foreach( ListViewItem li in m_sel_items ){
-					if( beg > li.Index ){
-						beg = li.Index;
-					};
-				};
-
-				ConvertProcessor.start( this, beg, count );
+				ConvertProcessor.start( this, m_sel_items );
 			};
 		}
 
