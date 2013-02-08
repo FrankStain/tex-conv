@@ -167,9 +167,9 @@ namespace dll {
 		const uint32_t		version		= ( options )? ( ( 3 == options[0].m_as_int )? 3 : 2 ) : 2;
 		const uint32_t		mip_count	= ( options )? ( options[1].m_as_int % 11 ) : 0;
 		const exp_format_t&	format		= op_exp_formats[ ( options )? ( options[2].m_as_int % op_formats_count ) : 0 ];
-		const bool			dithering	= ( options )? options[4].m_as_bool : false;
+		const bool			dithering	= ( options )? options[4].m_as_bool : true;
 		
-		const pvrtexture::ECompressorQuality& out_qvl	= op_qvl_table[ ( options )? options[3].m_as_int : 1 ];
+		const pvrtexture::ECompressorQuality& out_qvl	= op_qvl_table[ ( options )? options[3].m_as_int : 2 ];
 		
 		bool result = false;
 
