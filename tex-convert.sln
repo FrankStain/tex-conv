@@ -30,6 +30,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plugin-dummy", "plugin-dumm
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plugin-jpg", "plugin-jpg\plugin-jpg.vcxproj", "{86D61640-2E93-46FC-B876-FCCB72D26B00}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plugin-gyu", "plugin-gyu\plugin-gyu.vcxproj", "{B485539D-112A-4B68-9360-599DC2776B8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -129,6 +131,16 @@ Global
 		{86D61640-2E93-46FC-B876-FCCB72D26B00}.Release|Win32.ActiveCfg = Release|Win32
 		{86D61640-2E93-46FC-B876-FCCB72D26B00}.Release|Win32.Build.0 = Release|Win32
 		{86D61640-2E93-46FC-B876-FCCB72D26B00}.Release|x86.ActiveCfg = Release|Win32
+		{B485539D-112A-4B68-9360-599DC2776B8D}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{B485539D-112A-4B68-9360-599DC2776B8D}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{B485539D-112A-4B68-9360-599DC2776B8D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B485539D-112A-4B68-9360-599DC2776B8D}.Debug|Win32.Build.0 = Debug|Win32
+		{B485539D-112A-4B68-9360-599DC2776B8D}.Debug|x86.ActiveCfg = Debug|Win32
+		{B485539D-112A-4B68-9360-599DC2776B8D}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{B485539D-112A-4B68-9360-599DC2776B8D}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{B485539D-112A-4B68-9360-599DC2776B8D}.Release|Win32.ActiveCfg = Release|Win32
+		{B485539D-112A-4B68-9360-599DC2776B8D}.Release|Win32.Build.0 = Release|Win32
+		{B485539D-112A-4B68-9360-599DC2776B8D}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,5 +155,6 @@ Global
 		{B2EFF68C-BF1E-4D9D-BE85-EF362506C49E} = {827A9EFC-ADBD-4E71-B0D0-A6CDD1606C8D}
 		{517F2D92-B605-46B6-A17F-8DB1C9478E5E} = {827A9EFC-ADBD-4E71-B0D0-A6CDD1606C8D}
 		{86D61640-2E93-46FC-B876-FCCB72D26B00} = {827A9EFC-ADBD-4E71-B0D0-A6CDD1606C8D}
+		{B485539D-112A-4B68-9360-599DC2776B8D} = {827A9EFC-ADBD-4E71-B0D0-A6CDD1606C8D}
 	EndGlobalSection
 EndGlobal
