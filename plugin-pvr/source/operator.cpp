@@ -30,6 +30,23 @@ namespace dll {
 		0
 	};
 
+	char*						op_qvl_names[]		= {
+		"[PVR] Fast",	"[PVR] Normal",				"[PVR] Good",	"[PVR] Best",
+		"[ETC] Fast",	"[ETC] Fast, perseptual",
+		"[ETC] Medium",	"[ETC] Medium, perseptual",
+		"[ETC] Slow",	"[ETC] Slow, perseptual",
+		0
+	};
+
+	pvrtexture::ECompressorQuality op_qvl_table[]	= {
+		pvrtexture::ePVRTCFast,		pvrtexture::ePVRTCNormal,
+		pvrtexture::ePVRTCHigh,		pvrtexture::ePVRTCBest,
+
+		pvrtexture::eETCFast,		pvrtexture::eETCFastPerceptual,
+		pvrtexture::eETCMedium,		pvrtexture::eETCMediumPerceptual,
+		pvrtexture::eETCSlow,		pvrtexture::eETCSlowPerceptual,
+	};
+
 	exp_format_t				op_exp_formats[]	= {
 		{ { ePVRTPF_PVRTCI_4bpp_RGBA },						pvr::v2::OGL_PVRTC4,	4,	true,	true,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000001U },
 		{ { ePVRTPF_PVRTCI_2bpp_RGBA },						pvr::v2::OGL_PVRTC2,	2,	true,	true,	0x00000000U,	0x00000000U,	0x00000000U,	0x00000001U },
@@ -46,7 +63,9 @@ namespace dll {
 	plugin::option_desc_t		op_exp_options[]	= {
 		{ "Format version",	0,	plugin::ot_uint,	2,	2,	3,	NULL },
 		{ "Mips Count",		1,	plugin::ot_uint,	0,	0,	10,	NULL },
-		{ "Method",			2,	plugin::ot_enum,	0,	0,	7,	op_exp_names }
+		{ "Method",			2,	plugin::ot_enum,	0,	0,	7,	op_exp_names },
+		{ "Quality",		3,	plugin::ot_enum,	2,	0,	9,	op_qvl_names },
+		{ "Use dithering",	4,	plugin::ot_bool,	1,	0,	1,	NULL },
 	};
 
 	plugin::options_desc_t		op_imp_desc			= {
@@ -148,7 +167,10 @@ namespace dll {
 		const uint32_t		version		= ( options )? ( ( 3 == options[0].m_as_int )? 3 : 2 ) : 2;
 		const uint32_t		mip_count	= ( options )? ( options[1].m_as_int % 11 ) : 0;
 		const exp_format_t&	format		= op_exp_formats[ ( options )? ( options[2].m_as_int % op_formats_count ) : 0 ];
-
+		const bool			dithering	= ( options )? options[4].m_as_bool : false;
+		
+		const pvrtexture::ECompressorQuality& out_qvl	= op_qvl_table[ ( options )? options[3].m_as_int : 1 ];
+		
 		bool result = false;
 
 		if( ( pvr::v2::OGL_PVRTC4 == format.m_v2_target ) || ( pvr::v2::OGL_PVRTC2 == format.m_v2_target ) ){
@@ -175,7 +197,8 @@ namespace dll {
 			
 			if( !pvrtexture::Transcode(
 				texture, format.m_v3_target.m_value,
-				ePVRTVarTypeUnsignedByteNorm, ePVRTCSpacelRGB
+				ePVRTVarTypeUnsignedByteNorm, ePVRTCSpacelRGB,
+				out_qvl, dithering
 			) ){
 				log_er( op_name, "Can not write '%s', file compression failed!", file_name );
 				return result;
