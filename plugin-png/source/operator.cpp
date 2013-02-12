@@ -167,7 +167,19 @@ namespace dll {
 			case 8:{
 				dest->set_sizes( png_width, png_height );
 				for( png_uint_32 row_id = 0; png_height > row_id; row_id++ ){
-					memcpy( dest->row( row_id ), png_buf[ row_id ], row_length );
+					switch( info_ptr->channels ){
+						case 3:{
+							plugin::pixel_desc_t* dst_pix = dest->row( row_id );
+							for( png_byte* png_pix = png_buf[ row_id ]; ( png_buf[ row_id ] + row_length ) > png_pix; png_pix += 3, dst_pix++ ){
+								dst_pix->m_aplha		= 255;
+								dst_pix->m_red		= png_pix[0];
+								dst_pix->m_green		= png_pix[1];
+								dst_pix->m_blue		= png_pix[2];
+							};
+						}break;
+						default:
+							memcpy( dest->row( row_id ), png_buf[ row_id ], row_length );
+					};
 				};
 
 				result = true;
