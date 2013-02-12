@@ -30,28 +30,29 @@ namespace conv_gui
 				ListViewItem li = pool.First();
 				conv_core.cImageFile src_img = li.Tag as conv_core.cImageFile;
 
-				if( !src_img.enabled ){
-					continue;
-				};
-
-				int coverted = 0;
-				foreach( ColumnHeader hdr in m_form.m_formats ){
-					if( !(li.SubItems[ hdr.Index ].Tag as conv_core.cImageFile).enabled ){
-						continue;
-					};
+				if( src_img.enabled ){
+					int coverted = 0;
+					foreach( ColumnHeader hdr in m_form.m_formats ){
+						if( !(li.SubItems[ hdr.Index ].Tag as conv_core.cImageFile).enabled ){
+							li.SubItems[ hdr.Index ].BackColor = Color.LightSkyBlue;
+							coverted++;
+							continue;
+						};
 					
-					conv_core.cFormat fmt = hdr.Tag as conv_core.cFormat;
-					ListViewItem.ListViewSubItem lsi = li.SubItems[ hdr.Index ];
-					if( fmt.convert( src_img, lsi.Tag as conv_core.cImageFile ) ){
-						lsi.BackColor = Color.LightGreen;
-						coverted++;
-					}else{
-						lsi.BackColor = Color.LightPink;
+						conv_core.cFormat fmt = hdr.Tag as conv_core.cFormat;
+						ListViewItem.ListViewSubItem lsi = li.SubItems[ hdr.Index ];
+						if( fmt.convert( src_img, lsi.Tag as conv_core.cImageFile ) ){
+							lsi.BackColor = Color.LightGreen;
+							coverted++;
+						}else{
+							lsi.BackColor = Color.LightPink;
+						};
 					};
+
+					li.BackColor = ( m_form.m_formats.Count == coverted )? Color.LightGreen : Color.LightPink;
+					src_img.close();
 				};
 
-				li.BackColor = ( m_form.m_formats.Count == coverted )? Color.LightGreen : Color.LightPink;
-				src_img.close();
 				pool.RemoveAt( 0 );
 
 				lock( m_form ){
