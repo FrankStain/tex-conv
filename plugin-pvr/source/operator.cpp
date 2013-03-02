@@ -65,7 +65,7 @@ namespace dll {
 		{ "Mips Count",		1,	plugin::ot_uint,	0,	0,	10,	NULL },
 		{ "Method",			2,	plugin::ot_enum,	0,	0,	7,	op_exp_names },
 		{ "Quality",		3,	plugin::ot_enum,	2,	0,	9,	op_qvl_names },
-		{ "Use dithering",	4,	plugin::ot_bool,	1,	0,	1,	NULL },
+		{ "Use dithering",	4,	plugin::ot_bool,	0,	0,	1,	NULL },
 	};
 
 	plugin::options_desc_t		op_imp_desc			= {
@@ -169,7 +169,7 @@ namespace dll {
 		const exp_format_t&	format		= op_exp_formats[ ( options )? ( options[2].m_as_int % op_formats_count ) : 0 ];
 		const bool			dithering	= ( options )? options[4].m_as_bool : false;
 		
-		const pvrtexture::ECompressorQuality& out_qvl	= op_qvl_table[ ( options )? options[3].m_as_int : 1 ];
+		const pvrtexture::ECompressorQuality& out_qvl	= op_qvl_table[ ( options )? options[3].m_as_int : 2 ];
 		
 		bool result = false;
 
