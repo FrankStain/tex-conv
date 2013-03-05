@@ -132,13 +132,16 @@ namespace dll {
 				const plugin::pixel_desc_t* eol = pix + hdr.m_width;
 				while( eol > pix ){
 					switch( bmp_depth ){
-						case 1:
-							*pix			= pal_data[ *bmp_row++ ];
-						break;
+						case 1:{
+							const plugin::pixel_desc_t& pd = pal_data[ *bmp_row++ ];
+							pix->m_red		= pd.m_blue;
+							pix->m_green		= pd.m_green;
+							pix->m_blue		= pd.m_red;
+						}break;
 						default:
-							pix->m_red		= *bmp_row++;
-							pix->m_green		= *bmp_row++;
 							pix->m_blue		= *bmp_row++;
+							pix->m_green		= *bmp_row++;
+							pix->m_red		= *bmp_row++;
 						break;
 					};
 

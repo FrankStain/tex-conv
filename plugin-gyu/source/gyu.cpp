@@ -116,11 +116,11 @@ namespace gyu {
 	};
 
 	bool scramble( uint8_t* data, const uint32_t data_size, const uint32_t seed ){
-		mt::rand_gen( seed );
+		mt::generator_t gen( seed );
 
 		for( int32_t pos = 0; 10 > pos; pos++ ){
-			int32_t p1 = mt::rand_next() % data_size;
-			int32_t p2 = mt::rand_next() % data_size;
+			int32_t p1 = gen.get_next() % data_size;
+			int32_t p2 = gen.get_next() % data_size;
 			swap( data[ p1 ], data[ p2 ] );
 		};
 		
@@ -128,11 +128,11 @@ namespace gyu {
 	};
 
 	bool unscramble( uint8_t* data, const uint32_t data_size, const uint32_t seed ){
-		mt::rand_gen( seed );
+		mt::generator_t gen( seed );
 
 		for( int32_t pos = 0; 10 > pos; pos++ ){
-			int32_t p1 = mt::rand_next() % data_size;
-			int32_t p2 = mt::rand_next() % data_size;
+			int32_t p1 = gen.get_next() % data_size;
+			int32_t p2 = gen.get_next() % data_size;
 			swap( data[ p1 ], data[ p2 ] );
 		};
 		
