@@ -109,10 +109,7 @@ namespace dll {
 		}else if( hdr.m_format.m_gyu_encode ){
 			gyu::decode( pixels + 4, hdr.m_rgb_size - 4, bmp_data, bmp_size );
 		}else{
-			vector<uint8_t> decomp_data;
-			if( data_ready = lzss::decompress( pixels, hdr.m_rgb_size, decomp_data ) ){
-				memcpy( bmp_data, decomp_data.data(), min( bmp_size, decomp_data.size() ) );
-			};
+			data_ready = bmp_size == lzss::decompress( pixels, hdr.m_rgb_size, bmp_data, bmp_size );
 		};
 
 		delete[] pixels;
@@ -121,10 +118,7 @@ namespace dll {
 			if( alp_size == hdr.m_alp_size ){
 				memcpy( alp_data, pix_alpha, alp_size );
 			}else{
-				vector<uint8_t> decomp_data;
-				if( data_ready = lzss::decompress( pix_alpha, hdr.m_alp_size, decomp_data ) ){
-					memcpy( alp_data, decomp_data.data(), min( alp_size, decomp_data.size() ) );
-				};
+				data_ready = alp_size == lzss::decompress( pix_alpha, hdr.m_alp_size, alp_data, alp_size );
 			};
 		};
 
@@ -134,7 +128,7 @@ namespace dll {
 				uint8_t* bmp_row = bmp_data + bmp_stride * row;
 				uint8_t* alp_row = ( alp_data )? alp_data + alp_stride * row : NULL;
 				
-				plugin::pixel_desc_t* pix = dest->row( row );
+				plugin::pixel_desc_t* pix = dest->row( hdr.m_height - ( row + 1 ) );
 				const plugin::pixel_desc_t* eol = pix + hdr.m_width;
 				while( eol > pix ){
 					switch( bmp_depth ){
