@@ -26,7 +26,7 @@ namespace conv_core {
 
 	cFormat^ cFormatCollection::default::get( String^ name ){
 		for( int id = 0; m_formats.Count > id; id++ ){
-			if( name == m_formats[ id ]->name ){
+			if( name == m_formats[ id ]->ext ){
 				return m_formats[ id ];
 			};
 		};
