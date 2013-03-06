@@ -11,11 +11,11 @@
 #define TEMPERING_SHIFT_L(V)	( (V) >> 18 )
 
 namespace mt {	
-	generator_t::generator_t(): m_eol(m_table), m_current(0) {
+	generator_t::generator_t(): m_eol(m_table + table_size), m_current(m_table) {
 		memset( m_table, 0, sizeof( m_table ) );
 	};
 
-	generator_t::generator_t( const uint32_t seed ): m_eol(m_table), m_current(0) {
+	generator_t::generator_t( const uint32_t seed ): m_eol(m_table + table_size), m_current(m_table) {
 		memset( m_table, 0, sizeof( m_table ) );
 		set_seed( seed );
 	};
