@@ -73,8 +73,121 @@ namespace tga {
 		return false;
 	};
 
-	const bool save( const char* path, plugin::image_desc_t* desc, const uint16_t bit_depth ){
-		return false;
+	const bool save( const char* path, plugin::image_desc_t* desc, const uint16_t bit_depth, const bool save_aplha ){
+		if( !( ( 16 == bit_depth ) || ( 24 == bit_depth ) || ( 32 == bit_depth ) ) ){
+			return false;
+		};
+		
+		file_system::file_t file;
+		bool status = false;
+
+		file.construct( path, GENERIC_WRITE, CREATE_ALWAYS );
+		if( !file.is_ready() ){
+			return false;
+		};
+
+		header_t hdr = { 0, 0, dt_rgba, { 0, 0, 0 }, { 0, 0, desc->width(), desc->height(), (uint8_t&)bit_depth, 0 } };
+		hdr.m_image.m_desc.m_reserved = true;
+
+		file.write( hdr );
+		
+		const size_t data_size = desc->width() * desc->height();
+		switch( bit_depth ){
+			case 16:{
+				static const float collapse_pct = 31.0f / 255.0f;
+				uint16_t* data = new uint16_t[ data_size ];
+								
+				plugin::pixel_desc_t* in_pix = desc->memory();
+				for( uint16_t* out_pix = data; ( data + data_size ) > out_pix; out_pix++, in_pix++ ){
+					*out_pix =	( 0x1FU & (uint16_t)( 0.5f + in_pix->m_blue * collapse_pct ) ) |
+								( ( 0x1FU & (uint16_t)( 0.5f + in_pix->m_green * collapse_pct ) ) << 5 ) |
+								( ( 0x1FU & (uint16_t)( 0.5f + in_pix->m_red * collapse_pct ) ) << 10 ) |
+								( ( save_aplha && ( 16 > in_pix->m_aplha ) )? 0 : 0x8000U );
+				};
+
+				const size_t row_size = desc->width() * 2;
+				uint8_t* row_buf = new uint8_t[ row_size ];
+				for( int32_t rid = 0; ( desc->height() / 2 ) > rid; rid++ ){
+					uint8_t* cs = ( (uint8_t*)data ) + row_size * rid;
+					uint8_t* ds = ( (uint8_t*)data ) + row_size * ( desc->height() - rid - 1 );
+
+					memcpy( row_buf, cs, row_size );
+					memcpy( cs, ds, row_size );
+					memcpy( ds, row_buf, row_size );
+				};
+
+				delete[] row_buf;
+
+				file.write( data, 2 * data_size );
+				delete[] data;
+				status = true;
+			}break;
+			case 24:{
+				uint8_t* data = new uint8_t[ 3 * data_size ];
+
+				plugin::pixel_desc_t* in_pix = desc->memory();
+				for( uint8_t* out_pix = data; ( data + 3 * data_size ) > out_pix; out_pix += 3, in_pix++ ){
+					out_pix[0] = in_pix->m_blue;
+					out_pix[1] = in_pix->m_green;
+					out_pix[2] = in_pix->m_red;
+				};
+
+				const size_t row_size = desc->width() * 3;
+				uint8_t* row_buf = new uint8_t[ row_size ];
+				for( int32_t rid = 0; ( desc->height() / 2 ) > rid; rid++ ){
+					uint8_t* cs = data + row_size * rid;
+					uint8_t* ds = data + row_size * ( desc->height() - rid - 1 );
+
+					memcpy( row_buf, cs, row_size );
+					memcpy( cs, ds, row_size );
+					memcpy( ds, row_buf, row_size );
+				};
+
+				delete[] row_buf;
+
+				file.write( data, 3 * data_size );
+				delete[] data;
+				status = true;
+			}break;
+			case 32:{
+				plugin::pixel_desc_t* data = new plugin::pixel_desc_t[ data_size ];
+				memcpy( data, desc->memory(), 4 * data_size );
+
+				for( plugin::pixel_desc_t* pix = data; ( data + data_size ) > pix; pix++ ){
+					const plugin::channel_t ch = pix->m_red;
+					pix->m_red	= pix->m_blue;
+					pix->m_blue	= ch;
+
+					if( !save_aplha ){
+						pix->m_aplha = 0xFFU;
+					};
+				};
+
+				const size_t row_size = desc->width() * 4;
+				uint8_t* row_buf = new uint8_t[ row_size ];
+				for( int32_t rid = 0; ( desc->height() / 2 ) > rid; rid++ ){
+					uint8_t* cs = ( (uint8_t*)data ) + row_size * rid;
+					uint8_t* ds = ( (uint8_t*)data ) + row_size * ( desc->height() - rid - 1 );
+
+					memcpy( row_buf, cs, row_size );
+					memcpy( cs, ds, row_size );
+					memcpy( ds, row_buf, row_size );
+				};
+
+				delete[] row_buf;
+
+				file.write( data, 4 * data_size );
+				delete[] data;
+				status = true;
+			}break;
+		};
+				
+		file.close();
+		if( !status ){
+			file_system::delete_file( path );
+		};
+
+		return status;
 	};
 
 	const bool validate( const char* path ){

@@ -48,7 +48,7 @@ namespace tga {
 	};
 
 	const bool load( const char* path, plugin::image_desc_t* desc );
-	const bool save( const char* path, plugin::image_desc_t* desc, const uint16_t bit_depth = 32 );
+	const bool save( const char* path, plugin::image_desc_t* desc, const uint16_t bit_depth = 32, const bool save_aplha = true );
 	const bool validate( const char* path );
 };
 #pragma pack( pop )
