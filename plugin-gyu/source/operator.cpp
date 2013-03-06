@@ -8,7 +8,7 @@ namespace dll {
 	const char					op_name[]		= "GYU";
 	const char					op_desc[]		= "Encrypted BMP";
 	const char					op_ext[]		= "gyu";
-	plugin::operator_options_t	op_type			= plugin::OPER_IMPORT | plugin::OPER_EXPORT;
+	plugin::operator_options_t	op_type			= plugin::OPER_IMPORT;// | plugin::OPER_EXPORT;
 
 	plugin::options_desc_t		op_imp_desc			= {
 		//op_imp_options, sizeof( op_imp_options ) / sizeof( plugin::option_desc_t )
