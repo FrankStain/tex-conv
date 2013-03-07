@@ -70,6 +70,12 @@
     <Compile Include="ExportersListForm.Designer.cs">
       <DependentUpon>ExportersListForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImageViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImageViewForm.Designer.cs">
+      <DependentUpon>ImageViewForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +100,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ExportersListForm.resx">
       <DependentUpon>ExportersListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageViewForm.resx">
+      <DependentUpon>ImageViewForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
