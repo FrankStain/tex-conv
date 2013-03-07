@@ -45,7 +45,7 @@ namespace tga {
 					for( int32_t rd = 0; hdr->m_image.m_height > rd; rd++ ){
 						plugin::pixel_desc_t* dest	= desc->row( rd );
 						const uint8_t* eol			= pixels + ( rd + 1 ) * row_stride;
-						for( uint8_t* pix = pixels + rd * row_stride; eol > pix; pix += 3 ){
+						for( uint8_t* pix = pixels + rd * row_stride; eol > pix; pix += 3, dest++ ){
 							dest->m_aplha	= 0xFFU;
 							dest->m_red		= pix[2];
 							dest->m_green	= pix[1];
@@ -102,7 +102,7 @@ namespace tga {
 					*out_pix =	( 0x1FU & (uint16_t)( 0.5f + in_pix->m_blue * collapse_pct ) ) |
 								( ( 0x1FU & (uint16_t)( 0.5f + in_pix->m_green * collapse_pct ) ) << 5 ) |
 								( ( 0x1FU & (uint16_t)( 0.5f + in_pix->m_red * collapse_pct ) ) << 10 ) |
-								( ( save_aplha && ( 16 > in_pix->m_aplha ) )? 0 : 0x8000U );
+								( ( save_aplha && ( 16 > in_pix->m_aplha ) )? 0x8000U : 0 );
 				};
 
 				const size_t row_size = desc->width() * 2;

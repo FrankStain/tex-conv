@@ -68,6 +68,7 @@ namespace dll {
 			};
 
 			delete[] row_buf;
+			return true;
 		};
 
 		return false;

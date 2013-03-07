@@ -180,6 +180,8 @@ namespace conv_core {
 		bool open();
 		void close();
 
+		bool get_row( int row_id, array<System::Int32>^ dest_buffer );
+
 		property String^ path {
 			String^ get() { return m_path; };
 			void set( String^ v ) { m_path = v; };
@@ -192,6 +194,14 @@ namespace conv_core {
 
 		property bool opened {
 			bool get();
+		};
+
+		property int width {
+			int get();
+		};
+
+		property int height {
+			int get();
 		};
 
 		property plugin::image_desc_t* handle {

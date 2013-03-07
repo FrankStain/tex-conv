@@ -147,10 +147,10 @@ namespace dll {
 
 					if( alp_row ){
 						if( hdr.m_format.m_wide_alpha ){
-							pix->m_aplha = *alp_row++;
-						}else{
 							pix->m_aplha = ( 16 == *alp_row )? 255 : ( 16 * *alp_row );
 							alp_row++;
+						}else{
+							pix->m_aplha = *alp_row++;
 						};
 					}else{
 						pix->m_aplha = 0xFF;

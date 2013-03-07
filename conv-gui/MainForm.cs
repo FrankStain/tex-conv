@@ -510,6 +510,7 @@ namespace conv_gui
 						b_src_convert_sel.Enabled	=
 						b_src_enabled.Enabled		=
 						b_src_remove_files.Enabled	= 0 < m_sel_subitems.Count;
+						b_src_viewer_open.Enabled	= 1 == m_sel_subitems.Count;
 						b_src_enabled.Checked		= (m_sel_items[0].Tag as conv_core.cImageFile).enabled;
 						b_src_convert_sel.Enabled	= b_src_convert_sel.Enabled && !ConvertProcessor.in_process;
 						cm_source_menu.Show( lv_files, e.Location );
@@ -754,6 +755,18 @@ namespace conv_gui
 			OptionsController.history_add( m_history, file_name );
 			OptionsController.save_history( m_history );
 			load_project( file_name );
+		}
+
+		private void b_src_viewer_open_Click(object sender, EventArgs e)
+		{
+			if( ( null != m_sel_header ) && ( 1 == m_sel_items.Count ) ){
+				ImageViewForm form = new ImageViewForm();
+
+				form.file_name = (m_sel_items[0].Tag as conv_core.cImageFile).path;
+				form.set_imagelist( m_sel_items[0] );
+
+				form.ShowDialog( this );
+			};
 		}
 	}
 }

@@ -76,6 +76,7 @@
 			this.b_src_options = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
 			this.b_src_file_folder = new System.Windows.Forms.ToolStripMenuItem();
+			this.b_src_viewer_open = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -310,7 +311,7 @@
             this.b_del_files,
             this.toolStripSeparator5,
             this.b_dir_change});
-			this.toolStrip2.Location = new System.Drawing.Point(351, 0);
+			this.toolStrip2.Location = new System.Drawing.Point(312, 0);
 			this.toolStrip2.Name = "toolStrip2";
 			this.toolStrip2.Size = new System.Drawing.Size(87, 25);
 			this.toolStrip2.TabIndex = 2;
@@ -413,74 +414,82 @@
             this.b_src_remove_files,
             this.b_src_options,
             this.toolStripMenuItem4,
+            this.b_src_viewer_open,
             this.b_src_file_folder});
 			this.cm_source_menu.Name = "cm_source_menu";
-			this.cm_source_menu.Size = new System.Drawing.Size(176, 176);
+			this.cm_source_menu.Size = new System.Drawing.Size(190, 220);
 			// 
 			// b_src_add_files
 			// 
 			this.b_src_add_files.Name = "b_src_add_files";
-			this.b_src_add_files.Size = new System.Drawing.Size(175, 22);
+			this.b_src_add_files.Size = new System.Drawing.Size(189, 22);
 			this.b_src_add_files.Text = "Add files";
 			this.b_src_add_files.Click += new System.EventHandler(this.b_add_files_Click);
 			// 
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(172, 6);
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(186, 6);
 			// 
 			// b_src_convert_sel
 			// 
 			this.b_src_convert_sel.Name = "b_src_convert_sel";
-			this.b_src_convert_sel.Size = new System.Drawing.Size(175, 22);
+			this.b_src_convert_sel.Size = new System.Drawing.Size(189, 22);
 			this.b_src_convert_sel.Text = "Convert source";
 			this.b_src_convert_sel.Click += new System.EventHandler(this.b_src_convert_sel_Click);
 			// 
 			// toolStripMenuItem5
 			// 
 			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-			this.toolStripMenuItem5.Size = new System.Drawing.Size(172, 6);
+			this.toolStripMenuItem5.Size = new System.Drawing.Size(186, 6);
 			// 
 			// b_src_enabled
 			// 
 			this.b_src_enabled.CheckOnClick = true;
 			this.b_src_enabled.Name = "b_src_enabled";
-			this.b_src_enabled.Size = new System.Drawing.Size(175, 22);
+			this.b_src_enabled.Size = new System.Drawing.Size(189, 22);
 			this.b_src_enabled.Text = "Source enabled";
 			this.b_src_enabled.Click += new System.EventHandler(this.b_src_enabled_Click);
 			// 
 			// b_src_change_file
 			// 
 			this.b_src_change_file.Name = "b_src_change_file";
-			this.b_src_change_file.Size = new System.Drawing.Size(175, 22);
+			this.b_src_change_file.Size = new System.Drawing.Size(189, 22);
 			this.b_src_change_file.Text = "Change source";
 			this.b_src_change_file.Click += new System.EventHandler(this.b_src_change_file_Click);
 			// 
 			// b_src_remove_files
 			// 
 			this.b_src_remove_files.Name = "b_src_remove_files";
-			this.b_src_remove_files.Size = new System.Drawing.Size(175, 22);
+			this.b_src_remove_files.Size = new System.Drawing.Size(189, 22);
 			this.b_src_remove_files.Text = "Remove source";
 			this.b_src_remove_files.Click += new System.EventHandler(this.b_del_files_Click);
 			// 
 			// b_src_options
 			// 
 			this.b_src_options.Name = "b_src_options";
-			this.b_src_options.Size = new System.Drawing.Size(175, 22);
+			this.b_src_options.Size = new System.Drawing.Size(189, 22);
 			this.b_src_options.Text = "Source options";
 			this.b_src_options.Click += new System.EventHandler(this.b_src_options_Click);
 			// 
 			// toolStripMenuItem4
 			// 
 			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-			this.toolStripMenuItem4.Size = new System.Drawing.Size(172, 6);
+			this.toolStripMenuItem4.Size = new System.Drawing.Size(186, 6);
 			// 
 			// b_src_file_folder
 			// 
 			this.b_src_file_folder.Name = "b_src_file_folder";
-			this.b_src_file_folder.Size = new System.Drawing.Size(175, 22);
+			this.b_src_file_folder.Size = new System.Drawing.Size(189, 22);
 			this.b_src_file_folder.Text = "Open source folder";
 			this.b_src_file_folder.Click += new System.EventHandler(this.b_src_file_folder_Click);
+			// 
+			// b_src_viewer_open
+			// 
+			this.b_src_viewer_open.Name = "b_src_viewer_open";
+			this.b_src_viewer_open.Size = new System.Drawing.Size(189, 22);
+			this.b_src_viewer_open.Text = "Open in Image viewer";
+			this.b_src_viewer_open.Click += new System.EventHandler(this.b_src_viewer_open_Click);
 			// 
 			// MainForm
 			// 
@@ -561,6 +570,7 @@
 		private System.Windows.Forms.ToolStripMenuItem b_src_convert_sel;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
 		private System.Windows.Forms.ToolStripMenuItem b_src_enabled;
+		private System.Windows.Forms.ToolStripMenuItem b_src_viewer_open;
 
 	}
 }

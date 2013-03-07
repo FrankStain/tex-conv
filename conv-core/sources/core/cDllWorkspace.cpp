@@ -246,7 +246,7 @@ namespace dll {
 
 		plugin::image_desc_t* open_image( const string& path, plugin::option_t* options )
 		{
-			plugin::image_desc_t* img = make_image();
+			plugin::image_desc_t* img = NULL;
 
 			if( file_system::file_exists( path ) ){
 				log_v( ws_tag, "Try to open : '%s'", path.c_str() );
@@ -254,6 +254,7 @@ namespace dll {
 				const id::simple_t ext_id( fn.extension() );
 				importers_list_t::iterator fd = g_importers.find( ext_id );
 				if( g_importers.end() != fd ){
+					img = make_image();
 					plugin::importer_t* func = g_importers[ ext_id ];
 					if( func->load( path.c_str(), img, options ) ){
 						log_i( ws_tag, "'%s' loaded with %s", path.c_str(), func->owner()->name() );
