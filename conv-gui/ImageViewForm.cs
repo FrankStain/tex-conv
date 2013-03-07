@@ -152,6 +152,21 @@ namespace conv_gui
 				return;
 			};
 
+			int channels = ( ( b_use_red.Checked )? 1 : 0 ) + ( ( b_use_green.Checked )? 1 : 0 ) + ( ( b_use_blue.Checked )? 1 : 0 ) + ( ( b_use_alpha.Checked )? 1 : 0 );
+			bool gray = 2 > channels;
+
+			if( gray ){
+				channels =	( b_use_alpha.Checked )? 3 :
+							( b_use_red.Checked )? 0 :
+							( b_use_green.Checked )? 1 :
+							( b_use_blue.Checked )? 2 : 3;
+			}else{
+				channels =	( ( b_use_alpha.Checked )? 0x08 : 0 ) |
+							( ( b_use_red.Checked )? 0x01 : 0 ) |
+							( ( b_use_green.Checked )? 0x02 : 0 ) |
+							( ( b_use_blue.Checked )? 0x04 : 0 );
+			};
+
 			Rectangle r = new Rectangle( 0, 0, m_view.Width, m_view.Height );
 			BitmapData view_bits = m_view.LockBits( r, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb );
 			BitmapData src_bits = m_current_view.LockBits( r, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb );
@@ -172,9 +187,16 @@ namespace conv_gui
 						byte* eol = in_row + 4 * r.Width;
 
 						while( eol > in_pix ){
-							out_pix[0] = (byte)( Math.Max( in_pix[0], diff_pix[0] ) - Math.Min( in_pix[0], diff_pix[0] ) );
-							out_pix[1] = (byte)( Math.Max( in_pix[1], diff_pix[1] ) - Math.Min( in_pix[1], diff_pix[1] ) );
-							out_pix[2] = (byte)( Math.Max( in_pix[2], diff_pix[2] ) - Math.Min( in_pix[2], diff_pix[2] ) );
+							if( gray ){
+								out_pix[0] = 
+								out_pix[1] = 
+								out_pix[2] = (byte)( Math.Max( in_pix[ channels ], diff_pix[ channels ] ) - Math.Min( in_pix[ channels ], diff_pix[ channels ] ) );
+							}else{
+								out_pix[0] = (byte)( ( 0 != ( 0x04 & channels ) )? ( Math.Max( in_pix[0], diff_pix[0] ) - Math.Min( in_pix[0], diff_pix[0] ) ) : 0 );
+								out_pix[1] = (byte)( ( 0 != ( 0x02 & channels ) )? ( Math.Max( in_pix[1], diff_pix[1] ) - Math.Min( in_pix[1], diff_pix[1] ) ) : 0 );
+								out_pix[2] = (byte)( ( 0 != ( 0x01 & channels ) )? ( Math.Max( in_pix[2], diff_pix[2] ) - Math.Min( in_pix[2], diff_pix[2] ) ) : 0 );
+							};
+
 							out_pix[3] = 0xFF;
 
 							out_pix += 4;
@@ -190,21 +212,6 @@ namespace conv_gui
 
 				m_current_diff.UnlockBits( diff_bits );
 			}else{
-				int channels = ( ( b_use_red.Checked )? 1 : 0 ) + ( ( b_use_green.Checked )? 1 : 0 ) + ( ( b_use_blue.Checked )? 1 : 0 ) + ( ( b_use_alpha.Checked )? 1 : 0 );
-				bool gray = 2 > channels;
-
-				if( gray ){
-					channels =	( b_use_alpha.Checked )? 3 :
-								( b_use_red.Checked )? 0 :
-								( b_use_green.Checked )? 1 :
-								( b_use_blue.Checked )? 2 : 3;
-				}else{
-					channels =	( ( b_use_alpha.Checked )? 0x08 : 0 ) |
-								( ( b_use_red.Checked )? 0x01 : 0 ) |
-								( ( b_use_green.Checked )? 0x02 : 0 ) |
-								( ( b_use_blue.Checked )? 0x04 : 0 );
-				};
-
 				unsafe {
 					byte* in_row = (byte*)src_bits.Scan0;
 					byte* out_row = (byte*)view_bits.Scan0;
