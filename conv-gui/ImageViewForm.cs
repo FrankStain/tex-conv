@@ -179,6 +179,7 @@ namespace conv_gui
 					byte* in_row = (byte*)src_bits.Scan0;
 					byte* out_row = (byte*)view_bits.Scan0;
 					byte* diff_row = (byte*)diff_bits.Scan0;
+					float gamma_correct = 1.0f;
 
 					while( r.Height > row++ ){
 						byte* in_pix = in_row;
@@ -191,10 +192,27 @@ namespace conv_gui
 								out_pix[0] = 
 								out_pix[1] = 
 								out_pix[2] = (byte)( Math.Max( in_pix[ channels ], diff_pix[ channels ] ) - Math.Min( in_pix[ channels ], diff_pix[ channels ] ) );
+
+								if( ( 0 < out_pix[0] ) && ( ( 255.0f / out_pix[0] ) > gamma_correct ) ){
+									gamma_correct = 255.0f / out_pix[0];
+								};
+
 							}else{
 								out_pix[0] = (byte)( ( 0 != ( 0x04 & channels ) )? ( Math.Max( in_pix[0], diff_pix[0] ) - Math.Min( in_pix[0], diff_pix[0] ) ) : 0 );
 								out_pix[1] = (byte)( ( 0 != ( 0x02 & channels ) )? ( Math.Max( in_pix[1], diff_pix[1] ) - Math.Min( in_pix[1], diff_pix[1] ) ) : 0 );
 								out_pix[2] = (byte)( ( 0 != ( 0x01 & channels ) )? ( Math.Max( in_pix[2], diff_pix[2] ) - Math.Min( in_pix[2], diff_pix[2] ) ) : 0 );
+
+								if( ( 0 < out_pix[0] ) && ( ( 255.0f / out_pix[0] ) > gamma_correct ) ){
+									gamma_correct = 255.0f / out_pix[0];
+								};
+
+								if( ( 0 < out_pix[1] ) && ( ( 255.0f / out_pix[1] ) > gamma_correct ) ){
+									gamma_correct = 255.0f / out_pix[1];
+								};
+
+								if( ( 0 < out_pix[2] ) && ( ( 255.0f / out_pix[2] ) > gamma_correct ) ){
+									gamma_correct = 255.0f / out_pix[2];
+								};
 							};
 
 							out_pix[3] = 0xFF;
@@ -207,6 +225,17 @@ namespace conv_gui
 						in_row += src_bits.Stride;
 						out_row += view_bits.Stride;
 						diff_row += diff_bits.Stride;
+					};
+
+					if( 1.0f < gamma_correct ){
+						out_row = (byte*)view_bits.Scan0;
+						for( row = 0; r.Height > row; row++, out_row += view_bits.Stride ){
+							for( byte* out_pix = out_row; (out_row + 4 * r.Width ) > out_pix; out_pix += 4 ){
+								out_pix[0] = (byte)( 0.5f + out_pix[0] * gamma_correct );
+								out_pix[1] = (byte)( 0.5f + out_pix[1] * gamma_correct );
+								out_pix[2] = (byte)( 0.5f + out_pix[2] * gamma_correct );
+							};
+						};
 					};
 				};
 
@@ -331,49 +360,60 @@ namespace conv_gui
 			Point cs = (sender as PictureBox).PointToScreen( e.Location );
 
 			if( MouseButtons.Left == e.Button ){
-				img_view.Left += cs.X - m_last_mouse_pos.X;
-				img_view.Top += cs.Y - m_last_mouse_pos.Y;
+				int l = img_view.Left + cs.X - m_last_mouse_pos.X;
+				int t = img_view.Top + cs.Y - m_last_mouse_pos.Y;
 
-				margin_image_flow();
+				margin_image_flow( ref l, ref t );
+				img_view.Left = l;
+				img_view.Top = t;
 			};
 
 			m_last_mouse_pos = cs;
 		}
 
 		void margin_image_flow(){
+			int l = img_view.Left;
+			int t = img_view.Top;
+
+			margin_image_flow( ref l, ref t );
+			img_view.Left = l;
+			img_view.Top = t;
+		}
+
+		void margin_image_flow( ref int left, ref int top ){
 			if( img_view.Width > m_margin.Width ){
-				if( img_view.Left > m_margin.Left ){
-					img_view.Left = m_margin.Left;
+				if( left > m_margin.Left ){
+					left = m_margin.Left;
 				};
 
-				if( ( img_view.Left + img_view.Width ) < m_margin.Right ){
-					img_view.Left = m_margin.Right - img_view.Width;
+				if( ( left + img_view.Width ) < m_margin.Right ){
+					left = m_margin.Right - img_view.Width;
 				};
 			}else{
-				if( img_view.Left < m_margin.Left ){
-					img_view.Left = m_margin.Left;
+				if( left < m_margin.Left ){
+					left = m_margin.Left;
 				};
 
-				if( ( img_view.Left + img_view.Width ) > m_margin.Right ){
-					img_view.Left = m_margin.Right - img_view.Width;
+				if( ( left + img_view.Width ) > m_margin.Right ){
+					left = m_margin.Right - img_view.Width;
 				};
 			};
 
 			if( img_view.Height > m_margin.Height ){
-				if( img_view.Top > m_margin.Top ){
-					img_view.Top = m_margin.Top;
+				if( top > m_margin.Top ){
+					top = m_margin.Top;
 				};
 
-				if( ( img_view.Top + img_view.Height ) < m_margin.Bottom ){
-					img_view.Top = m_margin.Bottom - img_view.Height;
+				if( ( top + img_view.Height ) < m_margin.Bottom ){
+					top = m_margin.Bottom - img_view.Height;
 				};
 			}else{
-				if( img_view.Top < m_margin.Top ){
-					img_view.Top = m_margin.Top;
+				if( top < m_margin.Top ){
+					top = m_margin.Top;
 				};
 
-				if( ( img_view.Top + img_view.Height ) > m_margin.Bottom ){
-					img_view.Top = m_margin.Bottom - img_view.Height;
+				if( ( top + img_view.Height ) > m_margin.Bottom ){
+					top = m_margin.Bottom - img_view.Height;
 				};
 			};
 		}

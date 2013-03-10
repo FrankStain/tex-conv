@@ -141,16 +141,6 @@
         hWEWYXgBpPnP1/7/vz9l4sQgeZyBSJbfkZ1BTMhjtZ3oNE4rhQCGBqRUNd50SAAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="b_save.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADnSURBVDhPrZNRB8JgFIb7n132R7rrKtJlSiIxaV1100W0
-        m0ykFBHpF0TZ1lYzJ8+XaO1kYuM1e993z3c4vlKpiKdSt6RcHwtv27Z/ilw9j5+3Z5HubC1JkqQ0mc4F
-        4ZPTzUAwR8fETBBFUUrVWlMQPjm9DARjeHgBfN9P6Q3AJ6enAqz9wxTyRE8FDHZ3abhhruipgP4mzD2d
-        6eipgN4qMIDvLXx+k9NTAZ2lZwBxHIvjOBnhk9NTAW33qq7xc60A6KmA1uJiAEEQqBPgk9NTAc7pZgqe
-        5/0UOb0M4J+78L4zRdzBYhhPFkwKiba1sDYAAAAASUVORK5CYII=
-</value>
-  </data>
   <data name="b_save_as.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
@@ -159,6 +149,16 @@
         IerON6SUMjSdLQhCHf63URYwPik9QRiGhmr1JkGow0cOkPizkwlGxw/A8zxDMQB1+MixgOHhqQNFQo4F
         DPYParhBoZBjAf1tUNgd0yHHAnprXwN+TyG9ho8cC+ispAZEUURCiIxQh48cC2i7N/YY08cKAHIsoLW8
         aoDv++wEqMNHjgWI810HpJS5go9cBvDPXYjvjPEnlr6NZQAvlvQTXtoCxgYAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="b_save.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADnSURBVDhPrZNRB8JgFIb7n132R7rrKtJlSiIxaV1100W0
+        m0ykFBHpF0TZ1lYzJ8+XaO1kYuM1e993z3c4vlKpiKdSt6RcHwtv27Z/ilw9j5+3Z5HubC1JkqQ0mc4F
+        4ZPTzUAwR8fETBBFUUrVWlMQPjm9DARjeHgBfN9P6Q3AJ6enAqz9wxTyRE8FDHZ3abhhruipgP4mzD2d
+        6eipgN4qMIDvLXx+k9NTAZ2lZwBxHIvjOBnhk9NTAW33qq7xc60A6KmA1uJiAEEQqBPgk9NTAc7pZgqe
+        5/0UOb0M4J+78L4zRdzBYhhPFkwKiba1sDYAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="b_export_list.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
