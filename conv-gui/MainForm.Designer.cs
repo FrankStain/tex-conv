@@ -75,8 +75,8 @@
 			this.b_src_remove_files = new System.Windows.Forms.ToolStripMenuItem();
 			this.b_src_options = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-			this.b_src_file_folder = new System.Windows.Forms.ToolStripMenuItem();
 			this.b_src_viewer_open = new System.Windows.Forms.ToolStripMenuItem();
+			this.b_src_file_folder = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -143,7 +143,7 @@
             this.b_progress_cancel,
             this.toolStripSeparator4,
             this.b_log_show});
-			this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+			this.toolStrip1.Location = new System.Drawing.Point(4, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(215, 25);
 			this.toolStrip1.TabIndex = 1;
@@ -417,7 +417,7 @@
             this.b_src_viewer_open,
             this.b_src_file_folder});
 			this.cm_source_menu.Name = "cm_source_menu";
-			this.cm_source_menu.Size = new System.Drawing.Size(190, 220);
+			this.cm_source_menu.Size = new System.Drawing.Size(190, 198);
 			// 
 			// b_src_add_files
 			// 
@@ -477,19 +477,19 @@
 			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
 			this.toolStripMenuItem4.Size = new System.Drawing.Size(186, 6);
 			// 
-			// b_src_file_folder
-			// 
-			this.b_src_file_folder.Name = "b_src_file_folder";
-			this.b_src_file_folder.Size = new System.Drawing.Size(189, 22);
-			this.b_src_file_folder.Text = "Open source folder";
-			this.b_src_file_folder.Click += new System.EventHandler(this.b_src_file_folder_Click);
-			// 
 			// b_src_viewer_open
 			// 
 			this.b_src_viewer_open.Name = "b_src_viewer_open";
 			this.b_src_viewer_open.Size = new System.Drawing.Size(189, 22);
 			this.b_src_viewer_open.Text = "Open in Image viewer";
 			this.b_src_viewer_open.Click += new System.EventHandler(this.b_src_viewer_open_Click);
+			// 
+			// b_src_file_folder
+			// 
+			this.b_src_file_folder.Name = "b_src_file_folder";
+			this.b_src_file_folder.Size = new System.Drawing.Size(189, 22);
+			this.b_src_file_folder.Text = "Open source folder";
+			this.b_src_file_folder.Click += new System.EventHandler(this.b_src_file_folder_Click);
 			// 
 			// MainForm
 			// 

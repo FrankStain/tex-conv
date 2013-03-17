@@ -141,16 +141,6 @@
         hWEWYXgBpPnP1/7/vz9l4sQgeZyBSJbfkZ1BTMhjtZ3oNE4rhQCGBqRUNd50SAAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="b_save_as.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
-        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAD2SURBVDhPpZNBC4JAEIX9nx37I906CdExiggiiMhO
-        XToE7SUkiKIgCKJfEBSracky9bYUN0ckPDx05739ZmRdi4isMtKbq/aQKvaE8HQcJ1fw30I+aapfsHl3
-        IerON6SUMjSdLQhCHf63URYwPik9QRiGhmr1JkGow0cOkPizkwlGxw/A8zxDMQB1+MixgOHhqQNFQo4F
-        DPYParhBoZBjAf1tUNgd0yHHAnprXwN+TyG9ho8cC+ispAZEUURCiIxQh48cC2i7N/YY08cKAHIsoLW8
-        aoDv++wEqMNHjgWI810HpJS5go9cBvDPXYjvjPEnlr6NZQAvlvQTXtoCxgYAAAAASUVORK5CYII=
-</value>
-  </data>
   <data name="b_save.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -197,6 +187,16 @@
         2+9//l9y4yNeDFKD04Cbr7/9n3/mJV4MUoPHgO//5597jRfffP0dtwG33v74v+jyW7wYpAZvGID8iIyX
         AsMEhmHiWA0AhSq2KLzz6ff/5fe+/gfRMHmi0x5Iw90vf8AYp624TIOlC5JtRTaQZFuJ9tugUggAW6ZY
         byR0gi0AAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="b_save_as.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
+        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAD2SURBVDhPpZNBC4JAEIX9nx37I906CdExiggiiMhO
+        XToE7SUkiKIgCKJfEBSracky9bYUN0ckPDx05739ZmRdi4isMtKbq/aQKvaE8HQcJ1fw30I+aapfsHl3
+        IerON6SUMjSdLQhCHf63URYwPik9QRiGhmr1JkGow0cOkPizkwlGxw/A8zxDMQB1+MixgOHhqQNFQo4F
+        DPYParhBoZBjAf1tUNgd0yHHAnprXwN+TyG9ho8cC+ispAZEUURCiIxQh48cC2i7N/YY08cKAHIsoLW8
+        aoDv++wEqMNHjgWI810HpJS5go9cBvDPXYjvjPEnlr6NZQAvlvQTXtoCxgYAAAAASUVORK5CYII=
 </value>
   </data>
   <metadata name="dw_save.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
