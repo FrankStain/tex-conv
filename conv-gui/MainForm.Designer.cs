@@ -42,6 +42,10 @@
 			this.b_save_as = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.b_export_list = new System.Windows.Forms.ToolStripButton();
+			this.b_sort_sources = new System.Windows.Forms.ToolStripSplitButton();
+			this.b_sort_ascend = new System.Windows.Forms.ToolStripMenuItem();
+			this.b_sort_descend = new System.Windows.Forms.ToolStripMenuItem();
+			this.b_sort_none = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.b_process = new System.Windows.Forms.ToolStripButton();
 			this.b_progress_cancel = new System.Windows.Forms.ToolStripButton();
@@ -77,6 +81,7 @@
 			this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
 			this.b_src_viewer_open = new System.Windows.Forms.ToolStripMenuItem();
 			this.b_src_file_folder = new System.Windows.Forms.ToolStripMenuItem();
+			this.b_refresh_files = new System.Windows.Forms.ToolStripButton();
 			this.statusStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -107,7 +112,7 @@
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
 			this.t_base_dir.Name = "t_base_dir";
 			this.t_base_dir.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-			this.t_base_dir.Size = new System.Drawing.Size(567, 17);
+			this.t_base_dir.Size = new System.Drawing.Size(415, 17);
 			this.t_base_dir.Spring = true;
 			this.t_base_dir.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -116,7 +121,6 @@
 			this.pb_progress.Name = "pb_progress";
 			this.pb_progress.Size = new System.Drawing.Size(150, 16);
 			this.pb_progress.Step = 1;
-			this.pb_progress.Visible = false;
 			// 
 			// t_mod
 			// 
@@ -138,14 +142,15 @@
             this.b_save,
             this.toolStripSeparator2,
             this.b_export_list,
+            this.b_sort_sources,
             this.toolStripSeparator3,
             this.b_process,
             this.b_progress_cancel,
             this.toolStripSeparator4,
             this.b_log_show});
-			this.toolStrip1.Location = new System.Drawing.Point(4, 0);
+			this.toolStrip1.Location = new System.Drawing.Point(3, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(215, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(247, 25);
 			this.toolStrip1.TabIndex = 1;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -210,6 +215,44 @@
 			this.b_export_list.Text = "Configure exporters";
 			this.b_export_list.Click += new System.EventHandler(this.b_export_list_Click);
 			// 
+			// b_sort_sources
+			// 
+			this.b_sort_sources.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.b_sort_sources.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.b_sort_ascend,
+            this.b_sort_descend,
+            this.b_sort_none});
+			this.b_sort_sources.Image = ((System.Drawing.Image)(resources.GetObject("b_sort_sources.Image")));
+			this.b_sort_sources.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.b_sort_sources.Name = "b_sort_sources";
+			this.b_sort_sources.Size = new System.Drawing.Size(32, 22);
+			this.b_sort_sources.Text = "toolStripSplitButton1";
+			this.b_sort_sources.ButtonClick += new System.EventHandler(this.b_sort_sources_ButtonClick);
+			// 
+			// b_sort_ascend
+			// 
+			this.b_sort_ascend.Image = ((System.Drawing.Image)(resources.GetObject("b_sort_ascend.Image")));
+			this.b_sort_ascend.Name = "b_sort_ascend";
+			this.b_sort_ascend.Size = new System.Drawing.Size(136, 22);
+			this.b_sort_ascend.Text = "Ascending";
+			this.b_sort_ascend.Click += new System.EventHandler(this.b_sort_ascend_Click);
+			// 
+			// b_sort_descend
+			// 
+			this.b_sort_descend.Image = ((System.Drawing.Image)(resources.GetObject("b_sort_descend.Image")));
+			this.b_sort_descend.Name = "b_sort_descend";
+			this.b_sort_descend.Size = new System.Drawing.Size(136, 22);
+			this.b_sort_descend.Text = "Descending";
+			this.b_sort_descend.Click += new System.EventHandler(this.b_sort_descend_Click);
+			// 
+			// b_sort_none
+			// 
+			this.b_sort_none.Image = ((System.Drawing.Image)(resources.GetObject("b_sort_none.Image")));
+			this.b_sort_none.Name = "b_sort_none";
+			this.b_sort_none.Size = new System.Drawing.Size(136, 22);
+			this.b_sort_none.Text = "No Sorting";
+			this.b_sort_none.Click += new System.EventHandler(this.b_sort_none_Click);
+			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -261,7 +304,7 @@
 			// toolStripContainer1.ContentPanel
 			// 
 			this.toolStripContainer1.ContentPanel.Controls.Add(this.lv_files);
-			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(632, 403);
+			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(632, 378);
 			this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
 			this.toolStripContainer1.Name = "toolStripContainer1";
@@ -289,7 +332,7 @@
 			this.lv_files.Name = "lv_files";
 			this.lv_files.ShowGroups = false;
 			this.lv_files.ShowItemToolTips = true;
-			this.lv_files.Size = new System.Drawing.Size(632, 403);
+			this.lv_files.Size = new System.Drawing.Size(632, 378);
 			this.lv_files.TabIndex = 3;
 			this.lv_files.UseCompatibleStateImageBehavior = false;
 			this.lv_files.View = System.Windows.Forms.View.Details;
@@ -309,11 +352,12 @@
 			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.b_add_files,
             this.b_del_files,
+            this.b_refresh_files,
             this.toolStripSeparator5,
             this.b_dir_change});
-			this.toolStrip2.Location = new System.Drawing.Point(312, 0);
+			this.toolStrip2.Location = new System.Drawing.Point(3, 25);
 			this.toolStrip2.Name = "toolStrip2";
-			this.toolStrip2.Size = new System.Drawing.Size(87, 25);
+			this.toolStrip2.Size = new System.Drawing.Size(110, 25);
 			this.toolStrip2.TabIndex = 2;
 			// 
 			// b_add_files
@@ -491,6 +535,16 @@
 			this.b_src_file_folder.Text = "Open source folder";
 			this.b_src_file_folder.Click += new System.EventHandler(this.b_src_file_folder_Click);
 			// 
+			// b_refresh_files
+			// 
+			this.b_refresh_files.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.b_refresh_files.Image = ((System.Drawing.Image)(resources.GetObject("b_refresh_files.Image")));
+			this.b_refresh_files.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.b_refresh_files.Name = "b_refresh_files";
+			this.b_refresh_files.Size = new System.Drawing.Size(23, 22);
+			this.b_refresh_files.Text = "Check for files modification";
+			this.b_refresh_files.Click += new System.EventHandler(this.b_refresh_files_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -503,6 +557,8 @@
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Texture converter";
+			this.Activated += new System.EventHandler(this.MainForm_Activated);
+			this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.form_close_req);
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
@@ -525,7 +581,6 @@
 		#endregion
 
 		private System.Windows.Forms.StatusStrip statusStrip1;
-		private System.Windows.Forms.ToolStripStatusLabel t_mod;
 		private System.Windows.Forms.ToolStrip toolStrip1;
 		private System.Windows.Forms.ToolStripButton b_new;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -571,6 +626,12 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
 		private System.Windows.Forms.ToolStripMenuItem b_src_enabled;
 		private System.Windows.Forms.ToolStripMenuItem b_src_viewer_open;
+		private System.Windows.Forms.ToolStripSplitButton b_sort_sources;
+		private System.Windows.Forms.ToolStripMenuItem b_sort_ascend;
+		private System.Windows.Forms.ToolStripMenuItem b_sort_descend;
+		private System.Windows.Forms.ToolStripMenuItem b_sort_none;
+		public System.Windows.Forms.ToolStripStatusLabel t_mod;
+		public System.Windows.Forms.ToolStripButton b_refresh_files;
 
 	}
 }

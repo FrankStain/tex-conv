@@ -1,5 +1,6 @@
 #include "cDllWorkspace.h"
 #include "file_system.h"
+#include "crc_32.h"
 
 namespace dll {
 	typedef map<id::simple_t, plugin_rec_t>		plugins_list_t;
@@ -234,6 +235,21 @@ namespace dll {
 			};
 
 			return "";
+		};
+
+		uint32_t calc_crc( const string& file_name ){
+			file_system::file_mapping_t file;
+
+			if( !file.construct( file_name ) ){
+				return 0;
+			};
+
+			uint8_t* buffer;
+			if( !file.map_view( buffer, 0, 0 ) ){
+				return 0;
+			};
+
+			return checksumm::crc32::calc( buffer, (size_t)file.size() );
 		};
 
 		string relative_path( const string& base, const string& path ){

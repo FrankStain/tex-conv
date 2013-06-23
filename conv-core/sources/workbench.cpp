@@ -42,6 +42,10 @@ namespace conv_core {
 		return g_formats[ msclr::interop::marshal_as<String^>( dll::ws::file_format( msclr::interop::marshal_as<string>( file_path ) ) ) ];
 	};
 
+	unsigned int workbench::file_crc( String^ file_path ){
+		return dll::ws::calc_crc( msclr::interop::marshal_as<string>( file_path ) );
+	};
+
 	String^ workbench::relative_path( String^ base, String^ path ){
 		return msclr::interop::marshal_as<String^>(
 			dll::ws::relative_path(

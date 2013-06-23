@@ -87,6 +87,9 @@
     <ClInclude Include="..\plugin_api\plugin_option.h">
       <Filter>plugin_api</Filter>
     </ClInclude>
+    <ClInclude Include="..\common\include\crc_32.h">
+      <Filter>common\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\workbench.cpp">
@@ -145,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="sources\cOption.cpp">
       <Filter>Source Files\worbench</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\source\crc_32.cpp">
+      <Filter>common\sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

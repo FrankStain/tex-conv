@@ -170,6 +170,8 @@ namespace conv_core {
 	private:
 		String^					m_path;
 		bool					m_enabled;
+		unsigned int			m_crc;
+		unsigned int			m_new_crc;
 		plugin::image_desc_t*	m_handle;
 		cOptionsCollection^		m_options;
 
@@ -190,6 +192,16 @@ namespace conv_core {
 		property bool enabled {
 			bool get()				{ return m_enabled; };
 			void set( bool value )	{ m_enabled = value; };
+		};
+
+		property unsigned int crc {
+			unsigned int get()				{ return m_crc; };
+			void set( unsigned int value )	{ m_crc = value; };
+		};
+
+		property unsigned int new_crc {
+			unsigned int get()				{ return m_new_crc; };
+			void set( unsigned int value )	{ m_new_crc = value; };
 		};
 
 		property bool opened {
@@ -306,6 +318,8 @@ namespace conv_core {
 		static bool valid_file( String^ file_path );
 
 		static cFormat^ file_format( String^ file_path );
+
+		static unsigned int file_crc( String^ file_path );
 
 		static String^ relative_path( String^ base, String^ path );
 		

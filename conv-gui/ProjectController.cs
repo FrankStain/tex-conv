@@ -17,10 +17,10 @@ namespace conv_gui
 
 				file.Load( path );
 
-				form.t_base_dir.Text = file["project"].Attributes["destination"].Value;
+				form.t_base_dir.Text = file["project"].Attributes["destination"].Value.ToLower();
 
-				if( '\\' != form.t_base_dir.Text.Last() ){
-					form.t_base_dir.Text += '\\';
+				if( '\\' == form.t_base_dir.Text.Last() ){
+					form.t_base_dir.Text = form.t_base_dir.Text.Remove( form.t_base_dir.Text.Length - 1 );
 				};
 
 				XmlElement formats	= file["project"]["formats"];
@@ -32,19 +32,31 @@ namespace conv_gui
 
 				foreach( XmlElement fd in files.ChildNodes ){
 					if( conv_core.workbench.valid_file( fd.Attributes["file.path"].Value ) ){
+						bool check_crc = fd.HasAttribute( "file.crc" );
 						ListViewItem li = form.lv_files.Items.Add( "" );
 						conv_core.cImageFile fid = new conv_core.cImageFile( fd.Attributes["file.path"].Value );
 						
-						li.ToolTipText	= fid.path;
-						li.Name			= Path.GetFileNameWithoutExtension( li.ToolTipText );
-						li.Text			= Path.GetFileName( li.ToolTipText );
+						li.ToolTipText	= fid.path.ToLower();
+						li.Name			= Path.GetFileNameWithoutExtension( li.ToolTipText ).ToLower();
+						li.Text			= Path.GetFileName( li.ToolTipText ).ToLower();
 						li.Tag			= fid;
 						fid.enabled		= Convert.ToBoolean( fd.Attributes["file.enabled"].Value );
-						li.ForeColor	= Color.FromArgb( (int)( ( fid.enabled )? 0xFF000000 : 0xFF666666 ) );
+						fid.crc			= ( check_crc )? Convert.ToUInt32( fd.Attributes["file.crc"].Value ) : conv_core.workbench.file_crc( fid.path );
+						li.ForeColor	= ( fid.enabled )? MainForm.cell_font_normal : MainForm.cell_font_disabled;
 						li.UseItemStyleForSubItems = false;
 
 						if( ( null != fd.Attributes["file.format"] ) && Convert.ToBoolean( fd.Attributes["file.format"].Value ) ){
 							//fid.options = 
+						};
+
+						if( check_crc ){
+							fid.new_crc = conv_core.workbench.file_crc( fid.path );
+							if( fid.crc != fid.new_crc ){
+								li.BackColor = MainForm.cell_back_modified;
+							};
+						}else{
+							fid.new_crc = fid.crc;
+							form.t_mod.Enabled = true;
 						};
 
 						foreach( ColumnHeader hdr in form.m_formats ){
@@ -114,12 +126,13 @@ namespace conv_gui
 				XmlDocument file	= new XmlDocument();
 				string base_dir		= form.t_base_dir.Text;
 
-				if( '\\' != base_dir.Last() ){
-					base_dir += '\\';
+				if( '\\' == base_dir.Last() ){
+					base_dir = base_dir.Remove( base_dir.Length - 1 );
 				};
 
 				XmlElement prj = file.AppendChild( file.CreateElement( "project" ) ) as XmlElement;
 				prj.SetAttribute( "destination", base_dir );
+				base_dir += '\\';
 
 				XmlElement formats = prj.AppendChild( file.CreateElement( "formats" ) ) as XmlElement;
 				foreach( ColumnHeader hdr in form.m_formats ){
@@ -134,6 +147,7 @@ namespace conv_gui
 					fd.SetAttribute( "file.path", fid.path );
 					fd.SetAttribute( "file.enabled", Convert.ToString( fid.enabled ) );
 					fd.SetAttribute( "file.format", Convert.ToString( null != fid.options ) );
+					fd.SetAttribute( "file.crc", Convert.ToString( fid.crc ) );
 
 					if( null != fid.options ){
 						for( int op_id = 0; fid.options.desc.count > op_id; op_id++ ){
