@@ -41,10 +41,14 @@
 			this.b_use_alpha = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.b_use_diff = new System.Windows.Forms.ToolStripButton();
+			this.b_logarithm_diff = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.b_back_color = new System.Windows.Forms.ToolStripSplitButton();
 			this.ts_views = new System.Windows.Forms.ToolStrip();
 			this.ts_diffs = new System.Windows.Forms.ToolStrip();
 			this.p_view_area = new System.Windows.Forms.Panel();
 			this.img_view = new System.Windows.Forms.PictureBox();
+			this.dw_color = new System.Windows.Forms.ColorDialog();
 			this.sb_status.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.p_view_area.SuspendLayout();
@@ -106,7 +110,10 @@
             this.b_use_blue,
             this.b_use_alpha,
             this.toolStripSeparator1,
-            this.b_use_diff});
+            this.b_use_diff,
+            this.b_logarithm_diff,
+            this.toolStripSeparator2,
+            this.b_back_color});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(632, 25);
@@ -178,8 +185,33 @@
 			this.b_use_diff.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.b_use_diff.Name = "b_use_diff";
 			this.b_use_diff.Size = new System.Drawing.Size(23, 22);
-			this.b_use_diff.Text = "Display images DIFF";
+			this.b_use_diff.Text = "Display diff";
 			this.b_use_diff.Click += new System.EventHandler(this.b_use_diff_Click);
+			// 
+			// b_logarithm_diff
+			// 
+			this.b_logarithm_diff.CheckOnClick = true;
+			this.b_logarithm_diff.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.b_logarithm_diff.Image = ((System.Drawing.Image)(resources.GetObject("b_logarithm_diff.Image")));
+			this.b_logarithm_diff.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.b_logarithm_diff.Name = "b_logarithm_diff";
+			this.b_logarithm_diff.Size = new System.Drawing.Size(23, 22);
+			this.b_logarithm_diff.Text = "Enable logarithmic diff";
+			this.b_logarithm_diff.Click += new System.EventHandler(this.b_logarithm_diff_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+			// 
+			// b_back_color
+			// 
+			this.b_back_color.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.b_back_color.ImageTransparentColor = System.Drawing.Color.Transparent;
+			this.b_back_color.Name = "b_back_color";
+			this.b_back_color.Size = new System.Drawing.Size(16, 22);
+			this.b_back_color.Text = "Set background color";
+			this.b_back_color.ButtonClick += new System.EventHandler(this.b_back_color_ButtonClick);
 			// 
 			// ts_views
 			// 
@@ -199,6 +231,7 @@
 			// 
 			// p_view_area
 			// 
+			this.p_view_area.BackColor = System.Drawing.SystemColors.Control;
 			this.p_view_area.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.p_view_area.Controls.Add(this.img_view);
 			this.p_view_area.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -219,6 +252,10 @@
 			this.img_view.TabStop = false;
 			this.img_view.Paint += new System.Windows.Forms.PaintEventHandler(this.img_view_Paint);
 			this.img_view.MouseMove += new System.Windows.Forms.MouseEventHandler(this.img_view_MouseMove);
+			// 
+			// dw_color
+			// 
+			this.dw_color.FullOpen = true;
 			// 
 			// ImageViewForm
 			// 
@@ -266,5 +303,9 @@
 		private System.Windows.Forms.ToolStrip ts_diffs;
 		private System.Windows.Forms.Panel p_view_area;
 		private System.Windows.Forms.PictureBox img_view;
+		private System.Windows.Forms.ToolStripSplitButton b_back_color;
+		private System.Windows.Forms.ColorDialog dw_color;
+		private System.Windows.Forms.ToolStripButton b_logarithm_diff;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 	}
 }

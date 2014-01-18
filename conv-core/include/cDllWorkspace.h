@@ -30,6 +30,8 @@ namespace dll {
 
 		string file_format( const string& file_name );
 
+		uint32_t calc_crc( const string& file_name );
+
 		string relative_path( const string& base, const string& path );
 
 		const int32_t list_names( vector<id::simple_t>& names );

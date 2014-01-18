@@ -95,6 +95,7 @@
     <Compile Include="LogForm.Designer.cs">
       <DependentUpon>LogForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModificationWatchdog.cs" />
     <Compile Include="OptionsController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectController.cs" />

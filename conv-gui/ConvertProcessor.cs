@@ -27,6 +27,9 @@ namespace conv_gui
 			};
 
 			while( !do_cancel && ( 0 < pool.Count ) ){								
+				bool mod_flag = true;
+				bool do_mod = false;
+
 				ListViewItem li = pool.First();
 				conv_core.cImageFile src_img = li.Tag as conv_core.cImageFile;
 
@@ -34,7 +37,7 @@ namespace conv_gui
 					int coverted = 0;
 					foreach( ColumnHeader hdr in m_form.m_formats ){
 						if( !(li.SubItems[ hdr.Index ].Tag as conv_core.cImageFile).enabled ){
-							li.SubItems[ hdr.Index ].BackColor = Color.LightSkyBlue;
+							li.SubItems[ hdr.Index ].BackColor = MainForm.cell_back_disabled;
 							coverted++;
 							continue;
 						};
@@ -49,7 +52,18 @@ namespace conv_gui
 						};
 					};
 
-					li.BackColor = ( m_form.m_formats.Count == coverted )? Color.LightGreen : Color.LightPink;
+					if( m_form.m_formats.Count == coverted ){
+						li.BackColor = MainForm.cell_back_done;
+						
+						if( mod_flag && ( src_img.crc != src_img.new_crc ) ){
+							do_mod = true;
+						};
+
+						src_img.crc = src_img.new_crc;
+					}else if( src_img.crc == src_img.new_crc ){
+						li.BackColor = MainForm.cell_back_error;
+					};
+
 					src_img.close();
 				};
 
@@ -59,6 +73,13 @@ namespace conv_gui
 					m_form.Invoke( new Action( () => {
 						m_form.pb_progress.PerformStep();
 					} ) );
+
+					if( mod_flag && do_mod ){
+						m_form.Invoke( new Action( () => {
+							m_form.t_mod.Enabled = true;
+						} ) );
+						mod_flag = false;
+					};
 
 					do_cancel = m_cancel;
 				};
@@ -92,10 +113,12 @@ namespace conv_gui
 				
 				if( null == m_elements ){
 					foreach( ListViewItem li in m_form.lv_files.Items ){
-						if( (li.Tag as conv_core.cImageFile).enabled ){
-							li.BackColor = Color.FromKnownColor( KnownColor.Window );
+						conv_core.cImageFile img = li.Tag as conv_core.cImageFile;
+						if( img.enabled ){
+							img.new_crc		= conv_core.workbench.file_crc( img.path );
+							li.BackColor	= ( img.crc == img.new_crc )? MainForm.cell_back_normal : MainForm.cell_back_modified;
 							foreach( ListViewItem.ListViewSubItem lsi in li.SubItems ){
-								lsi.BackColor = li.BackColor;
+								lsi.BackColor = MainForm.cell_back_normal;
 							};
 						
 							m_routines[ pool++ ].Add( li );
@@ -108,10 +131,11 @@ namespace conv_gui
 					};
 				}else{
 					foreach( ListViewItem li in m_elements ){
-						if( (li.Tag as conv_core.cImageFile).enabled ){
-							li.BackColor = Color.FromKnownColor( KnownColor.Window );
+						conv_core.cImageFile img = li.Tag as conv_core.cImageFile;
+						if( img.enabled ){
+							li.BackColor = ( img.crc == img.new_crc )? MainForm.cell_back_normal : MainForm.cell_back_modified;
 							foreach( ListViewItem.ListViewSubItem lsi in li.SubItems ){
-								lsi.BackColor = li.BackColor;
+								lsi.BackColor = MainForm.cell_back_normal;
 							};
 						
 							m_routines[ pool++ ].Add( li );
@@ -123,6 +147,7 @@ namespace conv_gui
 						};
 					};
 				};
+				
 				m_form.lv_files.EndUpdate();
 			} ) );
 

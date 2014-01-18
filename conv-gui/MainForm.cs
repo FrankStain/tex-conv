@@ -14,6 +14,14 @@ namespace conv_gui
 {
 	public partial class MainForm : Form
 	{
+		public static Color	cell_back_normal	= Color.FromKnownColor( KnownColor.Window );
+		public static Color	cell_back_modified	= Color.Orange;
+		public static Color	cell_back_disabled	= Color.LightSkyBlue;
+		public static Color	cell_back_error		= Color.LightPink;
+		public static Color	cell_back_done		= Color.LightGreen;
+		public static Color	cell_font_normal	= Color.FromKnownColor( KnownColor.WindowText );
+		public static Color	cell_font_disabled	= Color.FromKnownColor( KnownColor.GrayText );
+
 		const string		new_file_name	= "new_file";
 		const string		file_ext		= "convproj";
 		const string		file_desc		= "Project file";
@@ -30,6 +38,7 @@ namespace conv_gui
 		private ColumnHeader						m_sel_header	= null;
 
 		private List<string>					m_history			= new List<string>();
+		private List<Color>						m_colors			= new List<Color>();
 		
 		public MainForm()
 		{
@@ -51,9 +60,25 @@ namespace conv_gui
 			};
 
 			OptionsController.load_history( m_history );
+			OptionsController.load_options( this );
+			OptionsController.load_colors( m_colors );
+			ModificationWatchdog.start_watch( this );
+
+			switch( lv_files.Sorting ){
+				case SortOrder.Ascending:
+					b_sort_sources.Image = b_sort_ascend.Image;
+				break;
+				case SortOrder.Descending:
+					b_sort_sources.Image = b_sort_descend.Image;
+				break;
+				case SortOrder.None:
+					b_sort_sources.Image = b_sort_none.Image;
+				break;
+			};
 
 			t_mod.Enabled = false;
 			b_new_Click( null, null );
+			pb_progress.Visible = false;
 		}
 
 		private void form_close_req(object sender, FormClosingEventArgs e)
@@ -74,8 +99,29 @@ namespace conv_gui
 					return;
 				};
 			};
+
+			ModificationWatchdog.stop_watch();
+
+			if( t_mod.Enabled ){
+				switch( MessageBox.Show(
+					this,
+					"Project is modified, but not saved. Save it before exit?",
+					"Project not saved",
+					MessageBoxButtons.YesNoCancel,
+					MessageBoxIcon.Question
+				) ){
+					case DialogResult.Yes:
+						b_save_ButtonClick( b_save, e );
+					break;
+					case DialogResult.Cancel:
+						e.Cancel = true;
+					return;
+				};
+			};
 			
 			conv_core.workbench.free();
+			OptionsController.save_history( m_history );
+			OptionsController.save_options( this );
 			
 			m_log = null;
 		}
@@ -105,10 +151,13 @@ namespace conv_gui
 
 			if( result )
 			{
-				m_file_path		= fn;
-				m_file_name		= Path.GetFileNameWithoutExtension( m_file_path );
-				m_file_is_new	= false;
-				t_mod.Enabled	= false;
+				m_file_path			= fn;
+				m_file_name			= Path.GetFileNameWithoutExtension( m_file_path );
+				m_file_is_new		= false;
+				
+				SortOrder so = lv_files.Sorting;
+				lv_files.Sorting = SortOrder.None;
+				lv_files.Sorting = so;
 			}else{
 				MessageBox.Show(
 					this,
@@ -230,6 +279,7 @@ namespace conv_gui
 			dw_save.FileName			= m_file_name;
 			dw_save.Filter				= file_desc + "|*." + file_ext + "|Any file|*.*";
 			dw_save.FilterIndex			= 0;
+			dw_save.OverwritePrompt		= true;
 
 			switch( dw_save.ShowDialog( this ) ){
 				case DialogResult.OK:
@@ -257,8 +307,17 @@ namespace conv_gui
 
 			switch( dw_dir.ShowDialog( this ) ){
 				case DialogResult.OK:
-					t_base_dir.Text	= dw_dir.SelectedPath;
-					t_mod.Enabled	|= true;
+					t_base_dir.Text = dw_dir.SelectedPath;
+
+					if( 0 < lv_files.Items.Count ){
+						foreach( ListViewItem li in lv_files.Items ){
+							for( int hid = 1; lv_files.Columns.Count > hid; hid++ ){
+								(li.SubItems[ hid ].Tag as conv_core.cImageFile).path = t_base_dir.Text + "\\" + li.SubItems[ hid ].Text;
+							};
+						};
+					};
+
+					t_mod.Enabled |= true;
 				break;
 			};
 		}
@@ -281,14 +340,17 @@ namespace conv_gui
 			int included_count = 0;
 			
 			foreach( string file in files ){
-				if( conv_core.workbench.valid_file( file ) && !source_file_exists( file ) ){
+				if( conv_core.workbench.valid_file( file ) && !source_file_exists( file.ToLower() ) ){
 					
 					ListViewItem li = lv_files.Items.Add( "" );
-					li.Name			= Path.GetFileNameWithoutExtension( file );
-					li.Text			= Path.GetFileName( file );
+					li.Name			= Path.GetFileNameWithoutExtension( file ).ToLower();
+					li.Text			= Path.GetFileName( file ).ToLower();
 					li.ToolTipText	= file;
-					li.Tag			= new conv_core.cImageFile( file );
+					conv_core.cImageFile img = new conv_core.cImageFile( file );
+					li.Tag			= img;
 					li.UseItemStyleForSubItems = false;
+
+					img.new_crc = img.crc = conv_core.workbench.file_crc( file );
 					
 					foreach( ColumnHeader hdr in m_formats ){
 						conv_core.cFormat fmt				= hdr.Tag as conv_core.cFormat;
@@ -314,7 +376,6 @@ namespace conv_gui
 			string all_files_format	= "";
 			string file_formats		= "";
 			
-			//foreach( conv_core.cFormat fd in conv_core.workbench.formats ){
 			for( int sd = 0; conv_core.workbench.formats.count > sd; sd++ ){
 				if( conv_core.workbench.formats[ sd ].has_reader ){
 					all_files_format += ( ( 0 == sd )? "" : ";" ) + "*." + conv_core.workbench.formats[ sd ].ext;
@@ -476,7 +537,7 @@ namespace conv_gui
 
 		private void on_files_mouse_up(object sender, MouseEventArgs e)
 		{
-			if( ConvertProcessor.in_process ){
+			if( ConvertProcessor.in_process || ModificationWatchdog.in_process ){
 				return;
 			};
 			
@@ -563,7 +624,7 @@ namespace conv_gui
 					conv_core.cImageFile fd = lsi.Tag as conv_core.cImageFile;
 					fd.enabled = b_format_enable.Checked;
 
-					lsi.ForeColor = Color.FromArgb( (int)( ( fd.enabled )? 0xFF000000 : 0xFF666666 ) );
+					lsi.ForeColor = ( fd.enabled )? cell_font_normal : cell_font_disabled;
 				};
 
 				t_mod.Enabled = true;
@@ -577,7 +638,7 @@ namespace conv_gui
 					conv_core.cImageFile fd = li.Tag as conv_core.cImageFile;
 					fd.enabled = b_src_enabled.Checked;
 
-					li.ForeColor = Color.FromArgb( (int)( ( fd.enabled )? 0xFF000000 : 0xFF666666 ) );
+					li.ForeColor = ( fd.enabled )? cell_font_normal : cell_font_disabled;
 				};
 
 				t_mod.Enabled = true;
@@ -602,7 +663,7 @@ namespace conv_gui
 						case DialogResult.OK:
 							string new_path = conv_core.workbench.relative_path( t_base_dir.Text, dw_save.FileName );
 							if( ( 0 < new_path.Length ) && ( new_path != lsi.Text ) ){
-								img.path		= dw_save.FileName;
+								img.path		= dw_save.FileName.ToLower();
 								lsi.Text		= new_path;
 
 								t_mod.Enabled	= true;
@@ -621,7 +682,7 @@ namespace conv_gui
 								string file_name = Path.GetFileName( img.path );
 								string new_path = conv_core.workbench.relative_path( t_base_dir.Text, dw_dir.SelectedPath + "\\" + file_name );
 								if( ( 0 < new_path.Length ) && ( new_path != lsi.Text ) ){
-									img.path	= dw_dir.SelectedPath + "\\" + file_name;
+									img.path	= dw_dir.SelectedPath.ToLower() + "\\" + file_name;
 									lsi.Text	= new_path;
 								};
 							};
@@ -673,7 +734,7 @@ namespace conv_gui
 
 		private void b_process_Click(object sender, EventArgs e)
 		{
-			if( ConvertProcessor.in_process ){
+			if( ConvertProcessor.in_process || ModificationWatchdog.in_process ){
 				return;
 			};
 			
@@ -700,10 +761,21 @@ namespace conv_gui
 				conv_core.cImageFile img	= li.Tag as conv_core.cImageFile;
 				conv_core.cFormat fmt		= conv_core.workbench.file_format( img.path );
 
+				string all_files_format	= "";
+				string file_formats		= "";
+			
+				for( int sd = 0; conv_core.workbench.formats.count > sd; sd++ ){
+					if( conv_core.workbench.formats[ sd ].has_reader ){
+						all_files_format += ( ( 0 == sd )? "" : ";" ) + "*." + conv_core.workbench.formats[ sd ].ext;
+						file_formats += "|" + conv_core.workbench.formats[ sd ].desc + "|*." + conv_core.workbench.formats[ sd ].ext;
+					};
+				};
+
 				dw_save.Title				= "Change file location";
 				dw_save.InitialDirectory	= Path.GetDirectoryName( img.path );
-				dw_save.Filter				= fmt.desc + "|*." + fmt.ext;
+				dw_save.Filter				= ( ( 0 < all_files_format.Length )? "all supported formats|" + all_files_format : "" ) + ( ( 0 < file_formats.Length )? file_formats + "|" : "" ) + "any file|*.*";
 				dw_save.FileName			= Path.GetFileName( img.path );
+				dw_save.OverwritePrompt		= false;
 
 				switch( dw_save.ShowDialog( this ) ){
 					case DialogResult.OK:
@@ -711,6 +783,10 @@ namespace conv_gui
 							img.path		= dw_save.FileName;
 							li.Text			= Path.GetFileName( img.path );
 							li.ToolTipText	= img.path;
+
+							if( fmt != conv_core.workbench.file_format( img.path ) ){
+								img.options = null;
+							};
 
 							t_mod.Enabled	= true;
 							m_sel_header.AutoResize( ColumnHeaderAutoResizeStyle.ColumnContent );
@@ -760,12 +836,69 @@ namespace conv_gui
 		private void b_src_viewer_open_Click(object sender, EventArgs e)
 		{
 			if( ( null != m_sel_header ) && ( 1 == m_sel_items.Count ) ){
+				if( !(m_sel_items[0].Tag as conv_core.cImageFile).open() ){
+					MessageBox.Show(
+						this,
+						"'" + m_sel_items[0].ToolTipText + "' does not exist. Viewer will not be opened.",
+						"Error",
+						MessageBoxButtons.OK,
+						MessageBoxIcon.Error
+					);
+
+					return;
+				};
+				
 				ImageViewForm form = new ImageViewForm();
+				form.set_colors( m_colors );
 
 				form.file_name = (m_sel_items[0].Tag as conv_core.cImageFile).path;
 				form.set_imagelist( m_sel_items[0] );
 
 				form.ShowDialog( this );
+				form.get_colors( m_colors );
+				OptionsController.save_colors( m_colors );
+			};
+		}
+
+		private void b_sort_ascend_Click(object sender, EventArgs e)
+		{
+			lv_files.Sorting = SortOrder.Ascending;
+			b_sort_sources.Image = (sender as ToolStripMenuItem).Image;
+		}
+
+		private void b_sort_descend_Click(object sender, EventArgs e)
+		{
+			lv_files.Sorting = SortOrder.Descending;
+			b_sort_sources.Image = (sender as ToolStripMenuItem).Image;
+		}
+
+		private void b_sort_none_Click(object sender, EventArgs e)
+		{
+			lv_files.Sorting = SortOrder.None;
+			b_sort_sources.Image = (sender as ToolStripMenuItem).Image;
+		}
+
+		private void b_sort_sources_ButtonClick(object sender, EventArgs e)
+		{
+			SortOrder so = lv_files.Sorting;
+			lv_files.Sorting = SortOrder.None;
+			lv_files.Sorting = so;
+		}
+
+		private void MainForm_Activated(object sender, EventArgs e)
+		{
+			ModificationWatchdog.can_watch = true;
+		}
+
+		private void MainForm_Deactivate(object sender, EventArgs e)
+		{
+			ModificationWatchdog.can_watch = false;
+		}
+
+		private void b_refresh_files_Click(object sender, EventArgs e)
+		{
+			if( !( ConvertProcessor.in_process || ModificationWatchdog.in_process ) ){
+				ModificationWatchdog.make_watch();
 			};
 		}
 	}

@@ -21,6 +21,8 @@ namespace conv_gui
 		private int m_zoom = 1;
 		private Rectangle m_margin = new Rectangle( 0, 0, 0, 0 );
 		private Point m_last_mouse_pos;
+
+		private const int max_colors_history = 16;
 		
 		public ImageViewForm()
 		{
@@ -98,7 +100,9 @@ namespace conv_gui
 		private void ImageViewForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			img_view.Image = null;
-			m_view.Dispose();
+			if( null != m_view ){
+				m_view.Dispose();
+			};
 		}
 
 		private bool build_image( conv_core.cImageFile img, conv_core.cFormat format, ToolStripButton button ){
@@ -227,7 +231,7 @@ namespace conv_gui
 						diff_row += diff_bits.Stride;
 					};
 
-					if( 1.0f < gamma_correct ){
+					if( b_logarithm_diff.Checked && ( 1.0f < gamma_correct ) ){
 						out_row = (byte*)view_bits.Scan0;
 						for( row = 0; r.Height > row; row++, out_row += view_bits.Stride ){
 							for( byte* out_pix = out_row; (out_row + 4 * r.Width ) > out_pix; out_pix += 4 ){
@@ -304,8 +308,9 @@ namespace conv_gui
 			obj.Checked = true;
 			m_current_diff = obj.Tag as Bitmap;
 			
+			bool last_diff_state = b_use_diff.Checked;
 			b_use_diff.Checked &= ( null != m_current_diff ) && ( m_current_diff != m_current_view );
-			if( b_use_diff.Checked ){
+			if( b_use_diff.Checked || last_diff_state ){
 				img_view.Invalidate();
 			};
 		}
@@ -318,9 +323,11 @@ namespace conv_gui
 
 		private void ImageViewForm_Shown(object sender, EventArgs e)
 		{
-			t_img_size.Text = string.Format( "{0}x{1}", m_view.Width, m_view.Height );
-			m_zoom = 1;
-			t_img_zoom.Text = string.Format( "zoom: x{0}", m_zoom );
+			if( null != m_view ){
+				t_img_size.Text = string.Format( "{0}x{1}", m_view.Width, m_view.Height );
+				m_zoom = 1;
+				t_img_zoom.Text = string.Format( "zoom: x{0}", m_zoom );
+			};
 		}
 
 		private void zoom_handler(object sender, MouseEventArgs e){
@@ -416,6 +423,81 @@ namespace conv_gui
 					top = m_margin.Bottom - img_view.Height;
 				};
 			};
+		}
+
+		private void b_logarithm_diff_Click(object sender, EventArgs e)
+		{
+			if( b_use_diff.Checked ){
+				img_view.Invalidate();
+			};
+		}
+
+		public void set_colors( List<Color> colors ){
+			b_back_color.DropDownItems.Clear();
+			foreach( Color cs in colors ){
+				Bitmap img = new Bitmap( 16, 16, PixelFormat.Format32bppArgb );
+				Graphics gr = Graphics.FromImage( img );
+				gr.Clear( cs );
+				gr.Dispose();
+				b_back_color.DropDownItems.Add( cs.ToString(), img, b_color_history_click ).Tag = cs;
+			};
+
+			if( 0 < b_back_color.DropDownItems.Count ){
+				ToolStripItem btn = b_back_color.DropDownItems[ b_back_color.DropDownItems.Count - 1 ];
+				Bitmap img = btn.Image as Bitmap;
+				Color cs = (Color)btn.Tag;
+
+				b_back_color.Image = img;
+				b_back_color.Tag = cs;
+				p_view_area.BackColor = cs;
+			}else{
+				Color cs = Color.FromKnownColor( KnownColor.Control );
+				Bitmap img = new Bitmap( 16, 16, PixelFormat.Format32bppArgb );
+				Graphics gr = Graphics.FromImage( img );
+				gr.Clear( cs );
+				gr.Dispose();
+				b_back_color.Image = img;
+				b_back_color.Tag = cs;
+			};
+		}
+
+		public void get_colors( List<Color> colors ){
+			colors.Clear();
+			foreach( ToolStripItem button in b_back_color.DropDownItems ){
+				colors.Add( (Color)button.Tag );
+			};
+		}
+
+		private void b_back_color_ButtonClick(object sender, EventArgs e)
+		{
+			dw_color.Color = (Color)b_back_color.Tag;
+
+			switch( dw_color.ShowDialog( this ) ){
+				case DialogResult.OK:{
+					Bitmap img = new Bitmap( 16, 16, PixelFormat.Format32bppArgb );
+					Graphics gr = Graphics.FromImage( img );
+					gr.Clear( dw_color.Color );
+					gr.Dispose();
+					b_back_color.Image = img;
+					b_back_color.DropDownItems.Add( dw_color.Color.ToString(), img, b_color_history_click ).Tag = b_back_color.Tag = dw_color.Color;
+
+					while( b_back_color.DropDownItems.Count > max_colors_history ){
+						b_back_color.DropDownItems.RemoveAt( 0 );
+					};
+
+					p_view_area.BackColor = dw_color.Color;
+				}break;
+			};
+		}
+
+		private void b_color_history_click(object sender, EventArgs e){
+			Color cs = (Color)(sender as ToolStripItem).Tag;
+			Graphics gr = Graphics.FromImage( b_back_color.Image );
+			gr.Clear( cs );
+			gr.Dispose();
+			b_back_color.Tag = cs;
+			p_view_area.BackColor = cs;
+			b_back_color.Invalidate();
 		}
 	}
 }
