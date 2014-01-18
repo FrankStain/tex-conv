@@ -175,7 +175,7 @@ namespace dll {
 						if( strip_alpha ){
 							const plugin::pixel_desc_t* eol = dest->memory() + src.dwWidth * src.dwHeight;
 							for( plugin::pixel_desc_t* px = dest->memory(); eol > px; px++ ){
-								px->m_aplha = 0xFFU;
+								px->m_alpha = 0xFFU;
 							};
 						};
 					}else{
@@ -185,7 +185,7 @@ namespace dll {
 							px->m_red	= src_pix->m_rgba[ rd ];
 							px->m_green	= src_pix->m_rgba[ gd ];
 							px->m_blue	= src_pix->m_rgba[ bd ];
-							px->m_aplha	= ( strip_alpha )? 0xFFU : src_pix->m_rgba[ ad ];
+							px->m_alpha	= ( strip_alpha )? 0xFFU : src_pix->m_rgba[ ad ];
 							src_pix++;
 						};
 					};
@@ -220,7 +220,7 @@ namespace dll {
 							px->m_red	= pix_data[ rd ];
 							px->m_green	= pix_data[ gd ];
 							px->m_blue	= pix_data[ bd ];
-							px->m_aplha	= 0xFFU;
+							px->m_alpha	= 0xFFU;
 
 							pix_data += 3;
 							px++;
@@ -249,7 +249,7 @@ namespace dll {
 								dpx->m_red		= (plugin::channel_t)( 0.5f + b5_pct * ( 0x001FU & (*((uint16_t*)pix_data)) ) );
 								dpx->m_green		= (plugin::channel_t)( 0.5f + b6_pct * ( 0x003FU & ( (*((uint16_t*)pix_data)) >> 5 ) ) );
 								dpx->m_blue		= (plugin::channel_t)( 0.5f + b5_pct * ( 0x001FU & ( (*((uint16_t*)pix_data)) >> 11 ) ) );
-								dpx->m_aplha		= 0xFFU;
+								dpx->m_alpha		= 0xFFU;
 
 								pix_data += 2;
 								dpx++;
@@ -270,7 +270,7 @@ namespace dll {
 								px->m_red	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x001FU & ( (*((uint16_t*)pix_data)) >> 11 ) ) );
 								px->m_green	= (plugin::channel_t)( 0.5f + b6_pct * ( 0x003FU & ( (*((uint16_t*)pix_data)) >> 5 ) ) );
 								px->m_blue	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x001FU & (*((uint16_t*)pix_data)) ) );
-								px->m_aplha	= 0xFFU;
+								px->m_alpha	= 0xFFU;
 
 								pix_data += 2;
 								px++;
@@ -293,7 +293,7 @@ namespace dll {
 							px->m_red	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[1] ) ) );
 							px->m_green	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[0] >> 4 ) ) );
 							px->m_blue	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[0] ) ) );
-							px->m_aplha	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[1] >> 4 ) ) );
+							px->m_alpha	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[1] >> 4 ) ) );
 
 							pix_data += 2;
 							px++;
@@ -315,7 +315,7 @@ namespace dll {
 							px->m_red	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[0] ) ) );
 							px->m_green	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[0] >> 4 ) ) );
 							px->m_blue	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[1] ) ) );
-							px->m_aplha	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[1] >> 4 ) ) );
+							px->m_alpha	= (plugin::channel_t)( 0.5f + b4_pct * ( 0x0FU & ( pix_data[1] >> 4 ) ) );
 
 							pix_data += 2;
 							px++;
@@ -337,7 +337,7 @@ namespace dll {
 							px->m_red	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x1FU & ( pix_data[0] ) ) );
 							px->m_green	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x1FU & ( *((uint16_t*)pix_data) >> 5 ) ) );
 							px->m_blue	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x1FU & ( pix_data[1] ) ) );
-							px->m_aplha	= ( 0x80U & pix_data[1] )? 0xFFU : 0x00;
+							px->m_alpha	= ( 0x80U & pix_data[1] )? 0xFFU : 0x00;
 
 							pix_data += 2;
 							px++;
@@ -359,7 +359,7 @@ namespace dll {
 							px->m_red	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x1FU & ( *((uint16_t*)pix_data) >> 10 ) ) );
 							px->m_green	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x1FU & ( *((uint16_t*)pix_data) >> 5 ) ) );
 							px->m_blue	= (plugin::channel_t)( 0.5f + b5_pct * ( 0x1FU & ( pix_data[0] ) ) );
-							px->m_aplha	= ( 0x80U & pix_data[1] )? 0xFFU : 0x00;
+							px->m_alpha	= ( 0x80U & pix_data[1] )? 0xFFU : 0x00;
 
 							pix_data += 2;
 							px++;

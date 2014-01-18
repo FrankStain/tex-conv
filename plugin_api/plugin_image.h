@@ -11,12 +11,12 @@ namespace plugin {
 			channel_t	m_red;
 			channel_t	m_green;
 			channel_t	m_blue;
-			channel_t	m_aplha;
+			channel_t	m_alpha;
 		};
 
 		pixel_desc_t() : m_pixel(0) {};
 		pixel_desc_t( const pixel_t& value ) : m_pixel(value) {};
-		pixel_desc_t( channel_t r, channel_t g, channel_t b, channel_t a ) : m_red(r), m_green(g), m_blue(b), m_aplha(a) {};
+		pixel_desc_t( channel_t r, channel_t g, channel_t b, channel_t a ) : m_red(r), m_green(g), m_blue(b), m_alpha(a) {};
 
 		inline operator pixel_t& () { return m_pixel; };
 		inline operator const pixel_t& () const { return m_pixel; };
